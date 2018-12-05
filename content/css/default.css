@@ -1,0 +1,1337 @@
+/*
+=========================================
+=========================================
+
+Bootstrapious Dashboard Template 1.1
+
+=========================================
+========================================= */
+/*
+* ==========================================================
+*     GENERAL
+* ==========================================================
+*/
+.text-bold {
+  font-weight: 700;
+}
+
+.text-small {
+  font-size: 0.9rem;
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+  color: #fff;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+i {
+  display: inline-block;
+}
+
+span {
+  display: inline-block;
+}
+
+span {
+  font-size: 0.9em;
+}
+
+p {
+  color: #888;
+}
+
+i[class*='icon-'] {
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);
+}
+
+table {
+  font-size: 1em;
+  color: #666;
+}
+
+.btn-xs {
+  font-size: 0.7em !important;
+  padding: 2px 5px !important;
+  border-radius: 2px !important;
+}
+
+.badge {
+  font-weight: 400;
+  border-radius: 0;
+}
+
+.badge.badge-primary {
+  background: #dc3545;
+}
+
+.mCSB_scrollTools {
+  width: 4px;
+}
+
+.mCSB_inside > .mCSB_container {
+  margin-right: 0 !important;
+}
+
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+  background-color: #dc3545;
+}
+
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar:hover {
+  background-color: #dc3545;
+}
+
+.page {
+  position: absolute;
+  top: 0;
+  right: 0;
+  -webkit-transition: width 0.3s linear;
+  
+  transition: width 0.3s linear;
+  width: calc(100% - 200px);
+  background-color: #F4F7FA;
+  min-height: 100vh;
+  padding-bottom: 50px;
+  background: url('../imagens/fundo.jpg');
+  /*background-position: right;*/
+
+}
+
+.page.active {
+  width: calc(100% - 70px);
+}
+
+.register-page {
+  width: 100%;
+}
+
+h2 {
+  color: #555;
+  font-weight: 400;
+}
+
+.gmpc {
+  padding: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  color: #dc3545 !important;
+  border-right: 1px solid #eee;
+}
+
+@media (max-width: 575px) {
+  .gmpc {
+    border-right: none;
+    border-bottom: 1px solid #eee;
+  }
+}
+
+.breadcrumb-holder {
+  background: #eceeef;
+}
+
+.breadcrumb-holder .breadcrumb {
+  padding: 15px 0;
+  font-size: 0.85em;
+  font-weight: 300;
+  color: #999;
+  margin-bottom: 0;
+}
+
+.breadcrumb-holder .breadcrumb a:hover, .breadcrumb-holder .breadcrumb:focus {
+  text-decoration: none;
+}
+
+.breadcrumb-holder .breadcrumb .container {
+  padding: 0;
+}
+
+.card-header h2,
+.card-header h3 {
+  margin-bottom: 0;
+}
+
+.display {
+  font-weight: 400 !important;
+}
+
+input.input-material {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #444951;
+  padding: 10px 0;
+  background: none;
+  color: #8a8d93;
+}
+
+input.input-material:focus {
+  border-color: #DB6574;
+}
+
+input.input-material ~ label {
+  color: #aaa;
+  position: absolute;
+  top: 14px;
+  left: 0;
+  cursor: text;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  font-weight: 300;
+}
+
+input.input-material ~ label.error {
+  color: #dc3545;
+  font-size: 0.75rem;
+  position: absolute;
+  top: auto;
+  bottom: -30px;
+  left: 0;
+}
+
+input.input-material ~ label.active {
+  font-size: 0.85rem;
+  top: -10px;
+}
+
+.form-group-material {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.input-group-addon {
+  /*background: #363a40;*/
+ background: rgba(255,255,255,0);
+  color: #fff;
+  /*font-weight: 300;
+  border-radius: 0;*/
+ padding: 0px;
+  border: 1px solid rgba(255,255,255,0);
+}
+
+.input-group .btn {
+  padding: 0.6rem 0.95rem;
+}
+
+.input-group .dropdown-toggle {
+  background: #363a40;
+  color: #8a8d93;
+  padding-right: 1.4rem;
+}
+
+.input-group .checkbox-template,
+.input-group .radio-template {
+  -webkit-transform: none;
+  transform: none;
+}
+
+.input-group .dropdown-menu {
+  padding: 15px;
+  color: #777;
+  border-radius: 0;
+  margin-top: 5px;
+}
+
+.input-group .dropdown-menu a {
+  padding: 5px 0;
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+
+.input-group .dropdown-menu a:hover {
+  color: #DB6574;
+  background: none !important;
+}
+
+.form-page .block {
+  margin-bottom: 30px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.section-padding {
+  padding: 50px 0;
+}
+
+.section-no-padding-bottom {
+  padding-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .container-fluid {
+    padding: 0 50px;
+  }
+}
+
+
+/*
+* ==========================================================
+*     Main NAVBAR
+* ==========================================================
+*/
+nav.navbar {
+  background: #393836;
+  padding: .8rem 0;
+  /* Navbar Brand --------- */
+  /*  Dropdowns ------------ */
+  /* Toggle Button ---------- */
+}
+
+nav.navbar .side-navbar-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+nav.navbar .container-fluid {
+  width: 100%;
+}
+
+nav.navbar .navbar-holder {
+  width: 100%;
+}
+
+nav.navbar a {
+  font-size: 0.8em;
+  color: #fff;
+  position: relative;
+}
+
+nav.navbar .badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+nav.navbar a.logout i {
+  margin-left: 5px;
+}
+
+nav.navbar small {
+  font-size: 0.75em;
+  color: #999;
+}
+
+nav.navbar a.navbar-brand {
+  margin-left: 10px;
+}
+
+nav.navbar .brand-text {
+  text-transform: uppercase;
+}
+
+nav.navbar .brand-text strong {
+  font-size: 1.5em;
+}
+
+nav.navbar .dropdown-menu {
+  width: 320px;
+  right: 0;
+  left: auto;
+  float: left;
+  margin-top: 16px;
+  padding: 20px;
+  font-size: 1.1em;
+}
+
+nav.navbar .dropdown-menu a {
+  font-size: 0.75em;
+  color: #666;
+  padding: 10px;
+}
+
+nav.navbar .dropdown-menu a:active {
+  color: #fff;
+}
+
+nav.navbar .dropdown-menu a:active span {
+  color: #fff;
+}
+
+nav.navbar .dropdown-menu a span {
+  color: #777;
+}
+
+nav.navbar .dropdown-menu a i {
+  margin-right: 5px;
+}
+
+nav.navbar .msg-body span,
+nav.navbar .msg-body strong {
+  display: block;
+}
+
+nav.navbar .msg-body span {
+  font-size: 0.85em;
+}
+
+nav.navbar .msg-profile {
+  margin-right: 10px;
+  width: 50px;
+}
+
+nav.navbar .notification-content {
+  font-size: 0.8em;
+}
+
+nav.navbar a.menu-btn {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  background: #3938369;
+  color: #fff;
+  text-align: center;
+  padding: 0 !important;
+}
+
+nav.navbar a.menu-btn i[class*='icon-'] {
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);
+}
+
+nav.navbar a.menu-btn:hover {
+  background: black;
+}
+
+/*  NAVBAR MEDIAQUERIES ---------------------------------- */
+@media (max-width: 575px) {
+  nav.navbar .dropdown-menu {
+    width: auto;
+    right: -40px;
+  }
+  nav.navbar .notification {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 992px) {
+  nav.navbar .dropdown-menu strong {
+    font-weight: 400;
+  }
+  nav.navbar .dropdown-menu a {
+    font-size: 0.9em;
+  }
+}
+
+/*
+* ==========================================================
+*     SIDE NAVBAR
+* ==========================================================
+*/
+nav.side-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100%;
+  width: 200px;
+  text-align: left;
+  background: #393836;
+  color: #fff;
+  -webkit-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+  z-index: 999;
+  overflow-y: scroll; 
+  overflow-x: hidden;
+  /* arrow rotation -------------- */
+  /*  Side navbar small ------------------------ */
+}
+
+nav.side-navbar .scrolled-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+nav.side-navbar.hide {
+  left: -70px;
+}
+
+nav.side-navbar a.brand-small {
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 0;
+}
+
+nav.side-navbar a.brand-small:hover, nav.side-navbar a.brand-small:focus {
+  background: none;
+}
+
+nav.side-navbar a.brand-small strong {
+  font-size: 1.5em;
+}
+
+nav.side-navbar li {
+  position: relative;
+}
+
+nav.side-navbar li.active a {
+  background: #60ba00;
+}
+
+nav.side-navbar li ul.collapse a {
+  padding-left: 20px;
+  border-left: 2px solid #dc3545;
+}
+
+nav.side-navbar li ul.collapse a:hover {
+  background: #121212;
+}
+
+nav.side-navbar .sidenav-header {
+  background: #292929;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+nav.side-navbar .sidenav-header img {
+  width: 50px;
+  height: 50px;
+}
+
+nav.side-navbar .sidenav-header span {
+  font-size: 0.8em;
+  color: #666;
+}
+
+nav.side-navbar .sidenav-header h2 {
+  margin: 10px 0 0;
+}
+
+nav.side-navbar a {
+  font-size: 0.95em;
+  font-weight: 300;
+  color: #fff;
+  text-decoration: none;
+  width: 100%;
+  padding: 12px;
+}
+
+nav.side-navbar a:focus, nav.side-navbar a:hover, nav.side-navbar a[aria-expanded="true"] {
+  background: #58A61A;
+  color: #fff;
+  border-radius: 2px;
+}
+
+nav.side-navbar li ul {
+  background: #292929;
+  position: relative;
+  min-width: 100%;
+  left: 0;
+  padding-left: 0;
+}
+
+nav.side-navbar li ul a {
+  padding-left: 20px;
+  font-size: 0.85em;
+}
+
+nav.side-navbar span {
+  display: inline-block;
+}
+
+nav.side-navbar i {
+  font-size: inherit;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  margin-right: 10px;
+}
+
+nav.side-navbar .badge {
+  display: inline-block;
+  font-size: 0.6em;
+}
+
+nav.side-navbar .arrow {
+  display: block;
+  font-size: 1em;
+  -webkit-transform: none;
+  transform: none;
+}
+
+nav.side-navbar .arrow i {
+  margin: 0;
+}
+
+nav.side-navbar a[aria-expanded="false"] .arrow {
+  -webkit-transform: none;
+  transform: none;
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+nav.side-navbar .brand-small {
+  display: none;
+}
+
+nav.side-navbar.shrink {
+  width: 80px;
+  text-align: center;
+}
+
+nav.side-navbar.shrink .brand-small {
+  display: block;
+}
+
+nav.side-navbar.shrink .sidenav-header-inner {
+  display: none;
+}
+
+nav.side-navbar.shrink i {
+  margin-right: 0;
+  font-size: 1.2em;
+}
+
+nav.side-navbar.shrink .arrow {
+  float: none;
+  -webkit-transform: none !important;
+  transform: none !important;
+}
+
+nav.side-navbar.shrink .badge {
+  display: none;
+}
+
+nav.side-navbar.shrink span {
+  font-size: 0.6em;
+  display: block;
+}
+
+/* SIDE NAVBAR MEDIAQUERIES ------------------------------ */
+@media (max-width: 1199px) {
+  .page {
+    width: 100%;
+  }
+  .page.active {
+    width: 100%;
+  }
+  .page.active-sm {
+    width: calc(100% - 70px);
+  }
+  nav.side-navbar {
+    left: -70px;
+    width: 70px;
+    text-align: center;
+  }
+  nav.side-navbar.show-sm {
+    left: 0 !important;
+  }
+  nav.side-navbar a {
+    font-size: 1em;
+  }
+  nav.side-navbar .brand-small {
+    display: block;
+  }
+  nav.side-navbar .sidenav-header-inner {
+    display: none;
+  }
+  nav.side-navbar i {
+    margin-right: 0;
+    font-size: 1.2em;
+  }
+  nav.side-navbar .arrow {
+    float: none;
+    -webkit-transform: none !important;
+    transform: none !important;
+  }
+  nav.side-navbar .badge {
+    display: none;
+  }
+  nav.side-navbar span {
+    font-size: 0.65em;
+    display: block;
+  }
+  nav.side-navbar li ul a {
+    font-size: 0.6em;
+  }
+}
+
+@media (min-width: 768px) {
+  nav.side-navbar a {
+    font-size: 1.1em;
+  }
+}
+
+
+
+
+/*
+* ==========================================================
+*     LOGIN PAGE
+* ==========================================================
+*/
+.login-page {
+  position: relative;
+}
+
+.login-page::before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: -1;
+background: url('../imagens/fundo.jpg');
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.login-page .container {
+  min-height: 100vh;
+  z-index: 1;
+  padding: 20px;
+}
+
+.login-page .form-holder {
+  width: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 50px;
+}
+
+.login-page .form-holder .info,
+.login-page .form-holder .form {
+  min-height: 60vh;
+  padding: 40px;
+ 
+}
+
+.login-page .form-holder div[class*='col-'] {
+  padding: 0;
+}
+
+.login-page .form-holder .info {
+  background: rgba(219, 101, 116, 0.95);
+  color: #fff;
+}
+
+.login-page .form-holder .info h1 {
+  font-size: 2.5em;
+  font-weight: 700;
+}
+
+.login-page .form-holder .info p {
+  font-weight: 300;
+}
+
+.login-page .form-holder .form {
+  /*background: #2d3035;*/
+  background-image: url("../imagens/luz.png");
+  background-repeat: no-repeat;
+}
+
+.login-page .form-holder .form .form-group {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.login-page .form-holder .form .content {
+  width: 100%;
+}
+
+.login-page .copyrights {
+  width: 100%;
+  z-index: 9999;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: #fff;
+}
+
+/*
+
+=====================
+STYLE SWITCHER FOR DEMO
+=====================
+
+*/
+#style-switch-button {
+  position: fixed;
+  top: 120px;
+  right: 0px;
+  border-radius: 0;
+  z-index: 2;
+}
+
+#style-switch {
+  width: 300px;
+  padding: 20px;
+  position: fixed;
+  top: 160px;
+  right: 0px;
+  background: #fff;
+  border: solid 1px #ced4da;
+  z-index: 2000;
+}
+
+#style-switch h4 {
+  color: #495057;
+}
+
+/* ========================================= 
+   THEMING OF BOOTSTRAP COMPONENTS           
+   ========================================= */
+/*
+ * 1. NAVBAR
+ */
+.navbar {
+  padding: 0.5rem 1rem;
+}
+
+.navbar-brand {
+  display: inline-block;
+  padding-top: 0.3125rem;
+  padding-bottom: 0.3125rem;
+  margin-right: 1rem;
+  font-size: 1.25rem;
+}
+
+.navbar-toggler {
+  padding: 0.25rem 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: 0;
+}
+
+.navbar-light .navbar-brand {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.navbar-light .navbar-nav .nav-link.disabled {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.navbar-light .navbar-nav .show > .nav-link,
+.navbar-light .navbar-nav .active > .nav-link,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .nav-link.active {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.navbar-light .navbar-toggler {
+  color: rgba(0, 0, 0, 0.5);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.navbar-light .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.navbar-light .navbar-text {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.navbar-dark .navbar-brand {
+  color: white;
+}
+
+.navbar-dark .navbar-brand:focus, .navbar-dark .navbar-brand:hover {
+  color: white;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.navbar-dark .navbar-nav .nav-link.disabled {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.navbar-dark .navbar-nav .show > .nav-link,
+.navbar-dark .navbar-nav .active > .nav-link,
+.navbar-dark .navbar-nav .nav-link.show,
+.navbar-dark .navbar-nav .nav-link.active {
+  color: white;
+}
+
+.navbar-dark .navbar-toggler {
+  color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-dark .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.navbar-dark .navbar-text {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/*
+ * 3. TYPE  
+ */
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+}
+
+a {
+  color: #336CD2;
+  text-decoration: none;
+}
+
+a:focus, a:hover {
+  color: #22773c;
+  text-decoration: underline;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  margin-bottom: 0.5rem;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+
+h1,
+.h1 {
+  font-size: 1.5rem;
+}
+
+h2,
+.h2 {
+  font-size: 1.3rem;
+}
+
+h3,
+.h3 {
+  font-size: 1.2rem;
+}
+
+h4,
+.h4 {
+  font-size: 1.1rem;
+}
+
+h5,
+.h5 {
+  font-size: 0.9rem;
+}
+
+h6,
+.h6 {
+  font-size: 0.8rem;
+}
+
+.lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+.display-1 {
+  font-size: 6rem;
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+.display-2 {
+  font-size: 5.5rem;
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+.display-3 {
+  font-size: 4.5rem;
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+.display-4 {
+  font-size: 3.5rem;
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+hr {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+small,
+.small {
+  font-size: 80%;
+  font-weight: normal;
+}
+
+mark,
+.mark {
+  padding: 0.2em;
+  background-color: #fcf8e3;
+}
+
+.blockquote {
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  border-left: 5px solid #dc3545;
+}
+
+.blockquote-footer {
+  color: #868e96;
+}
+
+.blockquote-footer::before {
+  content: "\2014 \00A0";
+}
+
+.text-primary {
+  color: #dc3545 !important;
+}
+
+a.text-primary:focus, a.text-primary:hover {
+  color: #288b46 !important;
+}
+                
+.scrollbar {
+    margin-left: 30px;
+    float: left;
+    height: 300px;
+    width: 65px;
+    background: #fff;
+    overflow-y: scroll;
+    margin-bottom: 25px;
+}
+.force-overflow {
+    min-height: 450px;
+}
+
+.scrollbar-primary::-webkit-scrollbar {
+  width: 12px;
+  background-color: #F5F5F5; }
+
+.scrollbar-primary::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #4285F4; }
+
+.scrollbar-danger::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #F5F5F5;
+  border-radius: 10px; }
+
+.scrollbar-danger::-webkit-scrollbar {
+  width: 12px;
+  background-color: #F5F5F5; }
+
+.scrollbar-danger::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #ff3547; }
+
+.scrollbar-warning::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #F5F5F5;
+  border-radius: 10px; }
+
+.scrollbar-warning::-webkit-scrollbar {
+  width: 12px;
+  background-color: #F5F5F5; }
+
+.scrollbar-warning::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #FF8800; }
+
+.scrollbar-success::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #F5F5F5;
+  border-radius: 10px; }
+
+.scrollbar-success::-webkit-scrollbar {
+  width: 12px;
+  background-color: #F5F5F5; }
+
+.scrollbar-success::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #00C851; }
+
+.scrollbar-info::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #F5F5F5;
+  border-radius: 10px; }
+
+.scrollbar-info::-webkit-scrollbar {
+  width: 12px;
+  background-color: #F5F5F5; }
+
+.scrollbar-info::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #33b5e5; }
+
+.scrollbar-default::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #F5F5F5;
+  border-radius: 10px; }
+
+.scrollbar-default::-webkit-scrollbar {
+  width: 12px;
+  background-color: #F5F5F5; }
+
+.scrollbar-default::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #2BBBAD; }
+
+.scrollbar-secondary::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #F5F5F5;
+  border-radius: 10px; }
+
+.scrollbar-secondary::-webkit-scrollbar {
+  width: 12px;
+  background-color: #F5F5F5; }
+
+.scrollbar-secondary::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #aa66cc; }
+                
+.checkbox.checbox-switch {
+    padding-left: 0;
+}
+
+.checkbox.checbox-switch label,
+.checkbox-inline.checbox-switch {
+    display: inline-block;
+    position: relative;
+    padding-left: 0;
+}
+.checkbox.checbox-switch label input,
+.checkbox-inline.checbox-switch input {
+    display: none;
+}
+.checkbox.checbox-switch label span,
+.checkbox-inline.checbox-switch span {
+    width: 35px;
+    border-radius: 20px;
+    height: 18px;
+    border: 1px solid #dbdbdb;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(223, 223, 223);
+    box-shadow: rgb(223, 223, 223) 0px 0px 0px 0px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.checkbox.checbox-switch label span:before,
+.checkbox-inline.checbox-switch span:before {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgb(255,255,255);
+    content: " ";
+    top: 0;
+    position: relative;
+    left: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+.checkbox.checbox-switch label > input:checked + span:before,
+.checkbox-inline.checbox-switch > input:checked + span:before {
+    left: 17px;
+}
+
+
+/* Switch Default */
+.checkbox.checbox-switch label > input:checked + span,
+.checkbox-inline.checbox-switch > input:checked + span {
+    background-color: rgb(180, 182, 183);
+    border-color: rgb(180, 182, 183);
+    box-shadow: rgb(180, 182, 183) 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+.checkbox.checbox-switch label > input:checked:disabled + span,
+.checkbox-inline.checbox-switch > input:checked:disabled + span {
+    background-color: rgb(220, 220, 220);
+    border-color: rgb(220, 220, 220);
+    box-shadow: rgb(220, 220, 220) 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+.checkbox.checbox-switch label > input:disabled + span,
+.checkbox-inline.checbox-switch > input:disabled + span {
+    background-color: rgb(232,235,238);
+    border-color: rgb(255,255,255);
+}
+.checkbox.checbox-switch label > input:disabled + span:before,
+.checkbox-inline.checbox-switch > input:disabled + span:before {
+    background-color: rgb(248,249,250);
+    border-color: rgb(243, 243, 243);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* Switch Light */
+.checkbox.checbox-switch.switch-light label > input:checked + span,
+.checkbox-inline.checbox-switch.switch-light > input:checked + span {
+    background-color: rgb(248,249,250);
+    border-color: rgb(248,249,250);
+    box-shadow: rgb(248,249,250) 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+
+/* Switch Dark */
+.checkbox.checbox-switch.switch-dark label > input:checked + span,
+.checkbox-inline.checbox-switch.switch-dark > input:checked + span {
+    background-color: rgb(52,58,64);
+    border-color: rgb(52,58,64);
+    box-shadow: rgb(52,58,64) 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+.checkbox.checbox-switch.switch-dark label > input:checked:disabled + span,
+.checkbox-inline.checbox-switch.switch-dark > input:checked:disabled + span {
+    background-color: rgb(100, 102, 104);
+    border-color: rgb(100, 102, 104);
+    box-shadow: rgb(100, 102, 104) 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+
+/* Switch Success */
+.checkbox.checbox-switch.switch-success label > input:checked + span,
+.checkbox-inline.checbox-switch.switch-success > input:checked + span {
+    background-color: #336CD2 ;
+    border-color:#336CD2 ;
+    box-shadow: #336CD2  0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+.checkbox.checbox-switch.switch-success label > input:checked:disabled + span,
+.checkbox-inline.checbox-switch.switch-success > input:checked:disabled + span {
+    background-color: rgb(153, 217, 168);
+    border-color: rgb(153, 217, 168);
+    box-shadow: rgb(153, 217, 168) 0px 0px 0px 8px inset;
+}
+
+/* Switch Danger */
+.checkbox.checbox-switch.switch-danger label > input:checked + span,
+.checkbox-inline.checbox-switch.switch-danger > input:checked + span {
+    background-color: rgb(200, 35, 51);
+    border-color: rgb(200, 35, 51);
+    box-shadow: rgb(200, 35, 51) 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+.checkbox.checbox-switch.switch-danger label > input:checked:disabled + span,
+.checkbox-inline.checbox-switch.switch-danger > input:checked:disabled + span {
+    background-color: rgb(216, 119, 129);
+    border-color: rgb(216, 119, 129);
+    box-shadow: rgb(216, 119, 129) 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+
+/* Switch Primary */
+.checkbox.checbox-switch.switch-primary label > input:checked + span,
+.checkbox-inline.checbox-switch.switch-primary > input:checked + span {
+    background-color: rgb(0, 105, 217);
+    border-color: rgb(0, 105, 217);
+    box-shadow: rgb(0, 105, 217) 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+.checkbox.checbox-switch.switch-primary label > input:checked:disabled + span,
+.checkbox-inline.checbox-switch.switch-primary > input:checked:disabled + span {
+    background-color: rgb(109, 163, 221);
+    border-color: rgb(109, 163, 221);
+    box-shadow: rgb(109, 163, 221) 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+
+/* Switch Info */
+.checkbox.checbox-switch.switch-info label > input:checked + span,
+.checkbox-inline.checbox-switch.switch-info > input:checked + span {
+    background-color: rgb(23, 162, 184);
+    border-color: rgb(23, 162, 184);
+    box-shadow: rgb(23, 162, 184) 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+.checkbox.checbox-switch.switch-info label > input:checked:disabled + span,
+.checkbox-inline.checbox-switch.switch-info > input:checked:disabled + span {
+    background-color: rgb(102, 192, 206);
+    border-color: rgb(102, 192, 206);
+    box-shadow: rgb(102, 192, 206) 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+
+/* Switch Warning */
+.checkbox.checbox-switch.switch-warning label > input:checked + span,
+.checkbox-inline.checbox-switch.switch-warning > input:checked + span {
+    background-color: #EDC127;
+    border-color: #EDC127;
+    box-shadow: #EDC127 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+.checkbox.checbox-switch.switch-warning label > input:checked:disabled + span,
+.checkbox-inline.checbox-switch.switch-warning > input:checked:disabled + span {
+    background-color: rgb(226, 195, 102);
+    border-color: rgb(226, 195, 102);
+    box-shadow: rgb(226, 195, 102) 0px 0px 0px 8px inset;
+    transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;
+}
+{
+	margin-left: 30px;
+	float: left;
+	height: 300px;
+	width: 65px;
+	background: #F5F5F5;
+	overflow-y: scroll;
+	margin-bottom: 25px;
+}
+
+.force-overflow
+{
+	min-height: 450px;
+}
+
+#wrapper
+{
+	text-align: center;
+	width: 500px;
+	margin: auto;
+}
