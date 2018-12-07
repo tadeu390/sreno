@@ -60,7 +60,7 @@ class Migration_addTableUsuario extends CI_Migration
                 'type' => 'INT DEFAULT 0',
                 'null' => FALSE
             ),
-            'DataUltima_tentativa' => array(
+            'Data_ultima_tentativa' => array(
                 'type' => 'TIMESTAMP',
                 'null' => FALSE
             ),
