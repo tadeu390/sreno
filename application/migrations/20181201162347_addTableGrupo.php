@@ -34,6 +34,9 @@ class Migration_addTableGrupo extends  CI_Migration
            ));
            $this->dbforge->add_key('Id', TRUE);
            $this->dbforge->create_table('Grupo');
+
+           $grupo = array('Nome' => 'Administrativo');
+           $this->db->insert('Grupo', $grupo);
     }
     public  function  down()
     {
