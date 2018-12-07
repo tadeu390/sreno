@@ -21,7 +21,7 @@ class Migration_addViewModuloAcessoView extends  CI_Migration
                             LEFT JOIN Menu m on mo.Menu_id = m.Id 
                             WHERE mo.Ativo = 1 and a.Ler = 1 ORDER BY mo.Ordem;");
     }
-    public  function  down()
+    public function down()
     {
         $this->db->query("DROP VIEW Modulo_acesso_view");
     }
