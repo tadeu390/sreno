@@ -49,6 +49,15 @@ class Migration_addTableAcesso extends CI_Migration
 
         $this->dbforge->add_column('Acesso','CONSTRAINT FK_USUARIO_ACESSO FOREIGN KEY(Usuario_id) REFERENCES Usuario(Id) ON DELETE CASCADE');
         $this->dbforge->add_column('Acesso','CONSTRAINT FK_MODULO_ACESSO FOREIGN KEY(Modulo_id) REFERENCES Modulo(Id)');
+
+        $acesso = array('Criar' => '1', 'Ler' => '1', 'Atualizar' => '1', 'Remover' => '1', 'Usuario_id' => '1', 'Modulo_id' => '1');
+        $this->db->insert('Acesso', $acesso);
+        $acesso = array('Criar' => '1', 'Ler' => '1', 'Atualizar' => '1', 'Remover' => '1', 'Usuario_id' => '1', 'Modulo_id' => '2');
+        $this->db->insert('Acesso', $acesso);
+        $acesso = array('Criar' => '1', 'Ler' => '1', 'Atualizar' => '1', 'Remover' => '1', 'Usuario_id' => '1', 'Modulo_id' => '3');
+        $this->db->insert('Acesso', $acesso);
+        $acesso = array('Criar' => '1', 'Ler' => '1', 'Atualizar' => '1', 'Remover' => '1', 'Usuario_id' => '1', 'Modulo_id' => '4');
+        $this->db->insert('Acesso', $acesso);
     }
     public  function  down()
     {

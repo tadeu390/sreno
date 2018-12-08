@@ -29,6 +29,9 @@ class  Migration_addTableSettings extends  CI_Migration
 
         $this->dbforge->add_key('Id', TRUE);
         $this->dbforge->create_table('Settings');
+
+        $settings = array('Itens_por_pagina' => 30);
+        $this->db->insert('Settings', $settings);
     }
     public  function  down()
     {

@@ -37,6 +37,9 @@ class Migration_addTableMenu extends CI_Migration
         ));
         $this->dbforge->add_key('Id', TRUE);
         $this->dbforge->create_table('Menu');
+
+        $menu = array('Nome' => 'Gestão');
+        $this->db->insert('Menu', $menu);
     }
     public  function  down()
     {

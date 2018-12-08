@@ -78,13 +78,10 @@
 			$this->data['url_redirect'] = $url_redirect;
 			
 			$this->limpa_sessao_troca_senha();
-			
+			//aqui tratar por tipoe nao por grupo
 			if($this->Account_model->session_is_valid()['grupo_id'] == ADMIN)
-				redirect('academico/dashboard');
-			else if($this->Account_model->session_is_valid()['grupo_id'] == PROFESSOR)
-				redirect('academico/professor');
-			else if($this->Account_model->session_is_valid()['grupo_id'] == ALUNO)
-				redirect('academico/aluno');
+				redirect('dashboard/index');
+
 			//$this->logout();
 
 			$this->load->view('templates/header', $this->data);
@@ -161,7 +158,7 @@
 			}
 			else
 			{
-				$login = "E-mail e/ou senha inválidos";
+				$login = "E-mail e/ou senha inválidos.";
 				$id = $this->Usuario_model->get_usuario_por_email($email)['Id'];
 				if($this->Account_model->tentativas_erro($id) >= LIMITE_TENTATIVA)
 					$login = "Conta temporariamente bloqueada, pois você antingiu o limite de tentativas. Tente novamente daqui alguns minutos.";

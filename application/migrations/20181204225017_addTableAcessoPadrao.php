@@ -45,10 +45,19 @@ class Migration_addTableAcessoPadrao extends CI_Migration
         ));
 
         $this->dbforge->add_key('Id', TRUE);
-        $this->dbforge->create_table('AcessoPadrao');
+        $this->dbforge->create_table('Acesso_padrao');
 
-        $this->dbforge->add_column('AcessoPadrao','CONSTRAINT FK_GRUPO_ACESSO_PADRAO FOREIGN KEY(Grupo_id) REFERENCES Grupo(Id)');
-        $this->dbforge->add_column('AcessoPadrao','CONSTRAINT FK_MODULO_ACESSO_PADRAO FOREIGN KEY(Modulo_id) REFERENCES Modulo(Id)');
+        $this->dbforge->add_column('Acesso_padrao','CONSTRAINT FK_GRUPO_ACESSO_PADRAO FOREIGN KEY(Grupo_id) REFERENCES Grupo(Id)');
+        $this->dbforge->add_column('Acesso_padrao','CONSTRAINT FK_MODULO_ACESSO_PADRAO FOREIGN KEY(Modulo_id) REFERENCES Modulo(Id)');
+
+        $acesso = array('Criar' => '1', 'Ler' => '1', 'Atualizar' => '1', 'Remover' => '1', 'Modulo_id' => '1', 'Grupo_id' => '1');
+        $this->db->insert('Acesso_padrao', $acesso);
+        $acesso = array('Criar' => '1', 'Ler' => '1', 'Atualizar' => '1', 'Remover' => '1', 'Modulo_id' => '2', 'Grupo_id' => '1');
+        $this->db->insert('Acesso_padrao', $acesso);
+        $acesso = array('Criar' => '1', 'Ler' => '1', 'Atualizar' => '1', 'Remover' => '1', 'Modulo_id' => '3', 'Grupo_id' => '1');
+        $this->db->insert('Acesso_padrao', $acesso);
+        $acesso = array('Criar' => '1', 'Ler' => '1', 'Atualizar' => '1', 'Remover' => '1', 'Modulo_id' => '4', 'Grupo_id' => '1');
+        $this->db->insert('Acesso_padrao', $acesso);
     }
     public  function  down()
     {

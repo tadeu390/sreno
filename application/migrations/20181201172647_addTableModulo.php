@@ -57,6 +57,15 @@ class Migration_addTableModulo extends CI_Migration
         $this->dbforge->create_table('Modulo');
 
         $this->dbforge->add_column('Modulo', 'CONSTRAINT FK_MENU_MODULO FOREIGN KEY(Menu_id) REFERENCES Menu(Id)');
+
+        $grupo = array('Nome' => 'Grupos', 'Descricao' => 'Grupos', 'Url' => 'grupo', 'Icone' => 'fa fa-group', 'Menu_id' => '1', 'Ordem' => '1');
+        $this->db->insert('Modulo', $grupo);
+        $modulo = array('Nome' => 'Módulos', 'Descricao' => 'Módulos', 'Url' => 'modulo', 'Icone' => 'fa fa-list-alt', 'Menu_id' => '1', 'Ordem' => '2');
+        $this->db->insert('Modulo', $modulo);
+        $menu = array('Nome' => 'Menus', 'Descricao' => 'Menus', 'Url' => 'menu', 'Icone' => 'fa fa-navicon', 'Menu_id' => '1', 'Ordem' => '3');
+        $this->db->insert('Modulo', $menu);
+        $usuario = array('Nome' => 'Usuários', 'Descricao' => 'Usuários', 'Url' => 'usuario', 'Icone' => 'glyphicon glyphicon-user', 'Menu_id' => '1', 'Ordem' => '4');
+        $this->db->insert('Modulo', $usuario);
     }
     public  function  down()
     {

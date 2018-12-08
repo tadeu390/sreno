@@ -40,6 +40,11 @@ class Migration_addTableSenha extends CI_Migration
         $this->dbforge->add_key('Id', TRUE);
         $this->dbforge->create_table('Senha');
         $this->dbforge->add_column('Senha','CONSTRAINT FK_USUARIO_SENHA FOREIGN KEY(Usuario_id) REFERENCES Usuario(Id)');
+
+        $senha = array('Ativo' => '0', 'Valor' => '$2y$10$zpV3q4vyx89BPFui4RU9WuUsVqBo7bJLauBAbga.jm.uHdcdnz74S', 'Usuario_id' => '1');
+        $this->db->insert('Senha', $senha);
+        $senha = array('Ativo' => '1', 'Valor' => '$2y$10$zpV3q4vyx89BPFui4RU9WuUsVqBo7bJLauBAbga.jm.uHdcdnz74S', 'Usuario_id' => '1');
+        $this->db->insert('Senha', $senha);
     }
     public  function  down()
     {

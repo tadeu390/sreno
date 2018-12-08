@@ -60,7 +60,7 @@ class Migration_addTableUsuario extends CI_Migration
                 'type' => 'INT DEFAULT 0',
                 'null' => FALSE
             ),
-            'DataUltima_tentativa' => array(
+            'Data_ultima_tentativa' => array(
                 'type' => 'TIMESTAMP',
                 'null' => FALSE
             ),
@@ -74,6 +74,10 @@ class Migration_addTableUsuario extends CI_Migration
         $this->dbforge->create_table('Usuario');
 
         $this->dbforge->add_column('Usuario', 'CONSTRAINT FK_GRUPO_USUARIO FOREIGN KEY(Grupo_id) REFERENCES Grupo(Id)');
+
+        $usuario = array('Nome' => 'admin', 'Email' => 'admin@local.com', 'Data_nascimento' => '2018-12-08', 'Sexo' => '1', 'Grupo_id' => '1');
+        $this->db->insert('Usuario',$usuario);
+
     }
     public  function  down()
     {

@@ -10,7 +10,7 @@
 							echo form_open('account/validar',$atr);
 							echo"<input type='hidden' value='".$url_redirect."' id='url_redirect'>";
 						?> 
-							<img class="mx-auto d-block img-login" src="<?php echo $url;?>/content/imagens/logo.png">	
+							<img class="mx-auto d-block img-login" src="<?php echo $url;?>content/imagens/logo.png">
 							<div class="form-group">
 								<input id="email-login" autofocus="true" autocomplete="off" spellcheck="false" name="email-login" type="text" class="input-material">
 								<label for="email-login" class="label-material active">E-mail</label>
