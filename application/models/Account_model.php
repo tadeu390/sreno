@@ -70,7 +70,7 @@
 			if($id != "")
 			{
 				$query = $this->db->query("
-					SELECT u.Id, u.Grupo_id, s.Valor  
+					SELECT u.Id, u.Grupo_id, s.Valor, u.Tipo_usuario_id   
 						FROM Usuario u
 						INNER JOIN Senha s ON u.Id = s.Usuario_id 
 					WHERE u.Id = ".$this->db->escape($id)." AND u.Ativo = 1 AND 
@@ -82,7 +82,8 @@
 						'status' => 'ok',
 						'id' => $query->row_array()['Id'],
 						'grupo_id' => $query->row_array()['Grupo_id'],
-						'token' => $query->row_array()['Valor']
+						'token' => $query->row_array()['Valor'],
+                        'tipo_usuario_id' => $query->row_array()['Tipo_usuario_id']
 					);
 					return $sessao;
 				}
@@ -90,7 +91,8 @@
 					'status' => 'invalido',
 					'id' => '0',
 					'grupo_id' => '0',
-					'token' => '0'
+					'token' => '0',
+                    'tipo_usuario_id' => '0'
 				);
 				return $sessao;
 			}
@@ -99,7 +101,8 @@
 				'status' => 'inexistente',
 				'id' => '0',
 				'grupo_id' => '0',
-				'token' => '0'
+				'token' => '0',
+                'tipo_usuario_id' => '0'
 			);
 			return $sessao;
 		}
@@ -196,4 +199,3 @@
 			return $codigo;
 		}
 	}
-?>

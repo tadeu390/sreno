@@ -128,8 +128,7 @@
 										  	<span class="caret"></span></button>
 										  	<ul class="dropdown-menu">
 										    	<?php
-										    	if(($this->input->cookie('grupo_id') == ADMIN || $this->session->grupo_id == ADMIN) OR 
-												   ($this->input->cookie('grupo_id') == SECRETARIA || $this->session->grupo_id == SECRETARIA))
+										    	if(($this->input->cookie('grupo_id') == ADMIN || $this->session->grupo_id == ADMIN))
 												{
 											    	echo "<li>";
 											    		echo"<a class='btn-block' href='".$url."usuario/edit'>";
@@ -150,14 +149,6 @@
 											    	echo "<li>";
 											    		echo "<a class='btn-block' href='".$url."configuracoes/geral'>";
 											    			echo "<span class='glyphicon glyphicon-cog'></span>&nbsp; Configurações";
-											    		echo "</a>";
-											    	echo "</li>";
-											    }
-											    if(($this->input->cookie('grupo_id') == PROFESSOR || $this->session->grupo_id == PROFESSOR) || ($this->input->cookie('grupo_id') == ALUNO || $this->session->grupo_id == ALUNO))
-										    	{
-											    	echo "<li>";
-											    		echo "<a class='btn-block' href='".$url."academico/delete_periodo_letivo'>";
-											    			echo "<span class='glyphicon glyphicon-tag'></span>&nbsp; Alterar período letivo";
 											    		echo "</a>";
 											    	echo "</li>";
 											    }

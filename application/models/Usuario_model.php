@@ -41,7 +41,7 @@
 					$pagination = "";
 				
 				$query = $this->db->query("
-					SELECT (SELECT count(*) FROM  Usuario u WHERE TRUE ".$filtros.") AS Size, u.Id, 
+					SELECT (SELECT count(*) FROM  Usuario u WHERE TRUE ".$filtros.") AS Size, u.Id, u.Tipo_usuario_id,
 					u.Nome as Nome_usuario, u.Email, u.Ativo, g.Nome AS Nome_grupo, u.Codigo_ativacao, u.Status, u.Sexo,   
 					CASE 
 						WHEN u.Grupo_id = 2 THEN
@@ -61,7 +61,7 @@
 				DATE_FORMAT(u.Data_registro, '%d/%m/%Y') as Data_registro, 
 				DATE_FORMAT(u.Data_nascimento, '%d/%m/%Y') as Data_nascimento, 
 				g.Nome AS Nome_grupo, u.Status, u.Codigo_ativacao,  
-				u.Grupo_id, u.Email_notifica_nova_conta, s.Valor   
+				u.Grupo_id, u.Email_notifica_nova_conta, s.Valor, u.Tipo_usuario_id  
 					FROM Usuario u 
 				LEFT JOIN Senha s ON u.Id = s.Usuario_id 
 				LEFT JOIN Grupo g ON u.Grupo_id = g.Id

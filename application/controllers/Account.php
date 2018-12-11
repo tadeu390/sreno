@@ -15,37 +15,6 @@
 			$this->load->model('Logs_model');
 			$this->data['controller'] = strtolower(get_class($this));
 		}
-
-		public function teste_template()
-		{
-			$this->data['codigo'] = 133412;
-			$this->data['Nome_usuario'] = 133412;
-			$this->data['url'] = base_url();
-
-			$this->load->view('templates/email_primeiro_acesso', $this->data);
-		}
-		
-		public function teste_template_r()
-		{
-			$this->data['codigo'] = 133412;
-			$this->data['Nome'] = 'Tadeu';
-			$this->data['url'] = base_url();
-			$this->data['Id'] = 1;
-			
-			$this->load->view('templates/email_redefinir_senha', $this->data);
-		}
-
-		public function teste_template_u()
-		{
-			$this->data['codigo'] = 133412;
-			$this->data['Nome_usuario'] = 'Tadeu';
-			$this->data['Email'] = 'tadeu.390@gmail.com';
-			$this->data['Valor'] = '123@mudar';
-			$this->data['url'] = base_url();
-			$this->data['Id'] = 1;
-			
-			$this->load->view('templates/email_nova_conta', $this->data);
-		}
 		/*!
 		*	RESPONSÁVEL POR RECEBER OS DADOS DE USUARIO DA MODEL E OS ENVIA-LO A VIEW
 		*   (SOMENTE PARA USUÁRIOS QUE NÃO SÃO ADMINISTRADORES E SECRETARIA).
@@ -78,11 +47,11 @@
 			$this->data['url_redirect'] = $url_redirect;
 			
 			$this->limpa_sessao_troca_senha();
-			//aqui tratar por tipoe nao por grupo
-			if($this->Account_model->session_is_valid()['grupo_id'] == ADMIN)
-				redirect('dashboard/index');
 
-			//$this->logout();
+			if($this->Account_model->session_is_valid()['tipo_usuario_id'] == ADMIN)
+				redirect('admin/index');
+            else if($this->Account_model->session_is_valid()['tipo_usuario_id'] == CLIENTE)
+                redirect('cliente/index');
 
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('account/login', $this->data);
@@ -98,8 +67,6 @@
 			unset($_SESSION['token']);
 			delete_cookie ('id');
 			delete_cookie ('token');
-			delete_cookie ('periodo_letivo_id');
-			delete_cookie ('curso_id');
 			delete_cookie ('page');
 			delete_cookie('url_redirect');
 			delete_cookie ('grupo_id');
@@ -345,7 +312,7 @@
 		public function redefinir_senha()
 		{
 			if($this->Account_model->session_is_valid()['status'] == "ok")//se alguém já estiver logado, cancela esta operação
-				redirect('academico/dashboard');
+				redirect('account/login');
 			$this->data['title'] = 'CEP - Alterar senha';
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('account/redefinir_senha', $this->data);

@@ -1,22 +1,41 @@
 <input type='hidden' id='id' name='id' value='<?php if(!empty($obj['Id'])) echo $obj['Id']; ?>'/>
 <input type='hidden' id='controller' value='<?php echo $controller; ?>'/>
-	<div class="col-lg-6">
-		<div class="form-group relative">
-			<input maxlength="100" id="nome" name="nome" value='<?php echo (!empty($obj['Nome_usuario']) ? $obj['Nome_usuario']:''); ?>' type="text" class="input-material">
-			<label for="nome" class="label-material">Nome</label>
-			<div class='input-group mb-2 mb-sm-0 text-danger' id='error-nome'></div>
-		</div>
-	</div>
+    <div class="col-lg-6">
+        <div class='form-group'>
+            <?php
+            echo"<select name='grupo_id' id='grupo_id' class='form-control padding0'>";
+            echo"<option value='0' class='background_dark'>Selecione um grupo de usuário</option>";
+
+            for($i = 0; $i < count($grupos_usuario); $i++)
+            {
+                $selected = "";
+                if($grupos_usuario[$i]['Id'] == $obj['Grupo_id'])
+                    $selected = "selected";
+
+                echo"<option class='background_dark' $selected value='". $grupos_usuario[$i]['Id'] ."'>".$grupos_usuario[$i]['Nome_grupo']."</option>";
+            }
+            echo "</select>";
+            ?>
+            <div class='input-group mb-2 mb-sm-0 text-danger' id='error-grupo_id'></div>
+        </div>
+    </div>
 </div><!--FECHA A ROW QUE ABRE O CREATE DE USUARIO OU DE ALUNO-->
 <div class="row">
-	<div class="col-lg-6">
+    <div class="col-lg-4">
+        <div class="form-group relative">
+            <input maxlength="100" id="nome" name="nome" value='<?php echo (!empty($obj['Nome_usuario']) ? $obj['Nome_usuario']:''); ?>' type="text" class="input-material">
+            <label for="nome" class="label-material">Nome</label>
+            <div class='input-group mb-2 mb-sm-0 text-danger' id='error-nome'></div>
+        </div>
+    </div>
+	<div class="col-lg-4">
 		<div class="form-group relative">
 			<input maxlength="100" id="email" spellcheck="false" name="email" value='<?php echo (!empty($obj['Email']) ? $obj['Email']:''); ?>' type="text" class="input-material">
 			<label for="email" class="label-material">E-mail</label>
 			<div class='input-group mb-2 mb-sm-0 text-danger' id='error-email'></div>
 		</div>
 	</div>
-	<div class="col-lg-6">
+	<div class="col-lg-4">
 		<div class="form-group relative" id="data1">
 			<input id="data_nascimento" name="data_nascimento" value='<?php echo (!empty($obj['Data_nascimento']) ? $obj['Data_nascimento']:''); ?>' type="text" class="input-material">
 			<label for="data_nascimento" class="label-material">Data de nascimento</label>

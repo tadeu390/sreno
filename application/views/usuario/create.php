@@ -24,7 +24,6 @@
 		<div class="row"><!--ABRE A ROW QUE FECHA O CREATE_EDIT DE USUARIO-->
 			<div class="col-lg-6">
 				<div class='form-group'>
-						<!--<div style="color: #8a8d93;">Tipo de usuário</div>-->
 							<?php
 								if(empty($obj['Id']))
 									$method = "\"create\"";
@@ -36,20 +35,20 @@
 								else
 									$id = 0;
 
-								echo"<select name='grupo_id' id='grupo_id' class='form-control padding0' onchange='Main.altera_tipo_cadastro_usuario(this.value,$id,$method)'>";
+								echo"<select name='tipo_usuario_id' id='tipo_usuario_id' class='form-control padding0' onchange='Main.altera_tipo_cadastro_usuario(this.value,$id,$method)'>";
 								echo"<option value='0' class='background_dark'>Selecione um tipo de usuário</option>";
 							
-								for($i = 0; $i < count($grupos_usuario); $i++)
+								for($i = 0; $i < count($tipos_usuario); $i++)
 								{
 									$selected = "";
-									if($grupos_usuario[$i]['Id'] == $type)
+									if($tipos_usuario[$i]['Id'] == $type)
 										$selected = "selected";
 			
-									echo"<option class='background_dark' $selected value='". $grupos_usuario[$i]['Id'] ."'>".$grupos_usuario[$i]['Nome_grupo']."</option>";
+									echo"<option class='background_dark' $selected value='". $tipos_usuario[$i]['Id'] ."'>".$tipos_usuario[$i]['Nome']."</option>";
 								}
 								echo "</select>";
 							?>
-					<div class='input-group mb-2 mb-sm-0 text-danger' id='error-grupo_id'></div>
+					<div class='input-group mb-2 mb-sm-0 text-danger' id='error-tipo_usuario_id'></div>
 				</div>
 			</div>
 		<?php

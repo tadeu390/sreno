@@ -10,29 +10,7 @@
 	
 	//TIPO DE USUÁRIOS
 	define("ADMIN", 1);
-	define("ALUNO", 2);
-	define("PROFESSOR", 4);
-	define("SECRETARIA", 3);
-
-	//ETAPAS
-	define("ETAPA_NORMAL", 1);//ETAPAS NORMAIS
-	define("ETAPA_EXTRA", 2);//ETAPAS DE RECUPERAÇÃO
-
-	//TIPO DE STATUS DO ALUNO
-	define("APROVADO", 'Aprovado');
-	define("REPROVADO", 'Reprovado');
-	define("RECUPERACAO", 'Recuperação');
-	define("RECUPERACAO_FALTA", 'Recuperação por faltas');
-	
-	//ID QUE IDENTIFICA QUAL REGISTRO É DESCRIÇÃO DE NOTA QUE SE REFERE A REC. PARALELA
-	define("RECUPERACAO_PARALELA", 1);
-
-	//TIPO DE DOCUMENTO
-	define("DOC_ALUNO", 1);
-	define("DOC_RESPONSAVEL", 2);
-	
-	//ID DA DESCRIÇÃO DE NOTA DA RECUPERACAO DA ETAPA
-	define("RECUPERACAO_ETAPA", 1);
+	define("CLIENTE", 2);
 
 	class Geral extends CI_Controller 
 	{
@@ -44,7 +22,7 @@
 		public function __construct()
 		{
 			parent::__construct();
-			
+
 			$this->load->model('Configuracoes_model');
 
 			define("ITENS_POR_PAGINA", $this->Configuracoes_model->get_configuracoes()['Itens_por_pagina']);
@@ -72,6 +50,8 @@
 			$this->data['usuario_logado'] = $this->Usuario_model->get_usuario(1, $this->Account_model->session_is_valid()['id'], FALSE)['Nome_usuario'];
 
 			$this->config_email_server();
+
+
 		}
 		/*!
 		*	RESPONSÁVEL POR CONFIGURAR A CLASSE DE E-MAIL PARA QUE O SISTEMA POSSA REALIZAR 
@@ -199,7 +179,7 @@
 			else
 				return 0;
 		}
-				/*!
+		/*!
 		*	RESPONSÁVEL POR RETORNAR A ORDEM DEFAULT CASO NÃO SEJA ESPECIFICADA ALGUMA PARA 
 		*	ORDENAR OS REGISTROS DA INDEX.
 		*
@@ -244,4 +224,3 @@
 				return "ASC";
 		}
 	}
-?>

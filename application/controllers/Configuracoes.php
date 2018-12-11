@@ -18,7 +18,7 @@
 				redirect('account/login/'.$url_redirect);
 			}
 			else if($this->Account_model->session_is_valid()['grupo_id'] != ADMIN)
-				redirect("academico/dashboard");
+				redirect("admin/index");
 			
 			$this->load->model('Configuracoes_model');
 			
@@ -59,7 +59,7 @@
 				 if(!empty($this->input->post()))
 						$this->Configuracoes_model->set_configuracoes($dataToSave);
 				 else
-					redirect('academico/dashboard');
+					redirect('admin/index');
 			}
 			else
 				$resultado = "Você não tem permissão para realizar esta ação.";
@@ -91,7 +91,7 @@
 				if(!empty($this->input->post()))
 						$this->Configuracoes_email_model->set_configuracoes_email($dataToSave);
 				 else
-					redirect('academico/dashboard');
+					redirect('admin/index');
 			}
 			else
 				$resultado = "Você não tem permissão para realizar esta ação.";
@@ -108,4 +108,3 @@
 			redirect("configuracoes/geral");
 		}
 	}
-?>

@@ -19,6 +19,7 @@
 				redirect('account/login/'.$url_redirect);
 			}
 			$this->load->model('Grupo_model');
+            $this->load->model('Tipo_usuario_model');
 			$this->load->model('Senha_model');
 			$this->load->model('Logs_model');
 			$this->set_menu();
@@ -166,6 +167,7 @@
 				$this->data['obj'] = $this->Usuario_model->get_usuario(FALSE, 0, FALSE);
 				$this->data['title'] = 'Novo usuário';
 				$this->data['grupos_usuario'] = $this->Grupo_model->get_grupo(FALSE, FALSE, FALSE);
+				$this->data['tipos_usuario'] = $this->Tipo_usuario_model->get_tipo_usuario(FALSE, TRUE);
 				$this->view("usuario/create", $this->data);
 			}
 			else
@@ -189,11 +191,12 @@
 				$this->data['obj'] = $this->Usuario_model->get_usuario(FALSE, $id, FALSE);
 				
 				if($type == NULL)
-					$this->data['type'] = $this->data['obj']['Grupo_id'];
+					$this->data['type'] = $this->data['obj']['Tipo_usuario_id'];
 				else
 					$this->data['type'] = $type;
 
 				$this->data['grupos_usuario'] = $this->Grupo_model->get_grupo(FALSE, FALSE, FALSE);
+                $this->data['tipos_usuario'] = $this->Tipo_usuario_model->get_tipo_usuario(FALSE, TRUE);
 				$this->view("usuario/create", $this->data);
 			}
 			else
@@ -205,9 +208,11 @@
 		*	$Usuario -> Contém todos os dados do usuário a ser validado.
 		*/
 		public function valida_usuario($Usuario)
-		{	
-			if($Usuario['Grupo_id'] == 0)
-				return "Selecione um tipo de usuário";
+		{
+            if($Usuario['Tipo_usuario_id'] == 0)
+                return "Selecione um tipo de usuário";
+			else if($Usuario['Grupo_id'] == 0)
+				return "Selecione um grupo de usuário";
 			else if(empty($Usuario['Nome']))
 				return "Informe o nome de usuário";
 			else if(mb_strlen($Usuario['Nome']) > 100)
@@ -294,7 +299,8 @@
 				'Email' => $this->input->post('email'),
 				'Data_nascimento' => $this->input->post('data_nascimento'),
 				'Sexo' => $this->input->post('sexo'),
-				'Grupo_id' => $this->input->post('grupo_id'),
+				'Tipo_usuario_id' => $this->input->post('tipo_usuario_id'),
+                'Grupo_id' => $this->input->post('grupo_id'),
 				'Email_notifica_nova_conta' => $this->input->post('email_notifica_nova_conta')
 			);
 

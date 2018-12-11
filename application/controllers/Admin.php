@@ -3,7 +3,7 @@
 	/*!
 	*	ESTA CLASSE TEM POR FUNÇÃO CONTROLAR A TELA INICIAL.
 	*/
-	class Dashboard extends Geral
+	class Admin extends Geral
 	{
 		/*!
 		*	CONSTRUTOR RESPONSÁVEL POR VALIDAR A SESSÃO E VERIFICAR O MENU SELECIONADO.
@@ -22,7 +22,7 @@
 		*/
 		public function index()
 		{
-			$this->data['title'] = 'Início';
-				$this->view("dashboard/index", $this->data);
+			$this->data['title'] = 'Admin';
+				$this->view("admin/index", $this->data);
 		}
 	}
