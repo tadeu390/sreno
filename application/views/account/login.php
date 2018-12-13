@@ -20,7 +20,7 @@
 								<input id="senha-login" name="senha-login" type="password" class="input-material">
 								<label for="senha-login" class="label-material">Senha</label>
 								<div class='text-right' style="margin-top: -26px; ">
-								<span class="glyphicon glyphicon-eye-open" id="espiar" title="Espiar senha" style="color:#336CD2; cursor: pointer;"></span>
+								<span class="glyphicon glyphicon-eye-open text-danger" id="espiar" title="Espiar senha" style="color:#336CD2; cursor: pointer;"></span>
 								</div>
 								<div class='input-group mb-2 mb-sm-0 text-danger' style="margin-top: 12px;" id='error-senha-login'></div>
 							</div>
@@ -31,12 +31,12 @@
 							</div><br />
 							<div class="text-right">
 								<?php
-									echo "<a href='".$url."account/redefinir_senha' class='text-info'>Esqueceu sua senha?</a><br /><br />";
+									echo "<a href='".$url."account/redefinir_senha' class='text-warning'>Esqueceu sua senha?</a><br /><br />";
 								?>
 								
 							</div>
 							<div class="text-left">
-								<button type="submit" class="btn btn-success col-lg-5">Login</button>
+								<button type="submit" class="btn btn-danger col-lg-5">Login</button>
 							</div>
 						</form>
 					</div>

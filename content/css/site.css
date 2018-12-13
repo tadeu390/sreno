@@ -9,6 +9,10 @@ body{
 	font-size: 0.9em !important;
 }
 
+ .breadcrumb a{
+	color: #b70b02 !important;
+}
+
 body::-webkit-scrollbar {
     width: 10px;
 }
@@ -35,6 +39,10 @@ nav::-webkit-scrollbar-thumb {
   outline: 1px solid slategrey;
 }
 
+#col-list
+{
+	color: #fbc426 !important;
+}
 
 .menu-color{
 	
@@ -85,10 +93,16 @@ nav::-webkit-scrollbar-thumb {
 	outline: none;
 }
 .img-login{
-	width: 100px;
+	width: 250px;
 	margin-top: -10px;
 	margin-bottom: 15px;
 	text-align: center;
+}
+
+.img-fluid
+{
+	width: 120px !important;
+	height: auto !important;
 }
 
 .img-senha{
@@ -119,7 +133,7 @@ input.input-material ~ label.active {
 
 #login input.input-material ~ label.active 
 {
-  color: #007bff;
+  color: #b70b02;
 }
 
 .bg-primary
@@ -139,12 +153,12 @@ input.input-material ~ label.active {
 
 .text-warning
 {
-	color: #EDC127 !important;
+	color: #fbc426 !important;
 }
 
 .text-danger
 {
-	color: #DD3068 !important;
+	color: #b70b02 !important;
 }
 
 .text-success
@@ -176,20 +190,20 @@ a.text-info:hover
 
 .btn-danger
 {
-	background-color: #DD3068;
-	border-color: #DD3068;
+	background-color: #b70b02;
+	border-color: #b70b02;
 }
 
 .btn-danger:hover
 {
-	background-color: #C12054;
-	border-color: #C12054;
+	background-color: #e30e02;
+	border-color: #e30e02;
 }
 
 .btn-danger:focus
 {
-	background-color: #C12054;
-	border-color: #C12054;
+	background-color: #e30e02;
+	border-color: #e30e02;
 }
 
 .btn-info
@@ -212,16 +226,17 @@ background-color: #336CD2;
 
 .btn-warning
 {
-	background-color: #EDC127;
-	border-color: #EDC127;
+	background-color: #fbc426;
+	border-color: #fbc426;
+	color: #ffffff;
 }
 
 .btn-outline-danger 
 {
-  color:#DD3068;
+  color:#b70b02;
   background-color: transparent;
   background-image: none;
-  border-color: #DD3068;
+  border-color: #b70b02;
 }
 
 .btn-simple-white
@@ -253,8 +268,8 @@ background-color: #336CD2;
 
 .btn-outline-danger:hover 
 {
-  background-color: #DD3068;
-  border-color: #DD3068;
+  background-color: #b70b02;
+  border-color: #b70b02;
 }
 
 select.form-control:disabled
@@ -279,30 +294,16 @@ a.logotipo
 
 ol.breadcrumb
 {
-	border: 1px solid #336CD2;
+	border: 1px solid #fbc426;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+	background-color: #fbc426;
 }
 
 .color-danger
 {
-	background-color: #DD3068;
-}
-
-.intervalos
-{
-	background-color: white;
-	height: 185px;
-	max-height: 185px;
-	overflow: auto;
-	color: black;
-}
-
-.etapas,.etapas_extras
-{
-	background-color: white;
-	height: 185px;
-	max-height: 185px;
-	overflow: auto;
-	color: black;
+	color: #b70b02;
 }
 
 legend{
@@ -315,27 +316,6 @@ fieldset{
 
 input[type="text"]:disabled {
     background-color: rgb(50,50,50);
-}
-
-.disciplinas
-{
-	background-color: white;
-	height: 400px;
-	max-height: 400px;
-	overflow: auto;
-	color: black;
-	border-radius: 5px; 
-}
-
-.alunos
-{
-	background-color: white;
-	height: 500px;
-	
-	max-height: 500px;
-	overflow-y: auto;
-	overflow-x: hidden;
-	color: black;
 }
 
 .background_white

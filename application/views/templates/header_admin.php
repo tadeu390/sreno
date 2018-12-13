@@ -54,12 +54,12 @@
 			<nav class="side-navbar">
 				<div class="sidenav-header d-flex align-items-center justify-content-center">
 					<div class="sidenav-header-inner  text-center">
-						<a class='logotipo' href="<?php echo $url; ?>academico/dashboard"><img class="img-fluid rounded-circle" src="<?php echo $url;?>/content/imagens/logo.png" title='CEP - Centro de Educação Profissional "Tancredo Neves"'></a>
-						<h3 class='line-height' title='CEP - Centro de Educação Profissional "Tancredo Neves"'>ACADÊMICO</h3>
+						<a class='logotipo' href="<?php echo $url; ?>admin/index"><img class="img-fluid rounded-circle" src="<?php echo $url;?>/content/imagens/logo.png" title='Serralheria Renó'></a>
+						<h3 class='line-height' >SERRALHERIA RENÓ</h3>
 
 					</div>
 					<div style="margin-top: 15px;" class="sidenav-header-logo"><a href="<?php echo $url; ?>academico/dashboard" class="brand-small text-center">
-						<strong title='CEP - Centro de Educação Profissional "Tancredo Neves"'>CEP</strong></a>
+						<strong title='CEP - Centro de Educação Profissional "Tancredo Neves"'>SR</strong></a>
 					</div>
 				</div>
 				<div class="main-menu">
@@ -124,7 +124,7 @@
 									</li>
 									<li class="nav-item">
 										<div class="dropdown">
-										  	<button class="btn btn-primary dropdown-toggle" title="<?php echo $usuario_logado; ?>" type="button" data-toggle="dropdown"><?php echo mstring::corta_string($usuario_logado, 10); ?>
+										  	<button class="btn btn-warning text-white dropdown-toggle" title="<?php echo $usuario_logado; ?>" type="button" data-toggle="dropdown"><?php echo mstring::corta_string($usuario_logado, 10); ?>
 										  	<span class="caret"></span></button>
 										  	<ul class="dropdown-menu">
 										    	<?php

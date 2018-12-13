@@ -117,6 +117,6 @@
 			if(!empty($obj['Id']))
 				echo "<br /><br />";
 		?>
-		<button type="button" class="btn btn-info btn-block" onclick="Main.gerador_senha()">Gerar senha</button>
+		<button type="button" class="btn btn-warning btn-block" onclick="Main.gerador_senha()">Gerar senha</button>
 	</div>
 </div>

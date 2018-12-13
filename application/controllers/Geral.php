@@ -88,7 +88,7 @@
 		*/
 		public function view($v, $dt)
 		{
-			$dt['title'] = "CEP - ".$dt['title']; 
+			$dt['title'] = "S. RENÓ - ".$dt['title'];
 			
 			$this->load->view('templates/header_admin', $dt);
 			$this->load->view($v, $dt);

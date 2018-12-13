@@ -83,7 +83,7 @@
 		</div>
 	</div>
 	<div class="col-lg-4 text-right" style="padding-right: 7px">
-		<button type="submit" class='btn btn-success btn-block'>
+		<button type="submit" class='btn btn-danger btn-block'>
 			<span class='glyphicon glyphicon-search'></span> Pesquisar
 		</button>
 	</div>

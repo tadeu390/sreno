@@ -1,5 +1,5 @@
 	<div class="copyrights text-center" style="position: absolute; bottom: 0px; width: 100%">
-		<p> <?php echo date("Y");?> - Centro de Educação Profissional "Tancredo Neves"</p>
+		<p> <?php echo date("Y");?> - Serralheria Renó</p>
 	</div>
 				</div>
 				<script type="text/javascript" src="<?php echo $url; ?>content/js/jquery-3.2.1.slim.min.js"></script>

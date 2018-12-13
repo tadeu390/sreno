@@ -20,27 +20,27 @@
 						echo"<tr>";
 							echo"<td class='text-right' colspan='5'>";
 								if(permissao::get_permissao(CREATE,$controller))
-									echo"<a class='btn btn-success' href='".$url."$controller/create/0/'><span class='glyphicon glyphicon-plus'></span> Novo módulo</a>";
+									echo"<a class='btn btn-danger' href='".$url."$controller/create/0/'><span class='glyphicon glyphicon-plus'></span> Novo módulo</a>";
 							echo"</td>";
 						echo"</tr>";
 						echo "<tr>";
 							echo "<td>#</td>";
 							echo "<td>";
-								echo"<a href='".$url."$controller/index/".$paginacao['pg_atual']."/Nome_modulo/".$paginacao['order']."'>Nome</a>";
+								echo"<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/Nome_modulo/".$paginacao['order']."'>Nome</a>";
 								if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Nome_modulo')
 									echo "&nbsp;<div class='fa fa-chevron-down'></div>";
 								else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Nome_modulo')
 									echo "&nbsp;<div class='fa fa-chevron-up'></div>";
 							echo"</td>";
 							echo "<td>";
-								echo"<a href='".$url."$controller/index/".$paginacao['pg_atual']."/Url/".$paginacao['order']."'>Url</a>";
+								echo"<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/Url/".$paginacao['order']."'>Url</a>";
 								if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Url')
 									echo "&nbsp;<div class='fa fa-chevron-down'></div>";
 								else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Url')
 									echo "&nbsp;<div class='fa fa-chevron-up'></div>";
 							echo"</td>";
 							echo "<td>";
-								echo"<a href='".$url."$controller/index/".$paginacao['pg_atual']."/Ativo/".$paginacao['order']."'>Ativo</a>";
+								echo"<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/Ativo/".$paginacao['order']."'>Ativo</a>";
 								if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Ativo')
 									echo "&nbsp;<div class='fa fa-chevron-down'></div>";
 								else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Ativo')

@@ -524,7 +524,7 @@ nav.side-navbar a {
 }
 
 nav.side-navbar a:focus, nav.side-navbar a:hover, nav.side-navbar a[aria-expanded="true"] {
-  background: #58A61A;
+  background: #b70b02;
   color: #fff;
   border-radius: 2px;
 }
