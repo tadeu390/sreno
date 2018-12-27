@@ -8,6 +8,11 @@ var Main = {
 			$('#itens_por_pagina').mask('000'),
 			$('#porta').mask('0000'),
 			$('#data_nascimento').mask('00/00/0000'),
+			$('#cpf').mask('000.000.000-00'),
+			$('#cnpj').mask('00.000.000/0000-00'),
+            $('#telefone').mask('(00) 0000 - 0000'),
+            $('#celular').mask('(00) 0 0000 - 0000'),
+            $('#numero').mask('0000'),
 			$('[data-toggle="tooltip"]').tooltip(),
 			$('#data1 input').datepicker({
 		    	language: "pt-BR",
@@ -450,14 +455,60 @@ var Main = {
 		else
 			Main.create_edit();
 	},
+	endereco_validar : function ()
+	{
+        if($("#rua").val() == "")
+            Main.show_error("rua","Insira o nome da rua", "is-invalid");
+        else if($("#cidade").val() == "")
+            Main.show_error("cidade","Insira o nome da cidade", "is-invalid");
+        else if($("#bairro").val() == "")
+            Main.show_error("bairro","Insira o nome do bairro", "is-invalid");
+        else if($("#numero").val() == "")
+            Main.show_error("numero","Insira número da casa", "is-invalid");
+        else
+        	return 1;
+	},
+    cliente_validar : function()
+	{
+		if(Main.usuario_validar())
+		{
+           if($("#cpf").val() == "")
+           		Main.show_error("cpf","Insira o CPF", "is-invalid");
+		   else if($("#celular").val() == "")
+            	Main.show_error("celular","Insira o celular", "is-invalid");
+           else if($("#telefone").val() == "")
+               Main.show_error("telefone","Insira o telefone", "is-invalid");
+           else if(Main.endereco_validar())
+           		Main.create_edit();
+		}
+	},
+    fornecedor_validar : function()
+	{
+        if($("#nome").val() == "")
+            Main.show_error("nome","Insira o nome fantasia", "is-invalid");
+        else if($("#cnpj").val() == "")
+            Main.show_error("cnpj","Insira o CNPJ", "is-invalid");
+        else if($("#email").val() == "")
+            Main.show_error("email","Insira o email", "is-invalid");
+        else if($("#razao_social").val() == "")
+            Main.show_error("razao_social","Insira a razão social", "is-invalid");
+        else if($("#celular").val() == "")
+            Main.show_error("celular","Insira o celular", "is-invalid");
+        else if($("#telefone").val() == "")
+            Main.show_error("telefone","Insira o telefone", "is-invalid");
+        else if(Main.endereco_validar())
+            Main.create_edit();
+	},
 	altera_tipo_cadastro_usuario : function(tipo,registro,method)
 	{
 		if(tipo != 0)
 		{
-			/*Main.modal("aguardar", "Aguarde um momento");
+			Main.modal("aguardar", "Aguarde um momento");
 
-			if(tipo == 1 || tipo == 2)//admin||cliente
-				window.location.assign(Url.base_url+"usuario/"+method+"/"+registro+"/"+tipo);*/
+			if(tipo == 1)//admin
+				window.location.assign(Url.base_url+"usuario/"+method+"/"+registro+"/"+tipo);
+			else
+                window.location.assign(Url.base_url+"cliente/"+method+"/"+registro+"/"+tipo);
 		}
 	},
 	habilita_permissoes : function(permissao)

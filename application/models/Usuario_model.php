@@ -44,8 +44,8 @@
 					SELECT (SELECT count(*) FROM  Usuario u WHERE TRUE ".$filtros.") AS Size, u.Id, u.Tipo_usuario_id,
 					u.Nome as Nome_usuario, u.Email, u.Ativo, g.Nome AS Nome_grupo, u.Codigo_ativacao, u.Status, u.Sexo,   
 					CASE 
-						WHEN u.Grupo_id = 2 THEN
-							'aluno'
+						WHEN u.Tipo_usuario_id = 2 THEN
+							'cliente'
 						ELSE 'usuario'
 					END AS Method 
 					FROM Usuario u 

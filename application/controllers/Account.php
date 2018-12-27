@@ -43,7 +43,7 @@
 		*/
 		public function login($url_redirect = FALSE)
 		{
-			$this->data['title'] = 'CEP - Login';
+			$this->data['title'] = 'S. RENÓ - Login';
 			$this->data['url_redirect'] = $url_redirect;
 			
 			$this->limpa_sessao_troca_senha();

@@ -23,16 +23,20 @@ class Migration_addTableAcesso extends CI_Migration
                 'null' => FALSE
             ),
             'Criar' => array(
-                'type' => 'BOOLEAN'
+                'type' => 'BOOLEAN',
+                'null' => TRUE
             ),
             'Ler' => array(
-                'type' => 'BOOLEAN'
+                'type' => 'BOOLEAN',
+                'null' => TRUE
             ),
             'Atualizar' => array(
-                'type' => 'BOOLEAN'
+                'type' => 'BOOLEAN',
+                'null' => TRUE
             ),
             'Remover' => array(
-                'type' => 'BOOLEAN'
+                'type' => 'BOOLEAN',
+                'null' => TRUE
             ),
             'Usuario_id' => array(
                 'type' => 'INT',

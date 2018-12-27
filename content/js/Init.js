@@ -1,6 +1,7 @@
 $(document).ready(
   //inicializa o html adicionando os envetos js especificados abaixo
-  function() {
+  function()
+  {
     Main.load_mask();
 	
 	///ESPIAR SENHA DE LOGIN
@@ -42,6 +43,37 @@ $(document).ready(
     });
 
     //LOGIN
+    $('#razao_social').blur(function() {
+        if (this.value != '') Main.show_error("razao_social", '', 'is-valid');
+    });
+    $('#cnpj').blur(function() {
+        if (this.value != '') Main.show_error("cnpj", '', 'is-valid');
+    });
+
+    $('#numero').blur(function() {
+        if (this.value != '') Main.show_error("numero", '', 'is-valid');
+    });
+    $('#bairro').blur(function() {
+        if (this.value != '') Main.show_error("bairro", '', 'is-valid');
+    });
+    $('#cidade').blur(function() {
+        if (this.value != '') Main.show_error("cidade", '', 'is-valid');
+    });
+
+    $('#rua').blur(function() {
+        if (this.value != '') Main.show_error("rua", '', 'is-valid');
+    });
+    $('#telefone').blur(function() {
+        if (this.value != '') Main.show_error("telefone", '', 'is-valid');
+    });
+
+    $('#celular').blur(function() {
+       if (this.value != '') Main.show_error("celular", '', 'is-valid');
+    });
+
+    $('#cpf').blur(function() {
+       if (this.value != '') Main.show_error("cpf", '', 'is-valid');
+    });
 
     $('#nome').blur(function() {
       if (this.value != '') Main.show_error("nome", '', 'is-valid');
@@ -124,6 +156,14 @@ $(document).ready(
     });
 
     //BTN CADASTROS
+    $("#form_cadastro_fornecedor").submit(function(event) {
+        event.preventDefault();
+        Main.fornecedor_validar();
+    });
+    $("#form_cadastro_cliente").submit(function(event) {
+      event.preventDefault();
+      Main.cliente_validar();
+    });
 
     $("#form_cadastro_configuracoes_email").submit(function(event) {
       event.preventDefault();

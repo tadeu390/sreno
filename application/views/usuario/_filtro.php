@@ -4,7 +4,7 @@
 				<?php
 
 					echo"<select name='grupo_id' id='grupo_id' class='form-control padding0'>";
-					echo"<option value='0' class='background_dark'>Tipo de usuário</option>";
+					echo"<option value='0' class='background_dark'>Grupo do usuário</option>";
 				
 					for($i = 0; $i < count($grupos); $i++)
 					{

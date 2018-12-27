@@ -275,6 +275,7 @@
 					'Valor' => $this->hashing($this->input->post('senha'))
 				);
 				$this->Senha_model->set_senha($data);
+
 				$this->permissoes_default($Usuario_id, $dataToSave['Grupo_id']);
 			}
 			if($dataToSave['Email_notifica_nova_conta'] == 1 && empty($Usuario))
