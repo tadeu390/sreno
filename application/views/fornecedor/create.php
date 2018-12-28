@@ -122,6 +122,19 @@
                 </div>
             </fieldset>
             <br />
+        <div class='form-group'>
+            <div class='checkbox checbox-switch switch-success custom-controls-stacked'>
+                <?php
+                $checked = "";
+                if($obj_fornecedor['Ativo'] == 1)
+                    $checked = "checked";
+
+                echo"<label for='ativo' class='text-white'>";
+                echo "<input type='checkbox' $checked id='ativo' name='ativo' value='1' /><span></span> Fornecedor ativo";
+                echo"</label>";
+                ?>
+            </div>
+        </div>
             <?php
                 if(empty($obj_fornecedor['Fornecedor_id']))
                     echo"<input type='submit' class='btn btn-danger btn-block' style='width: 200px;' value='Cadastrar'>";

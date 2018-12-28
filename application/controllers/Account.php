@@ -109,7 +109,7 @@
 				$this->Logs_model->set_log($login['Id']);
 				
 				if($login['Ativo'] == 0 || $login['g_ativo'] == 0)
-					$login = "Conta desativada. Entre em contato com a sua escola para mais detalhes.";
+					$login = "Conta desativada. Entre em contato com o administrador do sistema para mais detalhes.";
 				else if($this->Senha_model->get_senha($login['Id'])['rows'] < 2)
 				{
 					$this->gera_codigo_ativacao($login['Id'], FALSE);

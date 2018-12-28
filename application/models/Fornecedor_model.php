@@ -85,8 +85,6 @@ class Fornecedor_model extends Geral_model
     }
     /*!
      *  RESPONSÁVEL POR VALIDAR OS DADOS SUBMETIDOS DE UM FORNECEDOR.
-     *
-     * $fornecedor -> Dados do fornecedor.
      */
     public function valida_fornecedor()
     {
@@ -99,5 +97,16 @@ class Fornecedor_model extends Geral_model
             return "Nome fantasia";
 
         return "valido";
+    }
+    /*!
+    *	RESPONSÁVEL POR "APAGAR" UM FORNECEDOR DO BANCO DE DADOS.
+    *
+    *	$id -> Id do fornecedor a ser "apagado".
+    */
+    public function deletar($id)
+    {
+        return $this->db->query("
+            UPDATE Fornecedor SET Ativo = 0 
+            WHERE Id = ".$this->db->escape($id)."");
     }
 }

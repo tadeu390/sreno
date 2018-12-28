@@ -52,7 +52,6 @@
 				$dataToSave = array(
 					'Id' => $this->input->post('id'),
 					'Itens_por_pagina' => $this->input->post('itens_por_pagina')
-					
 				);
 
 				//bloquear acesso direto ao metodo store

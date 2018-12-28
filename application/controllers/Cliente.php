@@ -218,7 +218,7 @@
 				$this->data['obj'] = $this->Usuario_model->get_usuario(FALSE, $id, FALSE);
 				$this->data['obj']['Ultimo_acesso'] = $this->Logs_model->get_last_access_user($this->data['obj']['Id'])['Data_registro'];
 				$this->data['obj_cliente'] = $this->Cliente_model->get_cliente($id);
-				$this->data['obj_endereco'] = $this->Endereco_model->get_endereco(TRUE, $this->data['obj_cliente']['Cliente_id']);
+				$this->data['obj_endereco'] = $this->Endereco_model->get_endereco(TRUE, $this->data['obj_cliente']['Endereco_id']);
 				$this->view("cliente/detalhes", $this->data);
 			}
 			else

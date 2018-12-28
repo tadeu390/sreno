@@ -499,6 +499,13 @@ var Main = {
         else if(Main.endereco_validar())
             Main.create_edit();
 	},
+	categoria_validar : function()
+	{
+        if($("#nome").val() == "")
+            Main.show_error("nome","Insira o nome da categoria", "is-invalid");
+        else
+        	Main.create_edit();
+	},
 	altera_tipo_cadastro_usuario : function(tipo,registro,method)
 	{
 		if(tipo != 0)

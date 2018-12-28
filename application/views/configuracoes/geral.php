@@ -68,7 +68,7 @@
 							<div class='input-group mb-2 mb-sm-0 text-danger' id='error-descricao'></div>
 						</div>
 						<div class='form-group'>
-							<div class='input-group-addon'>Usuario</div>
+							<div class='input-group-addon'>Usuário</div>
 							<input name='usuario' id='usuario' spellcheck='false' value='<?php echo (!empty($obj_email['Usuario']) ? $obj_email['Usuario']:''); ?>' type='text' class='input-material' />
 							<div class='input-group mb-2 mb-sm-0 text-danger' id='error-usuario'></div>
 						</div>

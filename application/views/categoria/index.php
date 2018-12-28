@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: tadeu
- * Date: 26/12/2018
- * Time: 22:35
+ * Date: 27/12/2018
+ * Time: 22:24
  */
 ?>
 <?php $this->load->helper("permissao");?>
@@ -15,7 +15,7 @@
     	echo"<div class='col-lg-10 offset-lg-1 padding0'>";
 			echo"<nav aria-label='breadcrumb'>";
   				echo"<ol class='breadcrumb'>";
-    				echo "<li class='breadcrumb-item active' aria-current='page'>Fornecedores</li>";
+    				echo "<li class='breadcrumb-item active' aria-current='page'>Categorias</li>";
     			echo "</ol>";
 			echo"</nav>";
 		echo "</div>";
@@ -35,8 +35,8 @@
 					echo "<thead>";
 						echo"<tr>";
 							echo"<td colspan='4' style='font-size: 12px;'>";
-							if(!empty($fornecedores[0]['Size']))
-								echo "A busca retornou ".$fornecedores[0]['Size']." registro(s)";
+							if(!empty($categorias[0]['Size']))
+								echo "A busca retornou ".$categorias[0]['Size']." registro(s)";
 							else
 								echo "A busca não obteve resultados.";
 							echo"</td>";
@@ -44,16 +44,16 @@
 						echo"<tr>";
 							echo"<td class='text-right' colspan='4'>";
 							if(permissao::get_permissao(CREATE, $controller))
-								echo"<a class='btn btn-danger' href='".$url."$controller/create/0/'><span class='glyphicon glyphicon-plus'></span> Novo fornecedor</a>";
+								echo"<a class='btn btn-danger' href='".$url."$controller/create/0/'><span class='glyphicon glyphicon-plus'></span> Nova categoria</a>";
 							echo"</td>";
 						echo"</tr>";
 						echo "<tr>";
 							echo "<td>#</td>";
 							echo "<td>";
-								echo"<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/Nome_fantasia/".$paginacao['order']."'>Nome fantasia</a>";
-								if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Nome_fantasia')
+								echo"<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/Nome_categoria/".$paginacao['order']."'>Nome</a>";
+								if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Nome_categoria')
 									echo "&nbsp;<div class='fa fa-chevron-down'></div>";
-								else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Nome_fantasia')
+								else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Nome_categoria')
 									echo "&nbsp;<div class='fa fa-chevron-up'></div>";
 							echo"</td>";
 							echo "<td>";
@@ -69,25 +69,24 @@
 						echo "<tr>";
 					echo "</thead>";
 					echo "<tbody>";
-						for($i = 0; $i < count($fornecedores); $i++)
+						for($i = 0; $i < count($categorias); $i++)
 						{
 							$cor = "";
-							if($fornecedores[$i]['Ativo'] == 0)
+							if($categorias[$i]['Ativo'] == 0)
 								$cor = "class='text-danger'";
 							echo "<tr $cor>";
 								echo "<td>".($i + 1)."</td>";
-								echo "<td><span title='".$fornecedores[$i]['Nome_fantasia']."'>".
-								mstring::corta_string($fornecedores[$i]['Nome_fantasia'], 25)
+								echo "<td><span title='".$categorias[$i]['Nome_categoria']."'>".
+								mstring::corta_string($categorias[$i]['Nome_categoria'], 25)
 								."</span></td>";
-								echo "<td>".(($fornecedores[$i]['Ativo'] == 1) ? 'Sim' : 'Não')."</td>";
-								//echo "<td $cor>".$fornecedores[$i]['email']."</td>";
-								//echo "<td $cor>".$fornecedores[$i]['nome_grupo']."</td>";
+								echo "<td>".(($categorias[$i]['Ativo'] == 1) ? 'Sim' : 'Não')."</td>";
+								//echo "<td $cor>".$categorias[$i]['email']."</td>";
+								//echo "<td $cor>".$categorias[$i]['nome_grupo']."</td>";
 								echo "<td class='text-right'>";
 									if(permissao::get_permissao(UPDATE, $controller))
-										echo "<a href='".$url.$controller."/edit/".$fornecedores[$i]['Fornecedor_id']."' title='Editar' style='cursor: pointer;' class='glyphicon glyphicon-edit text-danger'></a> | ";
-									echo "<a href='".$url.$controller."/detalhes/".$fornecedores[$i]['Fornecedor_id']."' title='Detalhes' style='cursor: pointer;' class='glyphicon glyphicon-th text-danger'></a> | ";
+										echo "<a href='".$url.$controller."/edit/".$categorias[$i]['Categoria_id']."' title='Editar' style='cursor: pointer;' class='glyphicon glyphicon-edit text-danger'></a> | ";
 									if(permissao::get_permissao(DELETE, $controller))
-										echo " <span onclick='Main.confirm_delete(". $fornecedores[$i]['Fornecedor_id'] .");' id='sp_lead_trash' name='sp_lead_trash' title='Apagar' style='cursor: pointer;' class='glyphicon glyphicon-trash text-danger'></span>";
+										echo " <span onclick='Main.confirm_delete(". $categorias[$i]['Categoria_id'] .");' id='sp_lead_trash' name='sp_lead_trash' title='Apagar' style='cursor: pointer;' class='glyphicon glyphicon-trash text-danger'></span>";
 								echo "</td>";
 							echo "</tr>";
 						}

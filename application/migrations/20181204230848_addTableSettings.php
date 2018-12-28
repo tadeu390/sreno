@@ -15,6 +15,7 @@ class  Migration_addTableSettings extends  CI_Migration
         $this->dbforge->add_field(array(
            'Id' => array(
                'type' => 'INT',
+               'auto_increment' => TRUE,
                'null' => FALSE
            ),
             'Data_registro' => array(

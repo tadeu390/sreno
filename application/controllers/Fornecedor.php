@@ -66,6 +66,41 @@ class Fornecedor extends Geral
             $this->view("templates/permissao", $this->data);
     }
     /*!
+    *	RESPONSÁVEL POR RECEBER UM ID DE FORNECEDOR PARA "APAGAR".
+    *
+    *	$id -> Id do fornecedor.
+    */
+    public function deletar($id = FALSE)
+    {
+        if($this->Geral_model->get_permissao(DELETE, get_class($this)) == TRUE)
+        {
+            $this->Fornecedor_model->deletar($id);
+            $resultado = "sucesso";
+            $arr = array('response' => $resultado);
+            header('Content-Type: application/json');
+            echo json_encode($arr);
+        }
+        else
+            $this->view("templates/permissao", $this->data);
+    }
+    /*!
+    *	RESPONSÁVEL POR RECEBER DA MODEL TODOS OS ATRIBUTOS DE UM FORNECEDOR E OS ENVIA-LOS A VIEW.
+    *
+    *	$id -> Id de um fonnecedor.
+    */
+    public function detalhes($id = FALSE)
+    {
+        if($this->Geral_model->get_permissao(READ, get_class($this)) == TRUE)
+        {
+            $this->data['title'] = 'Detalhes do fornecedor';
+            $this->data['obj'] = $this->Fornecedor_model->get_fornecedor($id, FALSE, FALSE, FALSE, FALSE);
+            $this->data['obj_endereco'] = $this->Endereco_model->get_endereco(TRUE, $this->data['obj']['Endereco_id']);
+            $this->view("fornecedor/detalhes", $this->data);
+        }
+        else
+            $this->view("templates/permissao", $this->data);
+    }
+    /*!
     *	RESPONSÁVEL POR CARREGAR O FORMULÁRIO DE CADASTRO DO FORNECEDOR.
     */
     public function create()

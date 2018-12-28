@@ -156,6 +156,10 @@ $(document).ready(
     });
 
     //BTN CADASTROS
+    $("#form_cadastro_categoria").submit(function(event) {
+        event.preventDefault();
+        Main.categoria_validar();
+    });
     $("#form_cadastro_fornecedor").submit(function(event) {
         event.preventDefault();
         Main.fornecedor_validar();

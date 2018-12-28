@@ -47,7 +47,6 @@
 						?>
 					</div>
 				</div>
-				
 				<?php
 					if(empty($obj['Id']))
 						echo"<input type='submit' class='btn btn-danger btn-block' style='width: 200px;' value='Cadastrar'>";
