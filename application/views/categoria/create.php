@@ -14,7 +14,7 @@
     echo"<nav aria-label='breadcrumb'>";
     echo"<ol class='breadcrumb'>";
     echo"<li class='breadcrumb-item'><a href='".$url."categoria'>Categorias</a></li>";
-    echo "<li class='breadcrumb-item active' aria-current='page'>".((isset($obj['Id'])) ? 'Editar categoria' : 'Nova categoria')."</li>";
+    echo "<li class='breadcrumb-item active' aria-current='page'>".((isset($obj->Id)) ? 'Editar categoria' : 'Nova categoria')."</li>";
     echo "</ol>";
     echo"</nav>";
     echo "</div>";
@@ -29,11 +29,11 @@
         <?php $atr = array("id" => "form_cadastro_$controller", "name" => "form_cadastro");
         echo form_open("$controller/store", $atr);
         ?>
-        <input type='hidden' id='id' name='id' value='<?php if(!empty($obj['Categoria_id'])) echo $obj['Categoria_id']; ?>'/>
+        <input type='hidden' id='id' name='id' value='<?php if(!empty($obj->Categoria_id)) echo $obj->Categoria_id; ?>'/>
         <input type='hidden' id='controller' value='<?php echo $controller; ?>'/>
 
         <div class="form-group relative">
-            <input maxlength="20" id="nome" name="nome" value='<?php echo (!empty($obj['Nome_categoria']) ? $obj['Nome_categoria']:''); ?>' type="text" class="input-material">
+            <input maxlength="20" id="nome" name="nome" value='<?php echo (!empty($obj->Nome_categoria) ? $obj->Nome_categoria:''); ?>' type="text" class="input-material">
             <label for="nome" class="label-material">Nome</label>
             <div class='input-group mb-2 mb-sm-0 text-danger' id='error-nome'></div>
         </div>
@@ -41,7 +41,7 @@
             <div class='checkbox checbox-switch switch-success custom-controls-stacked'>
                 <?php
                 $checked = "";
-                if($obj['Ativo'] == 1)
+                if(isset($obj->Ativo) && $obj->Ativo == 1)
                     $checked = "checked";
 
                 echo"<label for='ativo' class='text-white'>";
@@ -51,7 +51,7 @@
             </div>
         </div>
         <?php
-        if(empty($obj['Id']))
+        if(empty($obj->Id))
             echo"<input type='submit' class='btn btn-danger btn-block' style='width: 200px;' value='Cadastrar'>";
         else
             echo"<input type='submit' class='btn btn-danger btn-block' style='width: 200px;' value='Atualizar'>";

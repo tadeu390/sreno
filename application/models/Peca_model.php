@@ -2,28 +2,26 @@
 /**
  * Created by PhpStorm.
  * User: tadeu
- * Date: 27/12/2018
- * Time: 21:42
+ * Date: 03/01/2019
+ * Time: 22:02
  */
 
-require_once("Geral_model.php");//INCLUI A CLASSE GENÉRICA.
-/*!
-*	ESTA MODEL TRATA DAS OPERAÇÕES NA BASE DE DADOS REFERENTE AS CATEGORIAS DE PEÇAS.
-*/
-class Categoria_model extends Geral_model
+class Peca_model extends Geral_model
 {
     public $Id;
     public $Data_registro;
     public $Ativo;
     public $Nome;
+    public $Estocado_em;
+    public $Categoria_id;
     /*!
-    *	RESPONSÁVEL POR RETORNAR UMA LISTA DE CATEGORIAS OU UMA CATEGORIA ESPECÍFICA.
+    *	RESPONSÁVEL POR RETORNAR UMA LISTA DE PEÇAS OU UMA PEÇA ESPECÍFICA.
     *
     *	$Ativo -> Quando passado "TRUE" quer dizer pra retornar somente registro(s) ativos(s), se for passado FALSE retorna tudo.
-    *	$id -> Id de uma categoria específica.
+    *	$id -> Id de uma peça específica.
     *	$page-> Número da página de registros que se quer carregar.
     */
-    public function get_categoria($id, $ativo, $page, $filter, $ordenacao)
+    public function get_peca($id, $ativo, $page, $filter, $ordenacao)
     {
         $Ativos = "";
         if($ativo == true)
@@ -45,8 +43,8 @@ class Categoria_model extends Geral_model
                 $pagination = "";
 
             $query = $this->db->query("
-                SELECT (SELECT count(*) FROM  Categoria) AS Size, Id AS Categoria_id, Nome AS Nome_categoria, Ativo 
-                    FROM Categoria 
+                SELECT (SELECT count(*) FROM  Peca) AS Size, Id AS Peca_id, Nome AS Nome_peca, Ativo, Categoria_id, Estocado_em 
+                    FROM Peca 
                 WHERE TRUE ".$Ativos."
                 ".str_replace("'", "", $this->db->escape($order))." ".$pagination."");
 
@@ -54,51 +52,51 @@ class Categoria_model extends Geral_model
         }
 
         $query = $this->db->query("
-            SELECT Id AS Categoria_id, Nome AS Nome_categoria, Ativo, DATE_FORMAT(Data_registro, '%d/%m/%Y') as Data_registro
-                FROM Categoria 
+            SELECT Id AS Peca_id, Nome AS Nome_peca, Ativo, DATE_FORMAT(Data_registro, '%d/%m/%Y') as Data_registro, Categoria_id, Estocado_em 
+                FROM Peca 
             WHERE Id = ".$this->db->escape($id)." ".$Ativos."");
 
         return json_decode(json_encode($query->row_array()),false);
     }
     /*!
-    *	RESPONSÁVEL POR "APAGAR" UMA CATEGORIA DO BANCO DE DADOS.
+    *	RESPONSÁVEL POR "APAGAR" UMA PEÇA DO BANCO DE DADOS.
     *
-    *	$id -> Id da categoria a ser "apagado".
+    *	$id -> Id da peça a ser "apagada".
     */
     public function deletar($id)
     {
         return $this->db->query("
-            UPDATE Categoria SET Ativo = 0 
+            UPDATE Peca SET Ativo = 0 
             WHERE Id = ".$this->db->escape($id)."");
     }
     /*!
-    *	RESPONSÁVEL POR CADASTRAR/ATUALIZAR UMA CATEGORIA NO BANCO DE DADOS.
+    *	RESPONSÁVEL POR CADASTRAR/ATUALIZAR UMA PEÇA NO BANCO DE DADOS.
     *
-    *	$data -> Contém os dados da categoria.
+    *	$data -> Contém os dados da peça.
     */
-    public function set_categoria()
+    public function set_peca()
     {
         if(empty($this->Id))
-            return $this->db->insert('Categoria', $this);
+            return $this->db->insert('Peca', $this);
         else
         {
             $this->db->where('Id', $this->Id);
-            return $this->db->update('Categoria', $this);
+            return $this->db->update('Peca', $this);
         }
     }
     /*!
-    *	RESPONSÁVEL POR VERIFICAR SE UMA DETERMINADA CATEGORIA JÁ EXISTE NO BANCO DE DADOS.
+    *	RESPONSÁVEL POR VERIFICAR SE UMA DETERMINADA PEÇA JÁ EXISTE NO BANCO DE DADOS.
     */
-    public function valida_categoria()
+    public function valida_peca()
     {
         $query = $this->db->query("
-            SELECT Nome FROM Categoria 
+            SELECT Nome FROM Peca 
             WHERE UPPER(Nome) = UPPER(".$this->db->escape($this->Nome).")");
         $query = $query->row_array();
 
-        $registro_banco = $this->get_categoria($this->Id, FALSE, FALSE, FALSE, FALSE);
+        $registro_banco = $this->get_peca($this->Id, FALSE, FALSE, FALSE, FALSE);
 
-        if(!empty($registro_banco) && $query['Nome'] == $registro_banco->Nome_categoria)
+        if(!empty($registro_banco) && $query['Nome'] == $registro_banco->Nome_peca)
             return "valido";
         else if(empty($query['Nome']))
             return "valido";

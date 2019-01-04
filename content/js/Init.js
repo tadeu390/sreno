@@ -43,6 +43,12 @@ $(document).ready(
     });
 
     //LOGIN
+    $('#estocado_em').blur(function() {
+        if (this.value != '') Main.show_error("estocado_em", '', '');
+    });
+    $('#categoria_id').blur(function() {
+        if (this.value != '') Main.show_error("categoria_id", '', '');
+    });
     $('#razao_social').blur(function() {
         if (this.value != '') Main.show_error("razao_social", '', 'is-valid');
     });
@@ -156,6 +162,10 @@ $(document).ready(
     });
 
     //BTN CADASTROS
+    $("#form_cadastro_peca").submit(function(event) {
+        event.preventDefault();
+        Main.peca_validar();
+    });
     $("#form_cadastro_categoria").submit(function(event) {
         event.preventDefault();
         Main.categoria_validar();

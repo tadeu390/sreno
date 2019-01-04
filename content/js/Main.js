@@ -506,6 +506,17 @@ var Main = {
         else
         	Main.create_edit();
 	},
+    peca_validar : function()
+	{
+        if($("#nome").val() == "")
+            Main.show_error("nome","Insira o nome da peça", "is-invalid");
+        else if($("#categoria_id").val() == "0")
+            Main.show_error("categoria_id","Selecione uma categoria", "");
+        else if($("#estocado_em").val() == "0")
+            Main.show_error("estocado_em","Será estocado como?", "");
+		else
+			Main.create_edit();
+	},
 	altera_tipo_cadastro_usuario : function(tipo,registro,method)
 	{
 		if(tipo != 0)
