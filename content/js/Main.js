@@ -517,6 +517,19 @@ var Main = {
 		else
 			Main.create_edit();
 	},
+    transacao_validar : function()
+	{
+		if($("#fornecedor_id").val() == "0")
+            Main.show_error("fornecedor_id","Selecione um fornecedor", "");
+        else if($("#peca_id").val() == "0")
+            Main.show_error("peca_id","Selecione uma peça", "");
+        else if($("#quantidade").val() == "")
+            Main.show_error("quantidade","Insira a quantidade", "");
+        else if($("#preco_unitario").val() == "")
+            Main.show_error("preco_unitario","Insira o preço unitário", "");
+        else
+            Main.create_edit();
+	},
 	altera_tipo_cadastro_usuario : function(tipo,registro,method)
 	{
 		if(tipo != 0)

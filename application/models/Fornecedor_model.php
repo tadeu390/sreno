@@ -60,7 +60,7 @@ class Fornecedor_model extends Geral_model
                 WHERE TRUE ".$Ativos."
 			    ".str_replace("'", "", $this->db->escape($order))." ".$pagination."");
 
-            return $query->result_array();
+            return json_decode(json_encode($query->result_array()),false);
         }
 
         $query = $this->db->query("
@@ -69,7 +69,7 @@ class Fornecedor_model extends Geral_model
                 FROM Fornecedor 
                 WHERE TRUE ".$Ativos." AND Id = ".$this->db->escape($id)."");
 
-        return $query->row_array();
+        return json_decode(json_encode($query->row_array()),false);
     }
     /*!
      *  RESPONSÁVEL POR CADASTRAR UM FORNECEDOR NO BANCO DE DADOS.
@@ -93,10 +93,13 @@ class Fornecedor_model extends Geral_model
 				WHERE UPPER(Nome_fantasia) = UPPER(".$this->db->escape($this->Nome_fantasia).")");
         $query = $query->row_array();
 
-        if(!empty($query) && $this->get_fornecedor($this->Id, FALSE, FALSE, FALSE, FALSE)['Nome_fantasia'] != $query['Nome_fantasia'])
-            return "Nome fantasia";
+        $registro_banco = $this->get_fornecedor($this->Id, FALSE, FALSE, FALSE, FALSE);
 
-        return "valido";
+        if(!empty($registro_banco) && $query['Nome_fantasia'] == $registro_banco->Nome_fantasia)
+            return "valido";
+        else if(empty($query['Nome_fantasia']))
+            return "valido";
+        return "invalido";
     }
     /*!
     *	RESPONSÁVEL POR "APAGAR" UM FORNECEDOR DO BANCO DE DADOS.

@@ -14,7 +14,7 @@
             echo"<nav aria-label='breadcrumb'>";
                 echo"<ol class='breadcrumb'>";
                     echo"<li class='breadcrumb-item'><a href='".$url."fornecedor'>Fornecedores</a></li>";
-                    echo "<li class='breadcrumb-item active' aria-current='page'>".((isset($obj['Id'])) ? 'Editar fornecedor' : 'Novo fornecedor')."</li>";
+                    echo "<li class='breadcrumb-item active' aria-current='page'>".((isset($obj->Id)) ? 'Editar fornecedor' : 'Novo fornecedor')."</li>";
                 echo "</ol>";
             echo"</nav>";
         echo "</div>";
@@ -28,7 +28,7 @@
         <br /><br />
         <?php $atr = array("id" => "form_cadastro_$controller", "name" => "form_cadastro");
             echo form_open("$controller/store", $atr);
-            echo "<input type='hidden' id='id' name='id' value='".$obj_fornecedor['Fornecedor_id']."'>";
+            echo "<input type='hidden' id='id' name='id' value='".$obj_fornecedor->Fornecedor_id."'>";
             echo "<input type='hidden' id='endereco_id' name='endereco_id' value='".$Endereco['Endereco_id']."'>";
 
         ?>
@@ -36,21 +36,21 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="form-group relative">
-                        <input maxlength="100" id="nome" name="nome" value='<?php echo (!empty($obj_fornecedor['Nome_fantasia']) ? $obj_fornecedor['Nome_fantasia']:''); ?>' type="text" class="input-material">
+                        <input maxlength="100" id="nome" name="nome" value='<?php echo (!empty($obj_fornecedor->Nome_fantasia) ? $obj_fornecedor->Nome_fantasia:''); ?>' type="text" class="input-material">
                         <label for="nome" class="label-material">Nome fantasia</label>
                         <div class='input-group mb-2 mb-sm-0 text-danger' id='error-nome'></div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group relative">
-                        <input maxlength="100" id="cnpj" name="cnpj" value='<?php echo (!empty($obj_fornecedor['Cnpj']) ? $obj_fornecedor['Cnpj']:''); ?>' type="text" class="input-material">
+                        <input maxlength="100" id="cnpj" name="cnpj" value='<?php echo (!empty($obj_fornecedor->Cnpj) ? $obj_fornecedor->Cnpj:''); ?>' type="text" class="input-material">
                         <label for="cnpj" class="label-material">Cnpj</label>
                         <div class='input-group mb-2 mb-sm-0 text-danger' id='error-cnpj'></div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group relative">
-                        <input maxlength="100" id="email" name="email" value='<?php echo (!empty($obj_fornecedor['Email']) ? $obj_fornecedor['Email']:''); ?>' type="text" class="input-material">
+                        <input maxlength="100" id="email" name="email" value='<?php echo (!empty($obj_fornecedor->Email) ? $obj_fornecedor->Email:''); ?>' type="text" class="input-material">
                         <label for="email" class="label-material">E-mail</label>
                         <div class='input-group mb-2 mb-sm-0 text-danger' id='error-email'></div>
                     </div>
@@ -59,21 +59,21 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="form-group relative">
-                        <input maxlength="100" id="razao_social" name="razao_social" value='<?php echo (!empty($obj_fornecedor['Razao_social']) ? $obj_fornecedor['Razao_social']:''); ?>' type="text" class="input-material">
+                        <input maxlength="100" id="razao_social" name="razao_social" value='<?php echo (!empty($obj_fornecedor->Razao_social) ? $obj_fornecedor->Razao_social:''); ?>' type="text" class="input-material">
                         <label for="razao_social" class="label-material">Razão social</label>
                         <div class='input-group mb-2 mb-sm-0 text-danger' id='error-razao_social'></div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group relative">
-                        <input maxlength="100" id="celular" name="celular" value='<?php echo (!empty($obj_fornecedor['Celular']) ? $obj_fornecedor['Celular']:''); ?>' type="text" class="input-material">
+                        <input maxlength="100" id="celular" name="celular" value='<?php echo (!empty($obj_fornecedor->Celular) ? $obj_fornecedor->Celular:''); ?>' type="text" class="input-material">
                         <label for="celular" class="label-material">Celular</label>
                         <div class='input-group mb-2 mb-sm-0 text-danger' id='error-celular'></div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group relative">
-                        <input maxlength="100" id="telefone" name="telefone" value='<?php echo (!empty($obj_fornecedor['Telefone']) ? $obj_fornecedor['Telefone']:''); ?>' type="text" class="input-material">
+                        <input maxlength="100" id="telefone" name="telefone" value='<?php echo (!empty($obj_fornecedor->Telefone) ? $obj_fornecedor->Telefone:''); ?>' type="text" class="input-material">
                         <label for="telefone" class="label-material">Telefone</label>
                         <div class='input-group mb-2 mb-sm-0 text-danger' id='error-telefone'></div>
                     </div>
@@ -126,7 +126,7 @@
             <div class='checkbox checbox-switch switch-success custom-controls-stacked'>
                 <?php
                 $checked = "";
-                if($obj_fornecedor['Ativo'] == 1)
+                if(isset($obj_fornecedor->Ativo) && $obj_fornecedor->Ativo == 1)
                     $checked = "checked";
 
                 echo"<label for='ativo' class='text-white'>";
@@ -136,7 +136,7 @@
             </div>
         </div>
             <?php
-                if(empty($obj_fornecedor['Fornecedor_id']))
+                if(empty($obj_fornecedor->Fornecedor_id))
                     echo"<input type='submit' class='btn btn-danger btn-block' style='width: 200px;' value='Cadastrar'>";
                 else
                     echo"<input type='submit' class='btn btn-danger btn-block' style='width: 200px;' value='Atualizar'>";

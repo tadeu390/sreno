@@ -53,7 +53,7 @@ class Fornecedor extends Geral
         if($this->Geral_model->get_permissao(READ, get_class($this)) == TRUE)
         {
             $this->data['fornecedores'] = $this->Fornecedor_model->get_fornecedor(FALSE, FALSE, $page, FALSE, $ordenacao);
-            $this->data['paginacao']['size'] = (!empty($this->data['fornecedores']) ? $this->data['fornecedores'][0]['Size'] : 0);
+            $this->data['paginacao']['size'] = (!empty($this->data['fornecedores']) ? $this->data['fornecedores'][0]->Size : 0);
             $this->data['paginacao']['pg_atual'] = $page;
             //--FILTROS--//
             $this->data['paginacao']['order'] =$this->inverte_ordem($ordenacao['order']);
@@ -130,7 +130,7 @@ class Fornecedor extends Geral
         if($this->Geral_model->get_permissao(UPDATE, get_class($this)) == TRUE)
         {
             $this->data['obj_fornecedor'] = $this->Fornecedor_model->get_fornecedor($id, FALSE, FALSE, FALSE, FALSE);
-            $this->data['Endereco'] = $this->Endereco_model->get_endereco(TRUE, $this->data['obj_fornecedor']['Endereco_id']);
+            $this->data['Endereco'] = $this->Endereco_model->get_endereco(TRUE, $this->data['obj_fornecedor']->Endereco_id);
             $this->view("fornecedor/create", $this->data);
         }
         else

@@ -57,15 +57,15 @@
         <div class='form-group'>
             <?php
             echo"<select name='estocado_em' id='estocado_em' class='form-control padding0'>";
-            echo"<option value='0' class='background_dark'>Selecione</option>";
+            echo"<option value='0' class='background_dark'>Estoque em</option>";
                 $selectedMt = "";
                 $selectedQtd = "";
-                if(isset($obj->Estocado_em) && $obj->Estocado_em == 'Metros')
+                if(isset($obj->Estocado_em) && $obj->Estocado_em == 'metro(s)')
                     $selectedMt = "selected";
-                else if(isset($obj->Estocado_em) && $obj->Estocado_em == 'Quantidade')
+                else if(isset($obj->Estocado_em) && $obj->Estocado_em == 'unidade(s)')
                     $selectedQtd = "selected";
-                echo"<option class='background_dark' ".$selectedMt." value='Metros'>Em metros</option>";
-                echo"<option class='background_dark' ".$selectedQtd." value='Quantidade'>Em quantidade</option>";
+                echo"<option class='background_dark' ".$selectedMt." value='metro(s)'>Em metro(s)</option>";
+                echo"<option class='background_dark' ".$selectedQtd." value='unidade(s)'>Em unidade(s)</option>";
             echo "</select>";
             ?>
             <div class='input-group mb-2 mb-sm-0 text-danger' id='error-estocado_em'></div>

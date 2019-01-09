@@ -43,6 +43,18 @@ $(document).ready(
     });
 
     //LOGIN
+    $('#fornecedor_id').blur(function() {
+        if (this.value != '') Main.show_error("fornecedor_id", '', '');
+    });
+    $('#peca_id').blur(function() {
+        if (this.value != '') Main.show_error("peca_id", '', '');
+    });
+    $('#quantidade').blur(function() {
+        if (this.value != '') Main.show_error("quantidade", '', 'is-valid');
+    });
+    $('#preco_unitario').blur(function() {
+        if (this.value != '') Main.show_error("estocado_em", '', 'is-valid');
+    });
     $('#estocado_em').blur(function() {
         if (this.value != '') Main.show_error("estocado_em", '', '');
     });
@@ -162,6 +174,10 @@ $(document).ready(
     });
 
     //BTN CADASTROS
+    $("#form_cadastro_transacao").submit(function(event) {
+        event.preventDefault();
+        Main.transacao_validar();
+    });
     $("#form_cadastro_peca").submit(function(event) {
         event.preventDefault();
         Main.peca_validar();

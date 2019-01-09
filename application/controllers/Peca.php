@@ -26,8 +26,6 @@ class Peca extends Geral
         $this->load->model('Peca_model');
         $this->load->model('Categoria_model');
 
-        $this->load->model('Categoria_model');
-
         $this->set_menu();
         $this->data['controller'] = strtolower(get_class($this));
         $this->data['menu_selectd'] = $this->Geral_model->get_identificador_menu(strtolower(get_class($this)));
