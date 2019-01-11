@@ -57,24 +57,24 @@
                                     echo "&nbsp;<div class='fa fa-chevron-up'></div>";
                             echo "</td>";
                             echo "<td>";
-                            echo "<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/p.Nome/".$paginacao['order']."'>Peça</a>";
-                            if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'p.Nome')
+                            echo "<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/Nome_peca/".$paginacao['order']."'>Peça</a>";
+                            if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Nome_peca')
                                 echo "&nbsp;<div class='fa fa-chevron-down'></div>";
-                            else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'p.Nome')
+                            else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Nome_peca')
                                 echo "&nbsp;<div class='fa fa-chevron-up'></div>";
                             echo "</td>";
 							echo "<td>";
-								echo"<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/t.Quantidade/".$paginacao['order']."'>Quantidade</a>";
-								if($paginacao['order'] == 'DESC' && $paginacao['field'] == 't.Quantidade')
+								echo"<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/Quantidade/".$paginacao['order']."'>Quantidade</a>";
+								if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Quantidade')
 									echo "&nbsp;<div class='fa fa-chevron-down'></div>";
-								else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 't.Quantidade')
+								else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Quantidade')
 									echo "&nbsp;<div class='fa fa-chevron-up'></div>";
 							echo"</td>";
 							echo "<td>";
-								echo "<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/t.Preco_unitario/".$paginacao['order']."'>Preço unitário / metro</a>";
-								if($paginacao['order'] == 'DESC' && $paginacao['field'] == 't.Preco_unitario')
+								echo "<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/Preco_unitario/".$paginacao['order']."'>Preço unitário / metro</a>";
+								if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Preco_unitario')
 									echo "&nbsp;<div class='fa fa-chevron-down'></div>";
-								else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 't.Preco_unitario')
+								else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Preco_unitario')
 									echo "&nbsp;<div class='fa fa-chevron-up'></div>";
 							echo "</td>";
 							//echo "<td>E-mail</td>";

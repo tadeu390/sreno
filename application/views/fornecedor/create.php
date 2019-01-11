@@ -28,9 +28,8 @@
         <br /><br />
         <?php $atr = array("id" => "form_cadastro_$controller", "name" => "form_cadastro");
             echo form_open("$controller/store", $atr);
-            echo "<input type='hidden' id='id' name='id' value='".$obj_fornecedor->Fornecedor_id."'>";
-            echo "<input type='hidden' id='endereco_id' name='endereco_id' value='".$Endereco['Endereco_id']."'>";
-
+            echo "<input type='hidden' id='id' name='id' value='".(!empty($obj_fornecedor->Fornecedor_id) ? $obj_fornecedor->Fornecedor_id : "")."'>";
+            echo "<input type='hidden' id='endereco_id' name='endereco_id' value='".(!empty($Endereco->Endereco_id) ? $Endereco->Endereco_id : "")."'>";
         ?>
             <input type='hidden' id='controller' value='<?php echo $controller; ?>'/>
             <div class="row">
@@ -84,14 +83,14 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="form-group relative">
-                            <input maxlength="100" id="rua" spellcheck="false" name="rua" value='<?php echo (!empty($Endereco['Rua']) ? $Endereco['Rua']:''); ?>' type="text" class="input-material">
+                            <input maxlength="100" id="rua" spellcheck="false" name="rua" value='<?php echo (!empty($Endereco->Rua) ? $Endereco->Rua:''); ?>' type="text" class="input-material">
                             <label for="rua" class="label-material">Rua</label>
                             <div class='input-group mb-2 mb-sm-0 text-danger' id='error-rua'></div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group relative">
-                            <input maxlength="40" id="cidade" spellcheck="false" name="cidade" value='<?php echo (!empty($Endereco['Cidade']) ? $Endereco['Cidade']:''); ?>' type="text" class="input-material">
+                            <input maxlength="40" id="cidade" spellcheck="false" name="cidade" value='<?php echo (!empty($Endereco->Cidade) ? $Endereco->Cidade:''); ?>' type="text" class="input-material">
                             <label for="cidade" class="label-material">Cidade</label>
                             <div class='input-group mb-2 mb-sm-0 text-danger' id='error-cidade'></div>
                         </div>
@@ -100,21 +99,21 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="form-group relative">
-                            <input maxlength="40" id="bairro" spellcheck="false" name="bairro" value='<?php echo (!empty($Endereco['Bairro']) ? $Endereco['Bairro']:''); ?>' type="text" class="input-material">
+                            <input maxlength="40" id="bairro" spellcheck="false" name="bairro" value='<?php echo (!empty($Endereco->Bairro) ? $Endereco->Bairro:''); ?>' type="text" class="input-material">
                             <label for="bairro" class="label-material">Bairro</label>
                             <div class='input-group mb-2 mb-sm-0 text-danger' id='error-bairro'></div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group relative">
-                            <input maxlength="40" id="numero" spellcheck="false" name="numero" value='<?php echo (!empty($Endereco['Numero']) ? $Endereco['Numero']:''); ?>' type="text" class="input-material">
+                            <input maxlength="40" id="numero" spellcheck="false" name="numero" value='<?php echo (!empty($Endereco->Numero) ? $Endereco->Numero:''); ?>' type="text" class="input-material">
                             <label for="numero" class="label-material">Número</label>
                             <div class='input-group mb-2 mb-sm-0 text-danger' id='error-numero'></div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group relative">
-                            <input maxlength="40" id="complemento" spellcheck="false" name="complemento" value='<?php echo (!empty($Endereco['Complemento']) ? $Endereco['Complemento']:''); ?>' type="text" class="input-material">
+                            <input maxlength="40" id="complemento" spellcheck="false" name="complemento" value='<?php echo (!empty($Endereco->Complemento) ? $Endereco->Complemento:''); ?>' type="text" class="input-material">
                             <label for="complemento" class="label-material">Complemento</label>
                             <div class='input-group mb-2 mb-sm-0 text-danger' id='error-complemento'></div>
                         </div>

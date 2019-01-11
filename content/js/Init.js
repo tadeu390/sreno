@@ -53,7 +53,7 @@ $(document).ready(
         if (this.value != '') Main.show_error("quantidade", '', 'is-valid');
     });
     $('#preco_unitario').blur(function() {
-        if (this.value != '') Main.show_error("estocado_em", '', 'is-valid');
+        if (this.value != '') Main.show_error("preco_unitario", '', 'is-valid');
     });
     $('#estocado_em').blur(function() {
         if (this.value != '') Main.show_error("estocado_em", '', '');

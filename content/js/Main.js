@@ -2,7 +2,7 @@ var Main = {
 	load_mask : function(){
 		$(document).ready(function(){
 			$('[data-toggle="popover"]').popover(),
-			$(".chosen-select").chosen({no_results_text: "Não encontrado"});
+			$(".chosen-select").chosen({no_results_text: "Não encontrado"}),
 			$('#cpf').mask('000.000.000-00'),
 			$('#codigo_ativacao').mask('999999'),
 			$('#itens_por_pagina').mask('000'),
@@ -13,6 +13,7 @@ var Main = {
             $('#telefone').mask('(00) 0000 - 0000'),
             $('#celular').mask('(00) 0 0000 - 0000'),
             $('#numero').mask('0000'),
+            $('#quantidade').mask('0000000000'),
 			$('[data-toggle="tooltip"]').tooltip(),
 			$('#data1 input').datepicker({
 		    	language: "pt-BR",

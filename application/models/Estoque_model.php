@@ -7,7 +7,7 @@
  */
 /*!
  *  ESTA CLASSE É RESPONSÁVEL POR GERENCIAR O ESTOQUE DE CADA PEÇA NO BANCO DE DADOS
- * */
+ */
 class Estoque_model extends Geral_model
 {
     public $Id;
@@ -46,10 +46,10 @@ class Estoque_model extends Geral_model
             $query = $this->db->query("
                 SELECT * FROM (
                 SELECT (SELECT count(*) FROM  Estoque) AS Size, e.Id AS Estoque_id, e.Preco_medio_unitario, e.Peca_id, e.Saldo, p.Nome AS Nome_peca, p.Estocado_em,
-                (e.Preco_medio_unitario * e.Saldo) AS Total_estoque    
+                (e.Preco_medio_unitario * e.Saldo) AS Total_estoque 
                     FROM Estoque e 
                     INNER JOIN Peca p ON e.Peca_id = p.Id 
-                WHERE TRUE ".$Ativos."
+                WHERE TRUE ".$Ativos." 
                  ".$pagination.") AS x ".str_replace("'", "", $this->db->escape($order))."");
 
             return json_decode(json_encode($query->result_array()),false);
@@ -72,7 +72,6 @@ class Estoque_model extends Geral_model
         $estoque = $this->get_estoque($transacao->Peca_id, FALSE, FALSE, FALSE, FALSE);
         $this->Peca_id = $transacao->Peca_id;
         $this->Saldo = $transacao->Quantidade;
-        //$this->Id = "";
 
         if($transacao->Quantidade > 0)
         {
@@ -111,37 +110,38 @@ class Estoque_model extends Geral_model
 	 */
 	public function altera_estoque($transacao, $transacao_alterada)
 	{
+        /////////////////ATUALIZA OS DADOS DE ESTOQUE DA PEÇA LEVANDO O PREÇO ALTERADO
 		$estoque = $this->get_estoque($transacao->Peca_id, FALSE, FALSE, FALSE, FALSE);
 		$this->Id = $estoque->Estoque_id;
 
         $valor_estoque = $estoque->Saldo * $estoque->Preco_medio_unitario;
-        if($transacao_alterada->Preco_unitario != $transacao->Preco_unitario)
-        {
-            $valor_transacao = ($transacao_alterada->Preco_unitario - $transacao->Preco_unitario) * $transacao->Quantidade;
 
-            $total = $valor_estoque + $valor_transacao;
-            $this->Saldo = $estoque->Saldo;
-            $this->Preco_medio_unitario = $total / $this->Saldo;
-            $this->Peca_id = $transacao->Peca_id;
+        $valor_transacao = ($transacao_alterada->Preco_unitario - $transacao->Preco_unitario) * $transacao->Quantidade;
 
-            $this->db->where('Peca_id', $this->Peca_id);
-            $this->db->update('Estoque', $this);
-        }
-        if($transacao_alterada->Quantidade != $transacao->Quantidade)
-        {
-            //depois que atualizou para preço modificado, então carregar novamente do banco para pegar o estoque atualizado
-            $estoque = $this->get_estoque($transacao->Peca_id, FALSE, FALSE, FALSE, FALSE);
-            $valor_transacao =  $transacao->Preco_unitario * ($transacao_alterada->Quantidade - $transacao->Quantidade);
+        $total = $valor_estoque + $valor_transacao;
+        $this->Saldo = $estoque->Saldo;
+        $this->Preco_medio_unitario = $total / $this->Saldo;
+        $this->Peca_id = $transacao->Peca_id;
 
-            $total = $valor_estoque + $valor_transacao;
-            $this->Saldo = $estoque->Saldo + ($transacao_alterada->Quantidade - $transacao->Quantidade);
+        $this->db->where('Peca_id', $this->Peca_id);
+        $this->db->update('Estoque', $this);
 
-            $this->Preco_medio_unitario = $total / $this->Saldo;
-            $this->Peca_id = $transacao->Peca_id;
+        /////////////////ATUALIZA OS DADOS DE ESTOQUE DA PEÇA LEVANDO A QUANTIDADE ALTERADA
 
-            $this->db->where('Peca_id', $this->Peca_id);
-            $this->db->update('Estoque', $this);
-        }
+        //depois que atualizou para preço modificado, então carregar novamente do banco para pegar o estoque atualizado
+        $estoque = $this->get_estoque($transacao->Peca_id, FALSE, FALSE, FALSE, FALSE);
+        $valor_estoque = $estoque->Saldo * $estoque->Preco_medio_unitario;
+        $valor_transacao = $transacao_alterada->Preco_unitario * ($transacao_alterada->Quantidade - $transacao->Quantidade);
+
+        $total = $valor_estoque + $valor_transacao;
+
+        $this->Saldo = $estoque->Saldo + ($transacao_alterada->Quantidade - $transacao->Quantidade);
+
+        $this->Preco_medio_unitario = $total / $this->Saldo;
+        $this->Peca_id = $transacao->Peca_id;
+
+        $this->db->where('Peca_id', $this->Peca_id);
+        $this->db->update('Estoque', $this);
 	}
     /*!
      *  RESPONSÁVEL POR RECALCULAR O OS DADOS DE ESTOQUE DE UMA DETERMINADA PEÇA SEMPRE QUE UMA TRANSAÇÃO FOR APAGADA (QUANTIDADE OU PREÇO UNITÁRIO)

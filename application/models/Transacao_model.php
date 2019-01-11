@@ -39,24 +39,21 @@ class Transacao_model extends Geral_model
             $order = "";
 
             if($ordenacao != FALSE)
-            {
-                if(strstr($ordenacao['field'], '.') == FALSE)
-                    $order = "ORDER BY t." . $ordenacao['field'] . " " . $ordenacao['order'];
-                else
-                    $order = "ORDER BY " . $ordenacao['field'] . " " . $ordenacao['order'];
-            }
+                $order = "ORDER BY " . $ordenacao['field'] . " " . $ordenacao['order'];
 
             $pagination = " LIMIT ".$inicio.",".$step;
             if($page === false)
                 $pagination = "";
 
-            $query = $this->db->query("
-                SELECT (SELECT count(*) FROM  Transacao) AS Size, t.Id AS Transacao_id, t.Preco_unitario, t.Fornecedor_id, t.Peca_id, t.Quantidade, p.Nome AS Nome_peca, 
-                DATE_FORMAT(t.Data_registro, '%d/%m/%Y') as Data_registro, p.Estocado_em, t.Ativo  
+            $query = $this->db->query(" 
+                  SELECT * FROM (
+                    SELECT (SELECT count(*) FROM  Transacao t WHERE  TRUE ".$Ativos.") AS Size, t.Id AS Transacao_id, 
+                    t.Preco_unitario, t.Fornecedor_id, t.Peca_id, t.Quantidade, p.Nome AS Nome_peca, 
+                    DATE_FORMAT(t.Data_registro, '%d/%m/%Y') as Data_registro, p.Estocado_em, t.Ativo  
                     FROM Transacao t 
                     INNER  JOIN  Peca p ON t.Peca_id = p.Id 
-                WHERE TRUE ".$Ativos."
-                ".str_replace("'", "", $this->db->escape($order))." ".$pagination."");
+                    WHERE TRUE ".$Ativos."
+                 ".$pagination.") AS x ".str_replace("'", "", $this->db->escape($order))."");
 
             return json_decode(json_encode($query->result_array()),false);
         }
@@ -70,8 +67,6 @@ class Transacao_model extends Geral_model
     }
     /*!
     *	RESPONSÁVEL POR CADASTRAR/ATUALIZAR UMA TRANSAÇÃO NO BANCO DE DADOS.
-    *
-    *	$data -> Contém os dados da transação.
     */
     public function set_transacao()
     {

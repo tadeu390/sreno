@@ -36,12 +36,11 @@
 					FROM Endereco  
 				WHERE Id = ".$this->db->escape($endereco_id)." ".$a."");
 
-			return $query->row_array();
+            return json_decode(json_encode($query->row_array()),false);
 		}
 		/*!
 		*	RESPONSÁVEL POR CADASTRAR UM ENDEREÇO.
 		*
-		*	$data -> Contém os dados de um endereço.
 		*/
 		public function set_endereco()
 		{

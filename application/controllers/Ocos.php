@@ -2,15 +2,11 @@
 /**
  * Created by PhpStorm.
  * User: tadeu
- * Date: 04/01/2019
- * Time: 22:50
+ * Date: 11/01/2019
+ * Time: 00:02
  */
 
-require_once("Geral.php");//INCLUI A CLASSE GENÉRICA.
-/*!
-*	ESTA CLASSE TEM POR FUNÇÃO CONTROLAR TUDO REFERENTE AS TRANSAÇÕES DE ESTOQUE.
-*/
-class Transacao extends Geral
+class Ocos extends Geral
 {
     public function __construct()
     {
@@ -24,22 +20,24 @@ class Transacao extends Geral
         }
 
         $this->load->model('Peca_model');
-        $this->load->model('Categoria_model');
+        //$this->load->model('Categoria_model');
 
-        $this->load->model('Transacao_model');
-        $this->load->model('Estoque_model');
-        $this->load->model('Fornecedor_model');
+        $this->load->model('Cliente_model');
+        $this->load->model('Status_model');
+        $this->load->model('Ocos_model');
+        $this->load->model('Anexo_model');
+        $this->load->model('Linha_model');
 
         $this->set_menu();
         $this->data['controller'] = strtolower(get_class($this));
         $this->data['menu_selectd'] = $this->Geral_model->get_identificador_menu(strtolower(get_class($this)));
     }
     /*!
-    *	RESPONSÁVEL POR RECEBER DA MODEL TODOS AS TRANSAÇÕES CADASTRADAS E ENVIA-LAS A VIEW.
+    *	RESPONSÁVEL POR RECEBER DA MODEL TODOS OS ORÇAMENTOS CADASTRADOS E ENVIA-LOS A VIEW.
     *
     *	$page -> Número da página atual de registros.
     */
-    public function index($page = FALSE, $field = FALSE, $order = FALSE)
+    public function orcamento($page = FALSE, $field = FALSE, $order = FALSE)
     {
         if($page === FALSE)
             $page = 1;
@@ -60,7 +58,7 @@ class Transacao extends Geral
             $this->data['transacoes'] = $this->Transacao_model->get_transacao(FALSE, TRUE, $page, FALSE, $ordenacao);
             $this->data['paginacao']['size'] = (!empty($this->data['transacoes']) ? $this->data['transacoes'][0]->Size : 0);
             $this->data['paginacao']['pg_atual'] = $page;
-            $this->view("transacao/index", $this->data);
+            $this->view("ocos/orcamento", $this->data);
         }
         else
             $this->view("templates/permissao", $this->data);

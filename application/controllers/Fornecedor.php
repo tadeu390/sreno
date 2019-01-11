@@ -10,7 +10,7 @@ require_once ("Geral.php");//INCLUI A CLASSE GENÉRICA
 
 /*!
  *  RESPONSÁVEL POR CONTROLAR TUDO REFERENTE AOS DADOS DE FORNECEDORES
- * */
+ */
 class Fornecedor extends Geral
 {
     public function __construct()
@@ -94,7 +94,7 @@ class Fornecedor extends Geral
         {
             $this->data['title'] = 'Detalhes do fornecedor';
             $this->data['obj'] = $this->Fornecedor_model->get_fornecedor($id, FALSE, FALSE, FALSE, FALSE);
-            $this->data['obj_endereco'] = $this->Endereco_model->get_endereco(TRUE, $this->data['obj']['Endereco_id']);
+            $this->data['obj_endereco'] = $this->Endereco_model->get_endereco(TRUE, $this->data['obj']->Endereco_id);
             $this->view("fornecedor/detalhes", $this->data);
         }
         else
@@ -109,9 +109,7 @@ class Fornecedor extends Geral
         {
             $this->data['obj_fornecedor'] = $this->Fornecedor_model->get_fornecedor(0, FALSE, FALSE, FALSE, FALSE);
             $this->data['title'] = 'Novo fornecedor';
-            $this->data['Endereco'] = array(
-                'Endereco_id' => '', 'Rua' => '', 'Bairro' => '',
-                'Cidade' => '', 'Numero' => '', 'Complemento' => '');
+            $this->data['Endereco'] = array();
 
             $this->view("fornecedor/create", $this->data);
         }
@@ -137,7 +135,7 @@ class Fornecedor extends Geral
             $this->view("templates/permissao", $this->data);
     }
     /*!
-     * RESPONSÁVEL POR VALIDAR OS DADOS DO FORNECEDOR
+     *  RESPONSÁVEL POR VALIDAR OS DADOS DO FORNECEDOR
      */
     public function valida_fornecedor()
     {
@@ -168,7 +166,6 @@ class Fornecedor extends Geral
     /*!
      *  RESPONSÁVEL POR VALIDAR OS DADOS DE ENDEREÇO DO FORNECEDOR.
      *
-     *  $endereco -> Contém os dados de endereço que serão validados.
      */
     public function valida_endereco()
     {

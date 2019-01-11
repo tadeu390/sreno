@@ -53,7 +53,7 @@
                             echo "Rua";
                         echo "</td>";
                         echo "<td class='text-left'>";
-                            echo $obj_endereco['Rua'];
+                            echo $obj_endereco->Rua;
                         echo "</td>";
                     echo "</tr>";
                     echo "<tr>";
@@ -61,7 +61,7 @@
                             echo "Cidade";
                         echo "</td>";
                         echo "<td class='text-left'>";
-                            echo $obj_endereco['Cidade'];
+                            echo $obj_endereco->Cidade;
                         echo "</td>";
                     echo "</tr>";
                     echo "<tr>";
@@ -69,7 +69,7 @@
                             echo "Bairro";
                         echo "</td>";
                         echo "<td class='text-left'>";
-                            echo $obj_endereco['Bairro'];
+                            echo $obj_endereco->Bairro;
                         echo "</td>";
                     echo "</tr>";
                     echo "<tr>";
@@ -77,7 +77,7 @@
                             echo "Número";
                         echo "</td>";
                         echo "<td class='text-left'>";
-                            echo $obj_endereco['Numero'];
+                            echo $obj_endereco->Numero;
                         echo "</td>";
                     echo "</tr>";
                     echo "<tr>";
@@ -85,7 +85,7 @@
                             echo "Complemento";
                         echo "</td>";
                         echo "<td class='text-left'>";
-                            echo $obj_endereco['Complemento'];
+                            echo $obj_endereco->Complemento;
                         echo "</td>";
                     echo "</tr>";
                 echo "</table>";

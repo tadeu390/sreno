@@ -53,7 +53,7 @@ class Fornecedor_model extends Geral_model
                 $pagination = "";
 
             $query = $this->db->query("
-                SELECT (SELECT count(*) FROM  Fornecedor u WHERE TRUE ) AS Size, Id AS Fornecedor_id,  
+                SELECT (SELECT count(*) FROM  Fornecedor u WHERE  TRUE ".$Ativos.") AS Size, Id AS Fornecedor_id,  
                 Ativo, DATE_FORMAT(Data_registro, '%d/%m/%Y') as Data_registro,
                 Nome_fantasia, Email, Cnpj, Celular, Telefone, Razao_social, Endereco_id  
                 FROM Fornecedor 
