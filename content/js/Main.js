@@ -13,6 +13,7 @@ var Main = {
             $('#telefone').mask('(00) 0000 - 0000'),
             $('#celular').mask('(00) 0 0000 - 0000'),
             $('#numero').mask('0000'),
+            $('#tempo').mask('0000'),
             $('#quantidade').mask('0000000000'),
 			$('[data-toggle="tooltip"]').tooltip(),
 			$('#data1 input').datepicker({
@@ -20,6 +21,12 @@ var Main = {
 		    	 clearBtn: true,
 		    	todayHighlight: true,
 		    	autoclose: true
+			}),
+			$('#data2 input').datepicker({
+				language: "pt-BR",
+				clearBtn: true,
+				todayHighlight: true,
+				autoclose: true
 			}),
 			$('#clearDates').on('click', function(){
 			     
@@ -530,6 +537,62 @@ var Main = {
             Main.show_error("preco_unitario","Insira o preço unitário", "");
         else
             Main.create_edit();
+	},
+    carrega_pecas : function(categoria_id)
+	{
+        if($(categoria_id).val() != 0)
+        {
+            Main.modal("aguardar", "Aguarde...");
+            $.ajax({
+                url: Url.base_url+$("#controller").val()+'/carrega_pecas/' + categoria_id,
+                dataType:'json',
+                cache: false,
+                type: 'POST',
+                success: function (data)
+                {
+                    setTimeout(function(){
+                        $("#modal_aguardar").modal('hide');
+                    },500);
+                    document.getElementById("peca_id_ocos").innerHTML = data.response;
+                }
+            }).fail(function(msg){
+                setTimeout(function(){
+                    $("#modal_confirm").modal('hide');
+                    Main.modal("aviso", "Houve um erro ao processar sua requisição. Verifique sua conexão com a internet.");
+                },500);
+            });
+        }
+	},
+    calcula_preco_peca : function()
+	{
+        if($("#categoria_id_ocos").val() != 0 && $("#peca_id_ocos").val() != 0 && $("#qtd_ocos").val() != "")
+        {
+            Main.modal("aguardar", "Aguarde... calculando preço.");
+            $.ajax({
+                url: Url.base_url+$("#controller").val()+'/calcula_preco_peca/' + $("#peca_id_ocos").val() + '/' + $("#qtd_ocos").val(),
+                dataType:'json',
+                cache: false,
+                type: 'POST',
+                success: function (data)
+                {
+                    setTimeout(function(){
+                        $("#modal_aguardar").modal('hide');
+                    },500);
+                    if(data.response == "sucesso")
+                    {
+                        document.getElementById("preco_unitario").value = data.preco_unitario;
+                        document.getElementById("total").value = data.total;
+                    }
+                    else
+                        Main.modal("aviso", data.response);
+                }
+            }).fail(function(msg){
+                setTimeout(function(){
+                    $("#modal_confirm").modal('hide');
+                    Main.modal("aviso", "Houve um erro ao processar sua requisição. Verifique sua conexão com a internet.");
+                },500);
+            });
+        }
 	},
 	altera_tipo_cadastro_usuario : function(tipo,registro,method)
 	{

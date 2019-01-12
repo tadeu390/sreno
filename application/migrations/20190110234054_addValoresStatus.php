@@ -26,6 +26,6 @@ class  Migration_addValoresStatus extends  CI_Migration
 
     public  function  down()
     {
-        $this->db->query('DELETE * FROM Status');
+        $this->db->query('DELETE FROM Status');
     }
 }

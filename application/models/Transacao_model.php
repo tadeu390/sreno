@@ -17,6 +17,13 @@ class Transacao_model extends Geral_model
     public $Preco_unitario;
     public $Fornecedor_id;
     public $Peca_id;
+    public $Peca;
+
+    public function __construct()
+    {
+        $this->load->model('Peca_model');
+        $this->Peca = $this->Peca_model;
+    }
     /*!
     *	RESPONSÁVEL POR RETORNAR UMA LISTA DE TRANSAÇÕES OU UMA TRANSAÇÃO ESPECÍFICA.
     *
@@ -48,14 +55,18 @@ class Transacao_model extends Geral_model
             $query = $this->db->query(" 
                   SELECT * FROM (
                     SELECT (SELECT count(*) FROM  Transacao t WHERE  TRUE ".$Ativos.") AS Size, t.Id AS Transacao_id, 
-                    t.Preco_unitario, t.Fornecedor_id, t.Peca_id, t.Quantidade, p.Nome AS Nome_peca, 
-                    DATE_FORMAT(t.Data_registro, '%d/%m/%Y') as Data_registro, p.Estocado_em, t.Ativo  
+                    t.Preco_unitario, t.Fornecedor_id, t.Peca_id, t.Quantidade, 
+                    DATE_FORMAT(t.Data_registro, '%d/%m/%Y') as Data_registro, t.Ativo  
                     FROM Transacao t 
-                    INNER  JOIN  Peca p ON t.Peca_id = p.Id 
                     WHERE TRUE ".$Ativos."
                  ".$pagination.") AS x ".str_replace("'", "", $this->db->escape($order))."");
 
-            return json_decode(json_encode($query->result_array()),false);
+            ///POR ENQUANTO ISSO NÃO É INTERESSANTE, POIS DA PROBLEMA PRA ORDENAR, UTILIZAR ISSO APENAS EM LUGARES QUE NÃO VOLTAM LISTA PARA ORDENACAO
+            $this->model = $query->result_object();
+            for($i = 0; $i < COUNT($this->model); $i++)
+                $this->model[$i]->Peca = $this->Peca->get_peca($this->model[$i]->Peca_id, $this->model[$i]->Ativo, FALSE, FALSE, FALSE);
+
+            return $this->model;
         }
 
         $query = $this->db->query("
@@ -63,7 +74,7 @@ class Transacao_model extends Geral_model
                 FROM Transacao 
             WHERE Id = ".$this->db->escape($id)." ".$Ativos."");
 
-        return json_decode(json_encode($query->row_array()),false);
+        return $query->row_object();
     }
     /*!
     *	RESPONSÁVEL POR CADASTRAR/ATUALIZAR UMA TRANSAÇÃO NO BANCO DE DADOS.
@@ -90,3 +101,13 @@ class Transacao_model extends Geral_model
             WHERE Id = ".$this->db->escape($id)."");
     }
 }
+/*  function cm ($one, $two)
+            {
+                $t = $one->Quantidade;
+                $t2 = $two->Quantidade;
+                if ($t === $t2) {
+                    return 0;
+                }
+                return $t < $t2 ? -1 : 1;
+            }
+            usort($this->model, "cm");*/

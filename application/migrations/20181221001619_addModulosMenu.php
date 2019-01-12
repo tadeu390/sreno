@@ -22,9 +22,9 @@ class Migration_addModulosMenu extends  CI_Migration
         $this->db->insert('Modulo', $transacao);
         $estoque = array('Nome' => 'Estoque', 'Descricao' => 'Estoque', 'Url' => 'estoque', 'Icone' => 'fa fa-archive', 'Menu_id' => '1', 'Ordem' => '9');
         $this->db->insert('Modulo', $estoque);
-        $orcamento = array('Nome' => 'Orçamentos', 'Descricao' => 'Orçamentos', 'Url' => 'ocos', 'Icone' => 'fa fa-calculator', 'Menu_id' => '1', 'Ordem' => '10');
+        $orcamento = array('Nome' => 'Orçamentos', 'Descricao' => 'Orçamentos', 'Url' => 'ocos/orcamento', 'Icone' => 'fa fa-calculator', 'Menu_id' => '1', 'Ordem' => '10');
         $this->db->insert('Modulo', $orcamento);
-        $os = array('Nome' => 'Ordem de serviço', 'Descricao' => 'Ordem de serviço', 'Url' => 'ocos', 'Icone' => 'fa fa-tasks', 'Menu_id' => '1', 'Ordem' => '11');
+        $os = array('Nome' => 'Ordem de serviço', 'Descricao' => 'Ordem de serviço', 'Url' => 'ocos/os', 'Icone' => 'fa fa-tasks', 'Menu_id' => '1', 'Ordem' => '11');
         $this->db->insert('Modulo', $os);
     }
 

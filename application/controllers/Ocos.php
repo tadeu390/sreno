@@ -6,6 +6,8 @@
  * Time: 00:02
  */
 
+require_once ("Geral.php");//INCLUI A CLASSE GENÉRICA
+
 class Ocos extends Geral
 {
     public function __construct()
@@ -20,13 +22,13 @@ class Ocos extends Geral
         }
 
         $this->load->model('Peca_model');
-        //$this->load->model('Categoria_model');
+        $this->load->model('Categoria_model');
 
-        $this->load->model('Cliente_model');
         $this->load->model('Status_model');
         $this->load->model('Ocos_model');
         $this->load->model('Anexo_model');
         $this->load->model('Linha_model');
+        $this->load->model('Estoque_model');
 
         $this->set_menu();
         $this->data['controller'] = strtolower(get_class($this));
@@ -44,7 +46,7 @@ class Ocos extends Geral
 
         $ordenacao = array(
             "order" => $this->order_default($order),
-            "field" => $this->field_default($field, "Transacao_Id")
+            "field" => $this->field_default($field)
         );
 
         $this->set_page_cookie($page);
@@ -54,9 +56,10 @@ class Ocos extends Geral
         {
             $this->data['paginacao']['order'] =$this->inverte_ordem($ordenacao['order']);
             $this->data['paginacao']['field'] = $ordenacao['field'];
+            $this->data['paginacao']['method'] = "orcamento";
 
-            $this->data['transacoes'] = $this->Transacao_model->get_transacao(FALSE, TRUE, $page, FALSE, $ordenacao);
-            $this->data['paginacao']['size'] = (!empty($this->data['transacoes']) ? $this->data['transacoes'][0]->Size : 0);
+            $this->data['ocos'] = $this->Ocos_model->get_ocos(FALSE, TRUE, $page, FALSE, $ordenacao);
+            $this->data['paginacao']['size'] = (!empty($this->data['ocos']) ? $this->data['ocos'][0]->Size : 0);
             $this->data['paginacao']['pg_atual'] = $page;
             $this->view("ocos/orcamento", $this->data);
         }
@@ -83,17 +86,18 @@ class Ocos extends Geral
             $this->view("templates/permissao", $this->data);
     }
     /*!
-    *	RESPONSÁVEL POR CARREGAR O FORMULÁRIO DE CADASTRO DE TRANSAÇÕES.
+    *	RESPONSÁVEL POR CARREGAR O FORMULÁRIO DE CADASTRO DE ORÇAMENTOS.
     */
     public function create()
     {
-        $this->data['title'] = 'Nova transação';
+        $this->data['title'] = 'Novo orçamento';
         if($this->Geral_model->get_permissao(CREATE, get_class($this)) == TRUE)
         {
-            $this->data['obj'] = $this->Transacao_model->get_transacao(0, FALSE, FALSE, FALSE, FALSE);
-            $this->data['obj_peca'] = $this->Peca_model->get_peca(FALSE, FALSE, FALSE, FALSE, FALSE);
-            $this->data['obj_fornecedor'] = $this->Fornecedor_model->get_fornecedor(FALSE, FALSE, FALSE, FALSE, FALSE);
-            $this->view("transacao/create", $this->data);
+            $this->data['obj'] = $this->Ocos_model->get_ocos(0, FALSE, FALSE, FALSE, FALSE);
+            $this->data['obj_cliente'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, CLIENTE);
+            $this->data['obj_categoria'] = $this->Categoria_model->get_categoria(FALSE, FALSE, FALSE, FALSE, FALSE);
+            //$this->data['obj_peca'] = $this->Peca_model->get_peca(FALSE, TRUE, FALSE, FALSE, FALSE);
+            $this->view("ocos/create", $this->data);
         }
         else
             $this->view("templates/permissao", $this->data);
@@ -199,5 +203,44 @@ class Ocos extends Geral
         }
         else
             $this->view("templates/permissao", $this->data);
+    }
+    /*!
+    *   RESPONSÁVEL POR CARREGAR AS PEÇAS PARA ADICIONAR AO ORÇAMENTO, TODA VEZ QUE UMA CATEGORIA FOR SELECIONADA.
+    *
+    *   $categoria_id -> Id da categoria para se carregar todas as peças associdas a essa categoria.
+    */
+    public function carrega_pecas($categoria_id = FALSE)
+    {
+        $this->data['obj_peca'] = $this->Peca_model->get_peca_por_categoria($categoria_id);
+
+        $resultado = $this->load->view("/ocos/_carrega_pecas", $this->data, TRUE);
+
+        $arr = array('response' => $resultado);
+        header('Content-Type: application/json');
+        echo json_encode($arr);
+    }
+    /*!
+    *   RESPONSÁVEL POR LEVANTAR O PREÇO MÉDIO UNITÁRIO DA PEÇA E CALCULAR O PREÇO TOTAL DE UMA DETERMINADA PEÇA NO ORÇAMENTO.
+    *
+    *   $peca_id -> Id da peça que será calculada.
+    *   $quantidade -> Quantidade de peças que se deseja calcular o preço.
+    */
+    public function calcula_preco_peca($peca_id = FALSE, $quantidade)
+    {
+        $resultado = "sucesso";
+        $estoque = $this->Estoque_model->get_estoque($peca_id, FALSE, FALSE, FALSE, FALSE);
+        $preco_unitario = 0;
+        $total = 0;
+        if($quantidade <= $estoque->Saldo)
+        {
+            $preco_unitario = number_format($estoque->Preco_medio_unitario, 2, ',', ' ');
+            $total = number_format($estoque->Preco_medio_unitario * $quantidade, 2, ',', ' ');
+        }
+        else
+            $resultado = "A quantidade informada é superior a quantidae disponível em estoque. <br /> Quantidade disponível: ".$estoque->Saldo;
+
+        $arr = array('response' => $resultado, 'preco_unitario' => $preco_unitario, 'total' => $total);
+        header('Content-Type: application/json');
+        echo json_encode($arr);
     }
 }

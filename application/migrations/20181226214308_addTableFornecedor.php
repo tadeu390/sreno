@@ -54,7 +54,7 @@ class Migration_addTableFornecedor extends  CI_Migration
             'Razao_social' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '100',
-                'null' => FAKSE
+                'null' => FALSE
             ),
             'Endereco_id' => array(
                 'type' => 'INT',

@@ -27,8 +27,8 @@
 					echo "<thead>";
 						echo"<tr>";
 							echo"<td colspan='4' style='font-size: 12px;'>";
-							if(!empty($usuarios[0]['Size']))
-								echo "A busca retornou ".$usuarios[0]['Size']." registro(s)";
+							if(!empty($usuarios[0]->Size))
+								echo "A busca retornou ".$usuarios[0]->Size." registro(s)";
 							else
 								echo "A busca não obteve resultados.";
 							echo"</td>";
@@ -64,24 +64,24 @@
 						for($i = 0; $i < count($usuarios); $i++)
 						{
 							$cor = "";
-							if($usuarios[$i]['Ativo'] == 0)
+							if($usuarios[$i]->Ativo == 0)
 								$cor = "class='text-danger'";
 							echo "<tr $cor>";
 								echo "<td>".($i + 1)."</td>";
-								echo "<td><span title='".$usuarios[$i]['Nome_usuario']."'>".
-								mstring::corta_string($usuarios[$i]['Nome_usuario'], 25)
+								echo "<td><span title='".$usuarios[$i]->Nome_usuario."'>".
+								mstring::corta_string($usuarios[$i]->Nome_usuario, 25)
 								."</span></td>";
-								echo "<td>".(($usuarios[$i]['Ativo'] == 1) ? 'Sim' : 'Não')."</td>";
+								echo "<td>".(($usuarios[$i]->Ativo == 1) ? 'Sim' : 'Não')."</td>";
 								//echo "<td $cor>".$usuarios[$i]['email']."</td>";
 								//echo "<td $cor>".$usuarios[$i]['nome_grupo']."</td>";
 								echo "<td class='text-right'>";
 									if(permissao::get_permissao(UPDATE, $controller))
-										echo "<a href='".$url.$usuarios[$i]['Method']."/edit/".$usuarios[$i]['Id']."' title='Editar' style='cursor: pointer;' class='glyphicon glyphicon-edit text-danger'></a> | ";
-									echo "<a href='".$url.$usuarios[$i]['Method']."/detalhes/".$usuarios[$i]['Id']."' title='Detalhes' style='cursor: pointer;' class='glyphicon glyphicon-th text-danger'></a> | ";
+										echo "<a href='".$url.$usuarios[$i]->Method."/edit/".$usuarios[$i]->Id."' title='Editar' style='cursor: pointer;' class='glyphicon glyphicon-edit text-danger'></a> | ";
+									echo "<a href='".$url.$usuarios[$i]->Method."/detalhes/".$usuarios[$i]->Id."' title='Detalhes' style='cursor: pointer;' class='glyphicon glyphicon-th text-danger'></a> | ";
 									if($this->session->grupo_id == 1 || $this->input->cookie('grupo_id') == 1)
-										echo "<a href='".$url."$controller/permissoes/".$usuarios[$i]['Id']."' title='Permissões' style='color:cursor: 	pointer;' class='glyphicon glyphicon-ok-sign text-danger'></a> | ";
+										echo "<a href='".$url."$controller/permissoes/".$usuarios[$i]->Id."' title='Permissões' style='color:cursor: 	pointer;' class='glyphicon glyphicon-ok-sign text-danger'></a> | ";
 									if(permissao::get_permissao(DELETE, $controller))
-										echo " <span onclick='Main.confirm_delete(". $usuarios[$i]['Id'] .");' id='sp_lead_trash' name='sp_lead_trash' title='Apagar' style='cursor: pointer;' class='glyphicon glyphicon-trash text-danger'></span>";
+										echo " <span onclick='Main.confirm_delete(". $usuarios[$i]->Id .");' id='sp_lead_trash' name='sp_lead_trash' title='Apagar' style='cursor: pointer;' class='glyphicon glyphicon-trash text-danger'></span>";
 								echo "</td>";
 							echo "</tr>";
 						}

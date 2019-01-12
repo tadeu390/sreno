@@ -23,6 +23,10 @@ class Migration_addTableOcos extends CI_Migration
                 'type' => 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP',
                 'null' => FALSE
             ),
+            'Ativo' => array(
+                'type' => 'BOOLEAN DEFAULT TRUE',
+                'null' => FALSE
+            ),
             'Nome_produto' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '100',
@@ -72,7 +76,7 @@ class Migration_addTableOcos extends CI_Migration
         $this->dbforge->add_column('Ocos', 'CONSTRAINT FK_STATUS_OCOS FOREIGN KEY(Status_id) REFERENCES Status(Id)');
         $this->dbforge->add_column('Ocos', 'CONSTRAINT FK_USUARIO_CRIADOR_OCOS FOREIGN KEY(Usuario_criador_id) REFERENCES Usuario(Id)');
         $this->dbforge->add_column('Ocos', 'CONSTRAINT FK_USUARIO_RESPONSAVEL_OCOS FOREIGN KEY(Usuario_responsavel_id) REFERENCES Usuario(Id)');
-        $this->dbforge->add_column('Ocos', 'CONSTRAINT FK_CLIENTE_OCOS FOREIGN KEY(Cliente_id) REFERENCES Cliente(Id)');
+        $this->dbforge->add_column('Ocos', 'CONSTRAINT FK_CLIENTE_OCOS FOREIGN KEY(Cliente_id) REFERENCES Usuario(Id)');
     }
 
     public function down()

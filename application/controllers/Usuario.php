@@ -50,7 +50,7 @@
 			if($this->Geral_model->get_permissao(READ, get_class($this)) == TRUE)
 			{
 				$this->data['usuarios'] = $this->Usuario_model->get_usuario(FALSE, FALSE, $page, $this->input->get(), $ordenacao);
-				$this->data['paginacao']['size'] = (!empty($this->data['usuarios']) ? $this->data['usuarios'][0]['Size'] : 0);
+				$this->data['paginacao']['size'] = (!empty($this->data['usuarios']) ? $this->data['usuarios'][0]->Size : 0);
 				$this->data['paginacao']['pg_atual'] = $page;
 				//--FILTROS--//
 				$this->data['paginacao']['order'] =$this->inverte_ordem($ordenacao['order']);

@@ -43,6 +43,15 @@ $(document).ready(
     });
 
     //LOGIN
+    $('#peca_id_ocos').change(function() {
+        Main.calcula_preco_peca(this.value);
+    });
+    $('#qtd_ocos').blur(function() {
+        Main.calcula_preco_peca(this.value);
+    });
+    $('#categoria_id_ocos').change(function() {
+        Main.carrega_pecas(this.value);
+    });
     $('#fornecedor_id').blur(function() {
         if (this.value != '') Main.show_error("fornecedor_id", '', '');
     });

@@ -57,10 +57,10 @@
                                     echo "&nbsp;<div class='fa fa-chevron-up'></div>";
                             echo "</td>";
                             echo "<td>";
-                            echo "<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/Nome_peca/".$paginacao['order']."'>Peça</a>";
-                            if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Nome_peca')
+                            echo "<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/Peca_id/".$paginacao['order']."'>Peça</a>";
+                            if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Peca_id')
                                 echo "&nbsp;<div class='fa fa-chevron-down'></div>";
-                            else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Nome_peca')
+                            else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Peca_id')
                                 echo "&nbsp;<div class='fa fa-chevron-up'></div>";
                             echo "</td>";
 							echo "<td>";
@@ -94,12 +94,12 @@
                                         $transacoes[$i]->Data_registro." 
                                 </td>";
                                 echo "<td>
-                                    ".$transacoes[$i]->Nome_peca."
+                                    ".$transacoes[$i]->Peca->Nome_peca."
                                 </td>";
 								echo "<td>";
                                     echo"<span title='".$transacoes[$i]->Quantidade."'>".
 								          $transacoes[$i]->Quantidade
-                                    ."</span> ".$transacoes[$i]->Estocado_em;
+                                    ."</span> ".$transacoes[$i]->Peca->Estocado_em;
                                     if($transacoes[$i]->Quantidade > 0)
                                         echo " <span class='fa fa-arrow-up text-warning'></span>";
                                     else

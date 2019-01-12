@@ -17,11 +17,15 @@
 		*	$page-> Número da página de registros que se quer carregar.
 		*	$filter -> Contém todos os filtros utilizados pelo usuário para a fazer a busca no banco de dados.
 		*/
-		public function get_usuario($Ativo, $Id = FALSE, $page = FALSE, $filter = FALSE, $ordenacao = FALSE)
+		public function get_usuario($Ativo, $Id = FALSE, $page = FALSE, $filter = FALSE, $ordenacao = FALSE, $tipo = FALSE)
 		{
 			$Ativos = "";
 			if($Ativo == true)
 				$Ativos = " AND u.Ativo = 1 ";
+
+            $t = "";
+            if($tipo !== FALSE)
+                $t = " AND u.Tipo_usuario_id = ". $tipo;
 
 			if ($Id === FALSE)
 			{
@@ -50,10 +54,10 @@
 					END AS Method 
 					FROM Usuario u 
 					LEFT JOIN Grupo g ON u.Grupo_id = g.Id 
-					WHERE TRUE ".$Ativos."".$filtros."
+					WHERE TRUE ".$Ativos."  ".$t." ".$filtros."
 					".str_replace("'", "", $this->db->escape($order))." ".$pagination."");
 				
-				return $query->result_array();
+				return $query->result_object();
 			}
 
 			$query =  $this->db->query("

@@ -14,6 +14,7 @@ class Peca_model extends Geral_model
     public $Nome;
     public $Estocado_em;
     public $Categoria_id;
+
     /*!
     *	RESPONSÁVEL POR RETORNAR UMA LISTA DE PEÇAS OU UMA PEÇA ESPECÍFICA.
     *
@@ -48,15 +49,14 @@ class Peca_model extends Geral_model
                 WHERE TRUE ".$Ativos."
                 ".str_replace("'", "", $this->db->escape($order))." ".$pagination."");
 
-            return json_decode(json_encode($query->result_array()),false);
+            return $query->result_object();
         }
 
         $query = $this->db->query("
             SELECT Id AS Peca_id, Nome AS Nome_peca, Ativo, DATE_FORMAT(Data_registro, '%d/%m/%Y') as Data_registro, Categoria_id, Estocado_em 
                 FROM Peca 
             WHERE Id = ".$this->db->escape($id)." ".$Ativos."");
-
-        return json_decode(json_encode($query->row_array()),false);
+        return $query->row_object();
     }
     /*!
     *	RESPONSÁVEL POR "APAGAR" UMA PEÇA DO BANCO DE DADOS.
@@ -76,6 +76,7 @@ class Peca_model extends Geral_model
     */
     public function set_peca()
     {
+
         if(empty($this->Id))
             return $this->db->insert('Peca', $this);
         else
@@ -101,5 +102,19 @@ class Peca_model extends Geral_model
         else if(empty($query['Nome']))
             return "valido";
         return "invalido";
+    }
+    /*!
+     *  RESPONSÁVEL POR CARREGAR DO BANCO AS PEÇAS DE ACORDO COM A ID DA CATEGORIA INFORMADA.
+     *
+     * $categoria_id -> Contém a id da categoria que se deseja carregar as peças.
+     * */
+    public function get_peca_por_categoria($categoria_id)
+    {
+        $query = $this->db->query("
+                SELECT (SELECT count(*) FROM  Peca) AS Size, Id AS Peca_id, Nome AS Nome_peca, Ativo, Categoria_id, Estocado_em 
+                    FROM Peca 
+                WHERE Categoria_id = ".$this->db->escape_str($categoria_id)." AND Ativo = 1");
+
+        return $query->result_object();
     }
 }

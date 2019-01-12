@@ -20,7 +20,7 @@
 		<?php $atr = array("id" => "form_cadastro_$controller", "name" => "form_cadastro"); 
 			echo form_open("$controller/store", $atr); 
 			echo "<input type='hidden' id='cliente_id' name='cliente_id' value='".$obj_cliente['Cliente_id']."'>";
-            echo "<input type='hidden' id='endereco_id' name='endereco_id' value='".$Endereco->Endereco_id."'>";
+            echo "<input type='hidden' id='endereco_id' name='endereco_id' value='".(!empty($Endereco->Endereco_id) ? $Endereco->Endereco_id : "")."'>";
 		?>
 		<div class="row"><!--ABRE A ROW QUE FECHA O CREATE_EDIT DE USUARIO-->
 			<div class="col-lg-6">
