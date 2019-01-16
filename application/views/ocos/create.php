@@ -6,6 +6,13 @@
  * Time: 02:03
  */
 ?>
+
+<style>
+    .table tbody tr:hover
+    {
+        background-color: transparent !important;
+    }
+</style>
 <br /><br />
 <div class='row padding20 text-white relative' style="width: 95%; left: 3.5%">
     <?php
@@ -28,8 +35,10 @@
         <?php $atr = array("id" => "form_cadastro_$controller", "name" => "form_cadastro");
         echo form_open("$controller/store", $atr);
         ?>
+
         <input type='hidden' id='id' name='id' value='<?php if(!empty($obj->Ocos_id)) echo $obj->Ocos_id; ?>'/>
         <input type='hidden' id='controller' value='<?php echo $controller; ?>'/>
+
         <div class="row">
             <div class="col-lg-4">
                 <div class="form-group relative">
@@ -47,10 +56,10 @@
                     for($i = 0; $i < count($obj_cliente); $i++)
                     {
                         $selected = "";
-                        if(isset($obj->Cliente_id) && $obj_cliente[$i]->Usuario_id == $obj->Cliente_id)
+                        if(isset($obj->Cliente_id) && $obj_cliente[$i]->Id == $obj->Cliente_id)
                             $selected = "selected";
 
-                        echo"<option class='background_dark' $selected value='". $obj_cliente[$i]->Usuario_id ."'>".$obj_cliente[$i]->Nome_usuario."</option>";
+                        echo"<option class='background_dark' $selected value='". $obj_cliente[$i]->Id ."'>".$obj_cliente[$i]->Nome_usuario."</option>";
                     }
                     echo "</select>";
                     ?>
@@ -60,7 +69,7 @@
             <div class="col-lg-4">
                 <div class='form-group'>
                     <?php
-                    echo"<select name='cliente_id' id='cliente_id' class='form-control padding0'>";
+                    echo"<select name='tipo_servico' id='tipo_servico' class='form-control padding0'>";
                     echo"<option value='0' class='background_dark'>Tipo de serviço</option>";
 
                     $selected_fabr = "";
@@ -72,7 +81,7 @@
                         $selected_rep = "selected";
 
                     echo"<option value='1' ".$selected_fabr." class='background_dark'>Fabricação</option>";
-                    echo"<option value='2' ".$selectedRep." class='background_dark'>Reparo</option>";
+                    echo"<option value='2' ".$selected_rep." class='background_dark'>Reparo</option>";
                     echo "</select>";
                     ?>
                     <div class='input-group mb-2 mb-sm-0 text-danger' id='error-cliente_id'></div>
@@ -95,9 +104,9 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="form-group relative" id="data2">
-                    <input id="data_fim" name="data_fim" value='<?php echo (!empty($obj->Data_fim) ? $obj->Data_fim:''); ?>' type="text" class="input-material">
-                    <label for="data_fim" class="label-material">Data de término</label>
+                <div class="form-group relative">
+                    <input id="data_fim" name="data_fim" readonly="readonly" value='<?php echo (!empty($obj->Data_fim) ? $obj->Data_fim:''); ?>' type="text" class="input-material">
+                    <label for="data_fim" class="label-material active">Data de término</label>
                     <div class='input-group mb-2 mb-sm-0 text-danger' id='error-data_fim'></div>
                 </div>
             </div>
@@ -141,9 +150,9 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="form-group relative">
-                        <input maxlength="100" readonly="readonly" id="preco_unitario" spellcheck="false" name="preco_unitario" type="text" class="input-material">
-                        <label for="preco_unitario" class="label-material active">Preço unitário (R$)</label>
-                        <div class='input-group mb-2 mb-sm-0 text-danger' id='error-preco_unitario'></div>
+                        <input maxlength="100" readonly="readonly" id="preco_unitario_ocos" spellcheck="false" name="preco_unitario_ocos" type="text" class="input-material">
+                        <label for="preco_unitario_ocos" class="label-material active">Preço unitário (R$)</label>
+                        <div class='input-group mb-2 mb-sm-0 text-danger' id='error-preco_unitario_ocos'></div>
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -155,6 +164,73 @@
                 </div>
                 <div class="col-lg-4 align-center">
                     <input type='button' class='btn btn-danger btn-block' value='Adicionar' id="bt_add_peca">
+                </div>
+            </div>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>&nbsp;Peças adicionadas</legend>
+            <?php echo "<input type='hidden' id='qtd_peça_adicionado' name='qtd_peça_adicionado' value='0'>"; ?>
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-striped background_white w-100" style="color: black;">
+                        <thead>
+                            <tr>
+                                <td>Categoria</td>
+                                <td>Peça</td>
+                                <td>Quantidade</td>
+                                <td>Preço unitário (R$)</td>
+                                <td>Total (R$)</td>
+                                <td>Remover</td>
+                            </tr>
+                        </thead>
+                        <tbody id="table_peça_adicionado" style="color: black;">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>&nbsp;Serviços</legend>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group relative">
+                        <input maxlength="100" id="descricao_servico" spellcheck="false" name="descricao_servico" type="text" class="input-material">
+                        <label for="descricao_servico" class="label-material active">Descrição</label>
+                        <div class='input-group mb-2 mb-sm-0 text-danger' id='error-descricao_servico'></div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group relative">
+                        <input maxlength="100" id="valor_servico" spellcheck="false" name="valor_servico" type="text" class="input-material">
+                        <label for="valor_servico" class="label-material active">Valor (R$)</label>
+                        <div class='input-group mb-2 mb-sm-0 text-danger' id='error-valor_servico'></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 align-center">
+                    <input type='button' class='btn btn-danger btn-block' value='Adicionar' id="bt_add_servico">
+                </div>
+            </div>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>&nbsp;Serviços adicionados</legend>
+            <?php echo "<input type='hidden' id='qtd_serviço_adicionado' name='qtd_serviço_adicionado' value='0'>"; ?>
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-striped background_white w-100">
+                        <thead>
+                        <tr>
+                            <td>Descrição</td>
+                            <td>Valor</td>
+                        </tr>
+                        </thead>
+                        <tbody id="table_serviço_adicionado" style="color: black;">
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </fieldset>

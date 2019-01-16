@@ -15,7 +15,7 @@
     	echo"<div class='col-lg-10 offset-lg-1 padding0'>";
 			echo"<nav aria-label='breadcrumb'>";
   				echo"<ol class='breadcrumb'>";
-    				echo "<li class='breadcrumb-item active' aria-current='page'>Categorias</li>";
+    				echo "<li class='breadcrumb-item active' aria-current='page'>Categorias de peças</li>";
     			echo "</ol>";
 			echo"</nav>";
 		echo "</div>";

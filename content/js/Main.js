@@ -14,19 +14,11 @@ var Main = {
             $('#celular').mask('(00) 0 0000 - 0000'),
             $('#numero').mask('0000'),
             $('#tempo').mask('0000'),
-            $('#quantidade').mask('0000000000'),
 			$('[data-toggle="tooltip"]').tooltip(),
 			$('#data1 input').datepicker({
 		    	language: "pt-BR",
 		    	 clearBtn: true,
 		    	todayHighlight: true,
-		    	autoclose: true
-			}),
-			$('#data2 input').datepicker({
-				language: "pt-BR",
-				clearBtn: true,
-				todayHighlight: true,
-				autoclose: true
 			}),
 			$('#clearDates').on('click', function(){
 			     
@@ -77,10 +69,24 @@ var Main = {
 		{
 			return str.split('/')[2]+'-'+str.split('/')[1]+'-'+str.split('/')[0];
 		}
+        else if(to_region == "en2")
+        {
+            return str.split('/')[1]+'-'+str.split('/')[0]+'-'+str.split('/')[2];
+        }
 		else if(to_region == "pt")
 		{
 			return str.split('-')[2]+'/'+str.split('-')[1]+'/'+str.split('-')[0];
 		}
+	},
+	formata_data : function(data)
+	{
+
+		var dia  = data.getDate();
+		var diaF = (dia.length == 1) ? '0'+dia : dia;
+		var mes  = (data.getMonth()+1).toString(); //+1 pois no getMonth Janeiro começa com zero.
+		var mesF = (mes.length == 1) ? '0'+mes : mes;
+		var anoF = data.getFullYear();
+        return diaF+"/"+mesF+"/"+anoF;
 	},
 	corta_string : function (string, tam)
 	{
@@ -538,6 +544,10 @@ var Main = {
         else
             Main.create_edit();
 	},
+    ocos_validar : function()
+	{
+		Main.create_edit();
+	},
     carrega_pecas : function(categoria_id)
 	{
         if($(categoria_id).val() != 0)
@@ -569,7 +579,7 @@ var Main = {
         {
             Main.modal("aguardar", "Aguarde... calculando preço.");
             $.ajax({
-                url: Url.base_url+$("#controller").val()+'/calcula_preco_peca/' + $("#peca_id_ocos").val() + '/' + $("#qtd_ocos").val(),
+                url: Url.base_url+$("#controller").val()+'/calcula_preco_peca/' + $("#peca_id_ocos").val() + '/' + $("#qtd_ocos").val().replace(",","."),
                 dataType:'json',
                 cache: false,
                 type: 'POST',
@@ -580,11 +590,16 @@ var Main = {
                     },500);
                     if(data.response == "sucesso")
                     {
-                        document.getElementById("preco_unitario").value = data.preco_unitario;
+                        document.getElementById("preco_unitario_ocos").value = data.preco_unitario;
                         document.getElementById("total").value = data.total;
                     }
                     else
+					{
+                        document.getElementById("preco_unitario_ocos").value = "";
+                        document.getElementById("total").value = "";
+                        document.getElementById("qtd_ocos").value = "";
                         Main.modal("aviso", data.response);
+					}
                 }
             }).fail(function(msg){
                 setTimeout(function(){
@@ -593,6 +608,205 @@ var Main = {
                 },500);
             });
         }
+	},
+	gera_data_fim : function()//soma dias em uma data
+	{
+		var tempo = $("#tempo").val();
+		var data_inicio = $("#data_inicio").val();
+
+		if(tempo != "" && data_inicio != "")
+		{
+            var date = new Date(Main.convert_date(data_inicio, "en2"));
+            var newdate = new Date(date);
+
+            newdate.setDate(newdate.getDate() + parseInt(tempo));
+
+            //se por acaso a última linha dessa função estiver dando problema em algum caso de data, então tentar usar o código abaixo em vez
+			// da última linha
+            /*var dd = newdate.getDate();
+            var mm = newdate.getMonth() + 1;
+            var y = newdate.getFullYear();
+            var someFormattedDate = mm + '/' + dd + '/' + y;*/
+
+            document.getElementById('data_fim').value = newdate.toLocaleDateString();
+		}
+	},
+    valida_peca : function()
+    {
+        if($("#categoria_id_ocos").val() == "0")
+        {
+            Main.show_error("categoria_id_ocos","Selecione uma categoria.", "");
+            return false;
+        }
+        else if($("#peca_id_ocos").val() == "0")
+        {
+            Main.show_error("peca_id_ocos","Selecione uma peça.", "");
+            return false;
+        }
+        else if($("#qtd_ocos").val() == "")
+        {
+            Main.show_error("qtd_ocos","Informe a quantidade.", "");
+            return false;
+        }
+        else if(!$.isNumeric($("#qtd_ocos").val().replace(",",".")) && $("#qtd_ocos").val() > 0)
+        {
+            Main.show_error("qtd_ocos","Somente é permitido um número inteiro ou decimal positivo maior do que zero.", "");
+            return false;
+        }
+        else if($("#total").val() == "")
+            Main.show_error("total","O valor total é obrigatório.", "");
+        return true;
+    },
+    add_peca : function()
+    {
+        var peca = Array();
+        peca.push($("#categoria_id_ocos :selected").text());
+        peca.push($("#peca_id_ocos :selected").text());
+        peca.push($("#qtd_ocos").val());
+        peca.push($("#preco_unitario_ocos").val());
+        peca.push($("#total").val());
+
+        var peca_id = Array();
+        peca_id.push("categoria_id_ocos_adicionado");
+        peca_id.push("peca_id_ocos_adicionado");
+        peca_id.push("qtd_id_ocos_adicionado");
+        peca_id.push("preco_unitario_id_ocos_adicionado");
+        peca_id.push("total_id_ocos_adicionado");
+
+        var peca_hide = Array();
+        peca_hide.push("0");
+        peca_hide.push($("#peca_id_ocos").val());
+        peca_hide.push("0");
+        peca_hide.push("0");
+        peca_hide.push("0");
+
+        if(Main.valida_peca() == true)
+        {
+            var coluna_peca = 1;
+            if (!Main.valida_elemento($("#peca_id_ocos").val(), "peca_id_ocos_adicionado", coluna_peca, "peça"))
+                Main.add_elemento(peca_id, peca, peca_hide, "peça");
+            else
+                Main.modal("aviso", "A peça selecionada ja se encontra na lista abaixo. Para editar remova-a e adicione-a novamente.");
+        }
+
+    },
+	valida_servico : function()
+	{
+		if($("#descricao_servico").val() == "")
+		{
+            Main.show_error("descricao_servico","Insira a descrição do serviço.", "");
+            return false;
+		}
+        else if($("#valor_servico").val() == "")
+		{
+            Main.show_error("valor_servico","Insira o valor do serviço.", "");
+            return false;
+		}
+        else if(!$.isNumeric($("#valor_servico").val().replace(",",".")) || $("#valor_servico").val() <= 0)
+		{
+            Main.show_error("valor_servico","Somente é permitido um número inteiro ou decimal positivo maior do que zero.", "");
+            return false;
+		}
+		return true;
+	},
+    add_servico : function()
+    {
+        var servico = Array();
+        servico.push($("#descricao_servico").val());
+        servico.push($("#valor_servico").val().replace(",","."));
+
+        var servico_id = Array();
+        servico_id.push("descricao_servico_id_ocos_adicionado");
+        servico_id.push("valor_servico_id_ocos_adicionado");
+
+        var servico_hide = Array();
+        servico_hide.push("0");
+        servico_hide.push("0");
+
+        var coluna_servico = 0;
+        if(Main.valida_servico() == true)
+        {
+            if (!Main.valida_elemento($("#descricao_servico").val(), "descricao_servico_id_ocos_adicionado", coluna_servico, "serviço"))
+                Main.add_elemento(servico_id, servico, servico_hide, "serviço");
+            else
+                Main.modal("aviso", "Este serviço já se encontra na lista abaixo. Para editar remova-o e adicione-o novamente.");
+        }
+    },
+	/*
+	* 	@arr_ids -> nome dos ids de cada elemento a ser adicionado.
+	* 	@arr_values -> valores a serem adicionado para cada id.
+	* 	@arr_hide -> guarda o valor a ser submetido para o banco quando o valor mostrado para o usuário não é o dado a ser inserido no banco. ex. nome da peça é mostrado
+	* 	mas o que deve ser enviado é o id da peça.
+	* 	@context -> Qual o contexto que se refere a adição de elmentos. ex. peça, serviço.
+	* */
+    add_elemento : function(arr_ids, arr_values, arr_hide, context)
+    {
+        var line_number_id = $("#qtd_" + context + "_adicionado").val();
+
+        var node_tr = document.createElement("TR");
+        node_tr.setAttribute("id", context + "_id_ocos_adicionado_linha" + parseInt(line_number_id));
+
+        for(var i = 0; i < arr_ids.length; i ++)
+        {
+            var node_td = document.createElement("TD");
+            var node_input = document.createElement("INPUT");
+            node_input.setAttribute("type", "text");
+            node_input.setAttribute("readonly", "readonly");
+            node_input.setAttribute("id", arr_ids[i] + "_col" + i + "_lin" + line_number_id);
+            node_input.setAttribute("name", arr_ids[i] + "_col" + i + "_lin" + line_number_id);
+            node_input.setAttribute("class", "form-control background_white");
+            node_input.setAttribute("value", arr_values[i]);
+
+            if(arr_hide[i] != "0")
+            {
+                var node_input_hide = null;
+                node_input_hide = document.createElement("INPUT");
+                node_input_hide.setAttribute("type", "hidden");
+                node_input_hide.setAttribute("value", arr_hide[i]);
+                node_input_hide.setAttribute("name", arr_ids[i] + "_hide_col" + i + "_lin" + line_number_id);
+                node_input_hide.setAttribute("id", arr_ids[i] + "_hide_col" + i + "_lin" + line_number_id);
+                node_td.appendChild(node_input_hide);
+            }
+
+            node_td.appendChild(node_input);
+            node_tr.appendChild(node_td);
+        }
+
+        var node_td = document.createElement("TD");
+        var node_span = document.createElement("SPAN");
+        node_td.setAttribute("style","vertical-align: middle;");
+        node_td.setAttribute("class","text-center");
+        node_span.setAttribute("class","glyphicon glyphicon-remove text-danger");
+        node_span.setAttribute("style","cursor: pointer;");
+        node_span.setAttribute("title","Remover " + context);
+        node_span.setAttribute("onclick", "Main.remove_elemento('" + context + "_id_ocos_adicionado_linha" + parseInt(line_number_id) + "')");
+        node_td.appendChild(node_span);
+        node_tr.appendChild(node_td);
+
+        document.getElementById("table_" + context + "_adicionado").appendChild(node_tr);
+        $("#qtd_" + context + "_adicionado").val(parseInt(line_number_id) + 1);
+    },
+    remove_elemento : function (id)
+    {
+        var linha = document.getElementById(id);
+        if(linha != undefined)
+            linha.parentNode.removeChild(linha);
+    },
+	/*
+	* 	@valor -> Conteúdo que se deseja buscar.
+	* 	@id -> id do elemento a ser buscado ex. procurar por peça então passa o id da peça
+	* 	@col -> Informa qual a coluna que se quer procurar o valor.
+	* 	@context -> Qual o contexto que se refere a adição de elmentos. ex. peça, serviço.
+	* */
+	valida_elemento : function(valor, id, col, context)//valor a ser procurado/ id do elemento para procurar o valor / coluna a se buscar / contexto, nome da cois que se está adicionando
+	{
+        var line_number_id = $("#qtd_" + context + "_adicionado").val();
+        for(var i = 0; i < line_number_id; i++)
+		{
+			if($("#" + id + "_col" + col + "_lin" + i).val() == valor)
+				return true;
+		}
+		return false;
 	},
 	altera_tipo_cadastro_usuario : function(tipo,registro,method)
 	{

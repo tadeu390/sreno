@@ -19,6 +19,27 @@ class Ocos_model extends Geral_model
     public $Tempo; //quantidade de dias necessário para entregar o produto.
     public $Data_inicio; //Data prevista para início da frabricação/manutenção.
     public $Tipo; //1 - Orçamento / 2 - Ordem de serviço.
+    public $Status_id;
+    public $Usuario_responsavel_id;
+    public $Usuario_criador_id;
+    public $Cliente_id;
+
+    public $Status;
+    public $Responsavel;
+    public $Criador;
+    public $Cliente;
+
+    public function __construct()
+    {
+        $this->Ativo = 1;
+        $this->load->model('Status_model');
+        $this->load->model('Usuario_model');
+
+        $this->Status = $this->Status_model;
+        $this->Responsavel = $this->Usuario_model;
+        $this->Criador = $this->Usuario_model;
+        $this->Cliente = $this->Usuario_model;
+    }
     /*!
     *   RESPONSÁVEL POR RETORNAR UMA LISTA DE ORÇAMENTOS/OS OU UM DETERMINADO ORÇAMENTO/OS.
     *
@@ -28,8 +49,12 @@ class Ocos_model extends Geral_model
     *   $filter -> Contém campos e os respectivos valores de filtros.
     *   $ordenacao -> Contém a ordem e o campo para ordenar a lista de registros obtidos.
     */
-    public function get_ocos($id, $ativo, $page, $filter, $ordenacao)
+    public function get_ocos($id, $ativo, $page, $filter, $ordenacao, $tipo)
     {
+        $t = "";
+        if($tipo !== FALSE)
+            $t = " AND Tipo = ".$tipo;
+
         $Ativos = "";
         if($ativo == true)
             $Ativos = " AND Ativo = 1 ";
@@ -52,24 +77,26 @@ class Ocos_model extends Geral_model
             $query = $this->db->query("
                 SELECT (SELECT count(*) FROM  Ocos WHERE TRUE ".$Ativos.") AS Size, Id AS Ocos_id,  
                 Ativo, DATE_FORMAT(Data_registro, '%d/%m/%Y') as Data_registro,
-                Nome_produto, Descricao, Tipo_servico, Tempo, Data_inicio, DATE_ADD(Data_inicio, INTERVAL Tempo DAY) AS Data_fim, Tipo, 
+                Nome_produto, Descricao, Tipo_servico, Tempo, DATE_FORMAT(Data_inicio, '%d/%m/%Y') AS Data_inicio, 
+                DATE_FORMAT(DATE_ADD(Data_inicio, INTERVAL Tempo DAY), '%d/%m/%Y') AS Data_fim, Tipo, 
                 Status_id, Usuario_criador_id, Usuario_responsavel_id, Cliente_id 
                 FROM Ocos 
-                WHERE TRUE ".$Ativos."
+                WHERE TRUE ".$Ativos." ".$t."
 			    ".str_replace("'", "", $this->db->escape($order))." ".$pagination."");
 
-            return json_decode(json_encode($query->result_array()),false);
+            return $query->result_object();
         }
 
         $query = $this->db->query("
                 SELECT Id AS Ocos_id,  
-                Ativo, DATE_FORMAT(Data_registro, '%d/%m/%Y') as Data_registro,
-                Nome_produto, Descricao, Tipo_servico, Tempo, Data_inicio, DATE_ADD(Data_inicio, INTERVAL Tempo DAY) AS Data_fim, Tipo, 
-                Status_id, Usuario_criador_id, Usuario_responsavel_id, Cliente_id   
+                Ativo, DATE_FORMAT(Data_registro, '%d/%m/%Y') as Data_registro, 
+                Nome_produto, Descricao, Tipo_servico, Tempo, DATE_FORMAT(Data_inicio, '%d/%m/%Y') AS Data_inicio, 
+                DATE_FORMAT(DATE_ADD(Data_inicio, INTERVAL Tempo DAY), '%d/%m/%Y') AS Data_fim, Tipo,   
+                Status_id, Usuario_criador_id, Usuario_responsavel_id, Cliente_id    
                 FROM Ocos 
                 WHERE TRUE ".$Ativos." AND Id = ".$this->db->escape($id)."");
 
-        return json_decode(json_encode($query->row_array()),false);
+        return $query->row_object();
     }
     /*!
     *	RESPONSÁVEL POR CADASTRAR/ATUALIZAR UM ORÇAMENTO/OS.
@@ -77,11 +104,22 @@ class Ocos_model extends Geral_model
     public function set_ocos()
     {
         if(empty($this->Id))
-            return $this->db->insert('Ocos', $this);
+        {
+            $this->db->insert('Ocos', $this);
+
+            $query = $this->db->query("SELECT Id FROM Ocos  
+                WHERE Cliente_id = ".$this->db->escape($this->Cliente_id)." AND  
+                Usuario_criador_id = ".$this->db->escape($this->Usuario_criador_id)." AND 
+                Nome_produto = ".$this->db->escape($this->Nome_produto)." 
+                ORDER BY Id DESC LIMIT 1
+            ");
+            return $query->row_object()->Id;
+        }
         else
         {
             $this->db->where('Id', $this->Id);
-            return $this->db->update('Ocos', $this);
+            $this->db->update('Ocos', $this);
+            return $this->Id;
         }
     }
 }

@@ -48,7 +48,7 @@ class Migration_addTableOcos extends CI_Migration
                 'type' => 'TIMESTAMP',
                 'null' => FALSE
             ),
-            'Tipo' => array( //ORÇAMENTO OU ORDEM DE SERVIÇO
+            'Tipo' => array( //ORÇAMENTO OU ORDEM DE SERVIÇO 1 - orçamento / 2 - OS
                 'type' => 'INT',
                 'null' => FALSE
             ),
@@ -62,7 +62,7 @@ class Migration_addTableOcos extends CI_Migration
             ),
             'Usuario_responsavel_id' => array(
                 'type' => 'INT',
-                'null' => FALSE
+                'null' => TRUE
             ),
             'Cliente_id' => array(
                 'type' => 'INT',

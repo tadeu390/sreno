@@ -16,6 +16,12 @@ class Servico_model extends Geral_model
     public $Ativo;
     public $Valor;
     public $Descricao;
+    public $Ocos_id;
+
+    public function __construct()
+    {
+        $this->Ativo = 1;
+    }
     /*!
     *   RESPONSÁVEL POR RETORNAR UMA LISTA DE SERVIÇOS DE UM DETERMINADO ORÇAMENTO/OS.
     *

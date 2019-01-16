@@ -43,6 +43,34 @@ $(document).ready(
     });
 
     //LOGIN
+    $('#qtd_ocos').blur(function() {
+        if (this.value != '') Main.show_error("qtd_ocos", '', 'is-valid');
+    });
+    $('#peca_id_ocos').blur(function() {
+        if (this.value != '0') Main.show_error("peca_id_ocos", '', '');
+    });
+    $('#categoria_id_ocos').blur(function() {
+        if (this.value != '0') Main.show_error("categoria_id_ocos", '', '');
+    });
+    $('#valor_servico').blur(function() {
+        if ($.isNumeric(this.value.replace(",",".")) && this.value > 0) Main.show_error("valor_servico", '', 'is-valid');
+    });
+    $('#descricao_servico').blur(function() {
+        if (this.value != '') Main.show_error("descricao_servico", '', 'is-valid');
+    });
+    $('#data_inicio').blur(function() {
+        Main.gera_data_fim();
+    });
+    $('#tempo').blur(function() {
+        Main.gera_data_fim();
+    });
+    $('#bt_add_servico').click(function() {
+        Main.add_servico(this.value);
+    });
+    $('#bt_add_peca').click(function() {
+        Main.add_peca(this.value);
+    });
+
     $('#peca_id_ocos').change(function() {
         Main.calcula_preco_peca(this.value);
     });
@@ -183,6 +211,10 @@ $(document).ready(
     });
 
     //BTN CADASTROS
+    $("#form_cadastro_ocos").submit(function(event) {
+        event.preventDefault();
+        Main.ocos_validar();
+    });
     $("#form_cadastro_transacao").submit(function(event) {
         event.preventDefault();
         Main.transacao_validar();

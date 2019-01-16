@@ -11,9 +11,9 @@
 <?php $this->load->helper("paginacao");?>
 <?php $this->load->helper("mstring");?>
 <br /><br />
-<div class='row padding20 text-white'>
+<div class='row padding20 text-white relative' style="width: 95%; left: 3.5%">
 	<?php
-    	echo"<div class='col-lg-10 offset-lg-1 padding0'>";
+    	echo"<div class='col-lg-12 padding0'>";
 			echo"<nav aria-label='breadcrumb'>";
   				echo"<ol class='breadcrumb'>";
     				echo "<li class='breadcrumb-item active' aria-current='page'>Orçamentos</li>";
@@ -30,7 +30,7 @@
     ?>
 	<input type='hidden' id='controller' value='<?php echo $controller; ?>'/>
 	<?php
-		echo "<div class='col-lg-10 offset-lg-1 padding background_dark' style='margin-top: 10px;'>";
+		echo "<div class='col-lg-12 padding background_dark' style='margin-top: 10px;'>";
 			echo "<div class='table-responsive'>";
 				echo "<table class='table table-striped table-hover text-white'>";
 					echo "<thead>";
@@ -80,7 +80,7 @@
 								echo "<td><span title='".$ocos[$i]->Nome_produto."'>".
 								mstring::corta_string($ocos[$i]->Nome_produto, 25)
 								."</span></td>";
-								echo "<td $cor>".$ocos[$i]->Tipo_servico."</td>";
+								echo "<td $cor>".(($ocos[$i]->Tipo_servico == 1) ? "Fabricação" : "Reparo" )."</td>";
 								echo "<td class='text-right'>";
 									if(permissao::get_permissao(UPDATE, $controller))
 										echo "<a href='".$url.$controller."/edit/".$ocos[$i]->Ocos_id."' title='Editar' style='cursor: pointer;' class='glyphicon glyphicon-edit text-danger'></a> | ";

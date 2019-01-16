@@ -27,6 +27,7 @@ class Ocos extends Geral
         $this->load->model('Status_model');
         $this->load->model('Ocos_model');
         $this->load->model('Anexo_model');
+        $this->load->model('Servico_model');
         $this->load->model('Linha_model');
         $this->load->model('Estoque_model');
 
@@ -58,7 +59,7 @@ class Ocos extends Geral
             $this->data['paginacao']['field'] = $ordenacao['field'];
             $this->data['paginacao']['method'] = "orcamento";
 
-            $this->data['ocos'] = $this->Ocos_model->get_ocos(FALSE, TRUE, $page, FALSE, $ordenacao);
+            $this->data['ocos'] = $this->Ocos_model->get_ocos(FALSE, TRUE, $page, FALSE, $ordenacao, ORCAMENTO);
             $this->data['paginacao']['size'] = (!empty($this->data['ocos']) ? $this->data['ocos'][0]->Size : 0);
             $this->data['paginacao']['pg_atual'] = $page;
             $this->view("ocos/orcamento", $this->data);
@@ -74,13 +75,13 @@ class Ocos extends Geral
     */
     public function edit($id = FALSE)
     {
-        $this->data['title'] = 'Editar peça';
+        $this->data['title'] = 'Editar orçamento';
         if($this->Geral_model->get_permissao(UPDATE, get_class($this)) == TRUE)
         {
-            $this->data['obj'] = $this->Transacao_model->get_transacao($id, FALSE, FALSE, FALSE, FALSE);
-            $this->data['obj_peca'] = $this->Peca_model->get_peca(FALSE, FALSE, FALSE, FALSE, FALSE);
-            $this->data['obj_fornecedor'] = $this->Fornecedor_model->get_fornecedor(FALSE, FALSE, FALSE, FALSE, FALSE);
-            $this->view("transacao/create", $this->data);
+            $this->data['obj'] = $this->Ocos_model->get_ocos($id, FALSE, FALSE, FALSE, FALSE, FALSE);
+            $this->data['obj_cliente'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, CLIENTE);
+            $this->data['obj_categoria'] = $this->Categoria_model->get_categoria(FALSE, FALSE, FALSE, FALSE, FALSE);
+            $this->view("ocos/create", $this->data);
         }
         else
             $this->view("templates/permissao", $this->data);
@@ -93,7 +94,7 @@ class Ocos extends Geral
         $this->data['title'] = 'Novo orçamento';
         if($this->Geral_model->get_permissao(CREATE, get_class($this)) == TRUE)
         {
-            $this->data['obj'] = $this->Ocos_model->get_ocos(0, FALSE, FALSE, FALSE, FALSE);
+            $this->data['obj'] = $this->Ocos_model->get_ocos(0, FALSE, FALSE, FALSE, FALSE, FALSE);
             $this->data['obj_cliente'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, CLIENTE);
             $this->data['obj_categoria'] = $this->Categoria_model->get_categoria(FALSE, FALSE, FALSE, FALSE, FALSE);
             //$this->data['obj_peca'] = $this->Peca_model->get_peca(FALSE, TRUE, FALSE, FALSE, FALSE);
@@ -103,48 +104,32 @@ class Ocos extends Geral
             $this->view("templates/permissao", $this->data);
     }
     /*!
-    *	RESPONSÁVEL POR VALIDAR OS DADOS NECESSÁRIOS DA TRANSAÇÃO.
+    *	RESPONSÁVEL POR VALIDAR OS DADOS NECESSÁRIOS  DO ORÇAMENTO/OS.
     */
-    public function valida_transacao()
+    public function valida_ocos()
     {
-        $this->Transacao_model->Preco_unitario = str_replace(',', '.',$this->Transacao_model->Preco_unitario);
-        $delimitadores_preco = explode('.', $this->Transacao_model->Preco_unitario);
-
-        $this->Transacao_model->Quantidade = str_replace(',', '.',$this->Transacao_model->Quantidade);
-        $delimitadores_quantidade = explode('.', $this->Transacao_model->Quantidade);
-
-        if($this->Transacao_model->Fornecedor_id == 0)
-            return "Informe o fornecedor da peça";
-        else if($this->Transacao_model->Peca_id == 0)
-            return "Informe a peça";
-        else if(empty($this->Transacao_model->Quantidade))
-            return "Informe a quantidade";
-        else if(!IS_NUMERIC($this->Transacao_model->Quantidade) || $this->Transacao_model->Quantidade <= 0 || COUNT($delimitadores_quantidade) > 1)
-            return "Quantidade deve ser um número inteiro positivo e maior do que zero.";
-        else if(empty($this->Transacao_model->Preco_unitario))
-            return "Informe o preço unitário";
-        else if(!IS_NUMERIC($this->Transacao_model->Preco_unitario) || $this->Transacao_model->Preco_unitario <= 0 || COUNT($delimitadores_preco) > 2)
-            return "Preço unitário deve ser um número inteiro ou decimal positivo e maior do que zero.";
-        else
-            return 1;
+        if($this->Ocos_model->Nome_produto == "")
+            return "Insira o nome do produto.";
+        else if(mb_strlen($this->Ocos_model->Nome_produto) > 100)
+            return "Máximo de 100 caracteres.";
+        else if($this->Ocos_model->Cliente_id == 0)
+            return "Selecione um cliente.";
+        else if($this->Ocos_model->Tipo_servico == 0)
+            return "Selecione um tipo de serviço.";
+        else if($this->Ocos_model->Data_inicio == "")
+            return "Insira a data de início.";
+        else if($this->Ocos_model->Tempo == "")
+            return "Informe quantos dias levará para realizar o serviço.";
+        else if($this->Ocos_model->Tempo <= 0 OR !IS_NUMERIC($this->Ocos_model->Tempo))
+            return "O tempo deve ser um número positivo inteiro e maior do que zero.";
+        return 1;
     }
     /*!
-    *	RESPONSÁVEL POR ENVIAR AO MODEL OS DADOS DE UMA PEÇA.
+    *	RESPONSÁVEL POR ENVIAR AO MODEL OS DADOS DE UM ORÇAMENTO/OS.
     */
     public function store_banco()
     {
-        if(empty($this->Transacao_model->Id))
-        {
-            $this->Transacao_model->set_transacao();
-            $this->Estoque_model->set_estoque($this->Transacao_model);
-        }
-        else
-        {
-            $transacao = $this->Transacao_model->get_transacao($this->Transacao_model->Id, FALSE, FALSE, FALSE, FALSE);
-            $this->Estoque_model->altera_estoque($transacao, $this->Transacao_model);
-
-            $this->Transacao_model->set_transacao();
-        }
+        return $this->Ocos_model->set_ocos();
     }
     /*!
     *	RESPONSÁVEL POR CAPTAR OS DADOS DO FORMULÁRIO SUBMETIDO.
@@ -152,22 +137,50 @@ class Ocos extends Geral
     public function store()
     {
         $resultado = "sucesso";
-        $this->Transacao_model->Id = $this->input->post('id');
-        $this->Transacao_model->Fornecedor_id = $this->input->post('fornecedor_id');
-        $this->Transacao_model->Peca_id = $this->input->post('peca_id');
-        $this->Transacao_model->Quantidade = $this->input->post('quantidade');
-        $this->Transacao_model->Preco_unitario = $this->input->post('preco_unitario');
+
+        $this->Ocos_model->Id = $this->input->post('id');
+        $this->Ocos_model->Ativo = $this->input->post('ativo');
+        $this->Ocos_model->Nome_produto = $this->input->post('nome');
+        $this->Ocos_model->Cliente_id = $this->input->post('cliente_id');
+        $this->Ocos_model->Cliente_id = $this->input->post('cliente_id');
+        $this->Ocos_model->Tipo_servico = $this->input->post('tipo_servico');
+        $this->Ocos_model->Data_inicio = $this->convert_date($this->input->post('data_inicio'),"en");
+        $this->Ocos_model->Tipo = ORCAMENTO;
+        $this->Ocos_model->Tempo = $this->input->post('tempo');
+        $this->Ocos_model->Status_id = NAO_DEFINIDO;
+        $this->Ocos_model->Usuario_criador_id = $this->Account_model->session_is_valid()['id'];
 
         //bloquear acesso direto ao metodo store
         if(!empty($this->input->post()))
         {
             if($this->Geral_model->get_permissao(CREATE, get_class($this)) == TRUE || $this->Geral_model->get_permissao(UPDATE, get_class($this)) == TRUE)
             {
-                $resultado = $this->valida_transacao();
+                $resultado = $this->valida_ocos();
 
                 if($resultado == 1)
                 {
-                    $this->store_banco();
+                    $ocos_id = $this->store_banco();
+                    for($i = 0; $i < $this->input->post('qtd_peça_adicionado'); $i ++)
+                    {
+                        if($this->input->post('peca_id_ocos_adicionado_hide_col1_lin'.$i) != null)
+                        {
+                            $this->Linha_model->Ocos_id = $ocos_id;
+                            $this->Linha_model->Peca_id = $this->input->post('peca_id_ocos_adicionado_hide_col1_lin' . $i);
+                            $this->Linha_model->Quantidade = $this->input->post('qtd_id_ocos_adicionado_col2_lin' . $i);
+                            $this->Linha_model->Preco_unitario = $this->input->post('preco_unitario_id_ocos_adicionado_col3_lin' . $i);
+                            $this->Linha_model->set_linha();
+                        }
+                    }
+                    for($i = 0; $i < $this->input->post('qtd_serviço_adicionado'); $i++)
+                    {
+                        if($this->input->post('descricao_servico_id_ocos_adicionado_col0_lin'.$i) != null)
+                        {
+                            $this->Servico_model->Ocos_id = $ocos_id;
+                            $this->Servico_model->Descricao = $this->input->post('descricao_servico_id_ocos_adicionado_col0_lin' . $i);
+                            $this->Servico_model->Valor = $this->input->post('valor_servico_id_ocos_adicionado_col1_lin' . $i);
+                            $this->Servico_model->set_servico();
+                        }
+                    }
                     $resultado = "sucesso";
                 }
             }
@@ -229,15 +242,21 @@ class Ocos extends Geral
     {
         $resultado = "sucesso";
         $estoque = $this->Estoque_model->get_estoque($peca_id, FALSE, FALSE, FALSE, FALSE);
+        $peca = $this->Peca_model->get_peca($peca_id, FALSE, FALSE, FALSE, FALSE);
         $preco_unitario = 0;
         $total = 0;
         if($quantidade <= $estoque->Saldo)
         {
-            $preco_unitario = number_format($estoque->Preco_medio_unitario, 2, ',', ' ');
-            $total = number_format($estoque->Preco_medio_unitario * $quantidade, 2, ',', ' ');
+            if($peca->Estocado_em == "unidade(s)" && $this->is_decimal($quantidade))
+                $resultado = "Para esta peça a quantidade deve ser um número inteiro, pois ela é estocada em unidades e não em metros.";
+            else
+            {
+                $preco_unitario = number_format($estoque->Preco_medio_unitario, 2, ',', ' ');
+                $total = number_format($estoque->Preco_medio_unitario * $quantidade, 2, ',', ' ');
+            }
         }
         else
-            $resultado = "A quantidade informada é superior a quantidae disponível em estoque. <br /> Quantidade disponível: ".$estoque->Saldo;
+            $resultado = "A quantidade informada é superior a quantidade disponível em estoque. <br /> Quantidade disponível: ".$estoque->Saldo;
 
         $arr = array('response' => $resultado, 'preco_unitario' => $preco_unitario, 'total' => $total);
         header('Content-Type: application/json');

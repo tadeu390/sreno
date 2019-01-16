@@ -16,6 +16,13 @@ class Linha_model extends Geral_model
     public $Ativo;
     public $Preco_unitario;
     public $Quantidade;
+    public $Ocos_id;
+    public $Peca_id;
+
+    public function __construct()
+    {
+        $this->Ativo = 1;
+    }
     /*!
     *   RESPONSÁVEL POR RETORNAR UMA LISTA DE PEÇAS DE UM DETERMINADO ORÇAMENTO/OS.
     *

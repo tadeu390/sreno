@@ -12,6 +12,12 @@
 	define("ADMIN", 1);
 	define("CLIENTE", 2);
 
+
+	define("ORCAMENTO", 1);
+	define("OS", 2);
+	//status do orçamento/os
+	define("NAO_DEFINIDO", 1);
+
 	class Geral extends CI_Controller 
 	{
 		//VARIAVEL RESPONSÁVEL POR ARMAZENZAR TODO O CONTEÚDO A SER EXIBIDO NAS VIEWS.
@@ -223,4 +229,8 @@
 			else
 				return "ASC";
 		}
+        public function is_decimal( $val )
+        {
+            return is_numeric( $val ) && floor( $val ) != $val;
+        }
 	}
