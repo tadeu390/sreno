@@ -28,17 +28,31 @@ class Ocos_model extends Geral_model
     public $Responsavel;
     public $Criador;
     public $Cliente;
+    public $Linha;
+    public $Servico;
 
     public function __construct()
     {
         $this->Ativo = 1;
         $this->load->model('Status_model');
         $this->load->model('Usuario_model');
+        $this->load->model('Linha_model');
+        $this->load->model('Servico_model');
 
         $this->Status = $this->Status_model;
         $this->Responsavel = $this->Usuario_model;
         $this->Criador = $this->Usuario_model;
         $this->Cliente = $this->Usuario_model;
+        $this->Linha = $this->Linha_model;
+        $this->Servico = $this->Servico_model;
+
+        $this->model = new stdClass();
+        $this->model->Linhas = Array();
+        $this->model->Status = new stdClass();
+        $this->model->Criador = new stdClass();
+        $this->model->Responsavel = new stdClass();
+        $this->model->Cliente = new stdClass();
+        $this->model->Servicos = Array();
     }
     /*!
     *   RESPONSÁVEL POR RETORNAR UMA LISTA DE ORÇAMENTOS/OS OU UM DETERMINADO ORÇAMENTO/OS.
@@ -96,7 +110,17 @@ class Ocos_model extends Geral_model
                 FROM Ocos 
                 WHERE TRUE ".$Ativos." AND Id = ".$this->db->escape($id)."");
 
-        return $query->row_object();
+        if(!empty($query->row_object()))
+        {
+            $this->model = $query->row_object();
+            $this->model->Linhas = $this->Linha->get_linha($this->model->Ocos_id, TRUE);
+            $this->model->Servicos = $this->Servico->get_servico($this->model->Ocos_id, TRUE);
+            $this->model->Status = $this->Status->get_status($this->model->Status_id, FALSE);
+            $this->model->Criador = $this->Criador->get_usuario(FALSE, $this->model->Usuario_criador_id, FALSE, FALSE, FALSE, FALSE);
+            $this->model->Responsavel = $this->Responsavel->get_usuario(FALSE, $this->model->Usuario_responsavel_id, FALSE, FALSE, FALSE, FALSE);
+            $this->model->Cliente = $this->Cliente->get_usuario(FALSE, $this->model->Cliente_id, FALSE, FALSE, FALSE, FALSE);
+        }
+        return $this->model;
     }
     /*!
     *	RESPONSÁVEL POR CADASTRAR/ATUALIZAR UM ORÇAMENTO/OS.
@@ -121,5 +145,25 @@ class Ocos_model extends Geral_model
             $this->db->update('Ocos', $this);
             return $this->Id;
         }
+    }
+    /*!
+     *  RESPONSÁVEL POR ALTERAR O STATUS DE UM ORÇAMENTO NO BANCO DE DADOS PARA ORDEM DE SERVIÇO.
+     *
+     *  $id -> id do orçamento.
+     */
+    public function gerar_os($id)
+    {
+        $query = $this->db->query("UPDATE Ocos SET Tipo = 2 
+          WHERE Id = ".$this->db->escape($id)."");
+    }
+    /*!
+     *  RESPONSÁVEL POR "APAGAR" ORÇAMENTO/OS
+     *
+     *  $id -> id do orçamento/os.
+     */
+    public function deletar($id)
+    {
+        $query = $this->db->query("UPDATE Ocos SET Ativo = 0 
+          WHERE Id = ".$this->db->escape($id)."");
     }
 }

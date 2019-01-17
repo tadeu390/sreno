@@ -42,11 +42,11 @@ class Migration_addTableOcos extends CI_Migration
             ),
             'Tempo' => array(
                 'type' => 'INT',
-                'null' => FALSE
+                'null' => TRUE
             ),
             'Data_inicio' => array(
                 'type' => 'TIMESTAMP',
-                'null' => FALSE
+                'null' => TRUE
             ),
             'Tipo' => array( //ORÇAMENTO OU ORDEM DE SERVIÇO 1 - orçamento / 2 - OS
                 'type' => 'INT',

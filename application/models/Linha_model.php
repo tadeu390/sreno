@@ -19,9 +19,13 @@ class Linha_model extends Geral_model
     public $Ocos_id;
     public $Peca_id;
 
+    public $Peca;
     public function __construct()
     {
         $this->Ativo = 1;
+        $this->load->model('Peca_model');
+
+        $this->Peca = $this->Peca_model;
     }
     /*!
     *   RESPONSÁVEL POR RETORNAR UMA LISTA DE PEÇAS DE UM DETERMINADO ORÇAMENTO/OS.
@@ -33,17 +37,17 @@ class Linha_model extends Geral_model
     {
         $Ativos = "";
         if($ativo == true)
-            $Ativos = " AND Ativo = 1 ";
+            $Ativos = " AND l.Ativo = 1 ";
 
-        if($id === FALSE)//FAZER DIFERENTE, BUSCAR TOAS AS LINHAS DE ORÇAMENTO E CARREGAR O NOME DA PEÇA PELO get_peca do Pecao_model usando um while
-        {
-            $query = $this->db->query("SELECT l.Id AS Linha_id, l.Ativo, l.Preco_unitario, l.Quantidade, l.Ocos_id, l.Peca_id 
-              FROM Linha l WHERE l.Ativo = ".$this->db->escape_str($Ativos)." ");
-            return json_decode(json_encode($query->result_array()),false);
-        }
-        $query = $this->db->query("SELECT l.Id AS Linha_id, l.Ativo, l.Preco_unitario, l.Quantidade, l.Ocos_id, l.Peca_id    
-            FROM Linha l WHERE TRUE AND l.Ativo = ".$this->db->escape_str($Ativos)." AND Ocos_id = ".$this->db->escape_str($id)."");
-        return json_decode(json_encode($query->row_array()),false);
+        $query = $this->db->query("SELECT l.Id AS Linha_id, l.Ativo, l.Preco_unitario, l.Quantidade, l.Ocos_id, l.Peca_id 
+            FROM Linha l 
+            WHERE TRUE ".$this->db->escape_str($Ativos)." AND Ocos_id = ".$this->db->escape_str($id)."");
+
+        $this->model = $query->result_object();
+        for($i = 0; $i < COUNT($this->model); $i++)
+            $this->model[$i]->Peca = $this->Peca->get_peca($this->model[$i]->Peca_id, FALSE, FALSE, FALSE, FALSE);
+
+        return $this->model;
     }
     /*!
     *	RESPONSÁVEL POR CADASTRAR/ATUALIZAR UMA LINHA DE UM ORÇAMENTO/OS.
@@ -57,5 +61,15 @@ class Linha_model extends Geral_model
             $this->db->where('Id', $this->Id);
             return $this->db->update('Linha', $this);
         }
+    }
+    /*!
+     *  RESPONSÁVEL POR "APAGAR" UMA LINHA DE UM DETERMINADO ORÇAMENTO/OS.
+     *
+     *  $id -> Id da linha a ser "apagada".
+     */
+    public function deletar($id)
+    {
+        $query = $this->db->query("UPDATE Linha SET Ativo = 0  
+              WHERE Id = ".$this->db->escape($id)."");
     }
 }

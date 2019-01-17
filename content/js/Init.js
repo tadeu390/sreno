@@ -43,6 +43,24 @@ $(document).ready(
     });
 
     //LOGIN
+    $('#status_ocos').blur(function() {
+        if (this.value != '0') Main.show_error("status_ocos", '', '');
+    });
+    $('#usuario_responsavel').blur(function() {
+        if (this.value != '0') Main.show_error("usuario_responsavel", '', '');
+    });
+    $('#tempo').blur(function() {
+        if (this.value != '' && this.value != '0') Main.show_error("tempo", '', 'is-valid');
+    });
+    $('#data_inicio').blur(function() {
+        if (this.value != '') Main.show_error("data_inicio", '', 'is-valid');
+    });
+    $('#tipo_servico').blur(function() {
+        if (this.value != '0') Main.show_error("tipo_servico", '', '');
+    });
+    $('#cliente_id').blur(function() {
+        if (this.value != '0') Main.show_error("cliente_id", '', '');
+    });
     $('#qtd_ocos').blur(function() {
         if (this.value != '') Main.show_error("qtd_ocos", '', 'is-valid');
     });

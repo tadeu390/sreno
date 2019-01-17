@@ -16,7 +16,7 @@
     	echo"<div class='col-lg-12 padding0'>";
 			echo"<nav aria-label='breadcrumb'>";
   				echo"<ol class='breadcrumb'>";
-    				echo "<li class='breadcrumb-item active' aria-current='page'>Orçamentos</li>";
+    				echo "<li class='breadcrumb-item active' aria-current='page'>".(($method == 'orcamento') ? "Orçamentos" : "Ordens de serviços")."</li>";
     			echo "</ol>";
 			echo"</nav>";
 		echo "</div>";
@@ -44,21 +44,21 @@
 						echo"</tr>";
 						echo"<tr>";
 							echo"<td class='text-right' colspan='4'>";
-							if(permissao::get_permissao(CREATE, $controller))
+							if(permissao::get_permissao(CREATE, $controller) && $method == 'orcamento')
 								echo"<a class='btn btn-danger' href='".$url."$controller/create/0/'><span class='glyphicon glyphicon-plus'></span> Novo orçamento </a>";
 							echo"</td>";
 						echo"</tr>";
 						echo "<tr>";
 							echo "<td>#</td>";
 							echo "<td>";
-								echo"<a id='col-list' href='".$url."$controller/orcamento/".$paginacao['pg_atual']."/Nome_produto/".$paginacao['order']."'>Produto</a>";
+								echo"<a id='col-list' href='".$url."$controller/".$method."/".$paginacao['pg_atual']."/Nome_produto/".$paginacao['order']."'>Produto</a>";
 								if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Nome_produto')
 									echo "&nbsp;<div class='fa fa-chevron-down'></div>";
 								else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Nome_produto')
 									echo "&nbsp;<div class='fa fa-chevron-up'></div>";
 							echo"</td>";
 							echo "<td>";
-								echo "<a id='col-list' href='".$url."$controller/orcamento/".$paginacao['pg_atual']."/Tipo_servico/".$paginacao['order']."'>Serviço</a>";
+								echo "<a id='col-list' href='".$url."$controller/".$method."/".$paginacao['pg_atual']."/Tipo_servico/".$paginacao['order']."'>Serviço</a>";
 								if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Tipo_servico')
 									echo "&nbsp;<div class='fa fa-chevron-down'></div>";
 								else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Tipo_servico')
@@ -83,7 +83,7 @@
 								echo "<td $cor>".(($ocos[$i]->Tipo_servico == 1) ? "Fabricação" : "Reparo" )."</td>";
 								echo "<td class='text-right'>";
 									if(permissao::get_permissao(UPDATE, $controller))
-										echo "<a href='".$url.$controller."/edit/".$ocos[$i]->Ocos_id."' title='Editar' style='cursor: pointer;' class='glyphicon glyphicon-edit text-danger'></a> | ";
+										echo "<a href='".$url.$controller."/".(($method == 'orcamento') ? "edit" : "edit_os")."/".$ocos[$i]->Ocos_id."' title='Editar' style='cursor: pointer;' class='glyphicon glyphicon-edit text-danger'></a> | ";
 									if(permissao::get_permissao(DELETE, $controller))
 										echo " <span onclick='Main.confirm_delete(". $ocos[$i]->Ocos_id .");' id='sp_lead_trash' name='sp_lead_trash' title='Apagar' style='cursor: pointer;' class='glyphicon glyphicon-trash text-danger'></span>";
 								echo "</td>";

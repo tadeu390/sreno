@@ -44,7 +44,7 @@ class Ocos extends Geral
     {
         if($page === FALSE)
             $page = 1;
-
+        $this->data['method'] = __FUNCTION__;
         $ordenacao = array(
             "order" => $this->order_default($order),
             "field" => $this->field_default($field)
@@ -52,7 +52,7 @@ class Ocos extends Geral
 
         $this->set_page_cookie($page);
 
-        $this->data['title'] = 'Peças';
+        $this->data['title'] = 'Orçamentos';
         if($this->Geral_model->get_permissao(READ, get_class($this)) == TRUE)
         {
             $this->data['paginacao']['order'] =$this->inverte_ordem($ordenacao['order']);
@@ -68,17 +68,74 @@ class Ocos extends Geral
             $this->view("templates/permissao", $this->data);
     }
     /*!
-    *	RESPONSÁVEL POR CARREGAR O FORMULÁRIO DE CADASTRO DE PEÇA E RECEBER DA MODEL OS DADOS
-    *	DA PEÇA QUE SE DESEJA EDITAR.
+    *	RESPONSÁVEL POR RECEBER DA MODEL TODOS AS OSs CADASTRADAS E ENVIA-LAS A VIEW.
     *
-    *	$id -> Id da peça.
+    *	$page -> Número da página atual de registros.
+    */
+    public function os($page = FALSE, $field = FALSE, $order = FALSE)
+    {
+        if($page === FALSE)
+            $page = 1;
+        $this->data['method'] = __FUNCTION__;
+        $ordenacao = array(
+            "order" => $this->order_default($order),
+            "field" => $this->field_default($field)
+        );
+
+        $this->set_page_cookie($page);
+
+        $this->data['title'] = 'Ordem de serviço';
+        if($this->Geral_model->get_permissao(READ, get_class($this)) == TRUE)
+        {
+            $this->data['paginacao']['order'] =$this->inverte_ordem($ordenacao['order']);
+            $this->data['paginacao']['field'] = $ordenacao['field'];
+            $this->data['paginacao']['method'] = "orcamento";
+
+            $this->data['ocos'] = $this->Ocos_model->get_ocos(FALSE, TRUE, $page, FALSE, $ordenacao, OS);
+            $this->data['paginacao']['size'] = (!empty($this->data['ocos']) ? $this->data['ocos'][0]->Size : 0);
+            $this->data['paginacao']['pg_atual'] = $page;
+            $this->view("ocos/orcamento", $this->data);
+        }
+        else
+            $this->view("templates/permissao", $this->data);
+    }
+    /*!
+    *	RESPONSÁVEL POR CARREGAR O FORMULÁRIO DE CADASTRO DE ORÇAMENTO/OS E RECEBER DA MODEL OS DADOS
+    *	DE UMA OS QUE SE DESEJA EDITAR.
+    *
+    *	$id -> Id da OS.
+    */
+    public function edit_os($id = FALSE)
+    {
+        $this->data['method'] = __FUNCTION__;
+        $this->data['title'] = 'Editar OS';
+        if($this->Geral_model->get_permissao(UPDATE, get_class($this)) == TRUE)
+        {
+            $this->data['obj'] = $this->Ocos_model->get_ocos($id, FALSE, FALSE, FALSE, FALSE, FALSE);
+            $this->data['obj_responsavel'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, ADMIN);
+            $this->data['obj_status'] = $this->Status_model->get_status(FALSE, FALSE);
+            $this->data['obj_cliente'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, CLIENTE);
+            $this->data['obj_categoria'] = $this->Categoria_model->get_categoria(FALSE, FALSE, FALSE, FALSE, FALSE);
+            $this->view("ocos/create", $this->data);
+        }
+        else
+            $this->view("templates/permissao", $this->data);
+    }
+    /*!
+    *	RESPONSÁVEL POR CARREGAR O FORMULÁRIO DE CADASTRO DE ORÇAMENTO E RECEBER DA MODEL OS DADOS
+    *	DE UM ORÇAMENTO QUE SE DESEJA EDITAR.
+    *
+    *	$id -> Id do orçamento.
     */
     public function edit($id = FALSE)
     {
+        $this->data['method'] = __FUNCTION__;
         $this->data['title'] = 'Editar orçamento';
         if($this->Geral_model->get_permissao(UPDATE, get_class($this)) == TRUE)
         {
             $this->data['obj'] = $this->Ocos_model->get_ocos($id, FALSE, FALSE, FALSE, FALSE, FALSE);
+            $this->data['obj_responsavel'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, ADMIN);
+            $this->data['obj_status'] = $this->Status_model->get_status(FALSE, FALSE);
             $this->data['obj_cliente'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, CLIENTE);
             $this->data['obj_categoria'] = $this->Categoria_model->get_categoria(FALSE, FALSE, FALSE, FALSE, FALSE);
             $this->view("ocos/create", $this->data);
@@ -91,13 +148,15 @@ class Ocos extends Geral
     */
     public function create()
     {
+        $this->data['method'] = __FUNCTION__;
         $this->data['title'] = 'Novo orçamento';
         if($this->Geral_model->get_permissao(CREATE, get_class($this)) == TRUE)
         {
             $this->data['obj'] = $this->Ocos_model->get_ocos(0, FALSE, FALSE, FALSE, FALSE, FALSE);
+            $this->data['obj_responsavel'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, ADMIN);
+            $this->data['obj_status'] = $this->Status_model->get_status(FALSE, TRUE);
             $this->data['obj_cliente'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, CLIENTE);
             $this->data['obj_categoria'] = $this->Categoria_model->get_categoria(FALSE, FALSE, FALSE, FALSE, FALSE);
-            //$this->data['obj_peca'] = $this->Peca_model->get_peca(FALSE, TRUE, FALSE, FALSE, FALSE);
             $this->view("ocos/create", $this->data);
         }
         else
@@ -116,12 +175,17 @@ class Ocos extends Geral
             return "Selecione um cliente.";
         else if($this->Ocos_model->Tipo_servico == 0)
             return "Selecione um tipo de serviço.";
-        else if($this->Ocos_model->Data_inicio == "")
-            return "Insira a data de início.";
-        else if($this->Ocos_model->Tempo == "")
-            return "Informe quantos dias levará para realizar o serviço.";
-        else if($this->Ocos_model->Tempo <= 0 OR !IS_NUMERIC($this->Ocos_model->Tempo))
-            return "O tempo deve ser um número positivo inteiro e maior do que zero.";
+        if(!empty($this->input->post('g_os')))
+        {
+            if ($this->Ocos_model->Data_inicio == "")
+                return "Insira a data de início.";
+            else if ($this->Ocos_model->Tempo == "")
+                return "Informe quantos dias levará para realizar o serviço.";
+            else if ($this->Ocos_model->Tempo <= 0 OR !IS_NUMERIC($this->Ocos_model->Tempo))
+                return "O tempo deve ser um número positivo inteiro e maior do que zero.";
+            else
+                return 1;
+        }
         return 1;
     }
     /*!
@@ -144,11 +208,15 @@ class Ocos extends Geral
         $this->Ocos_model->Cliente_id = $this->input->post('cliente_id');
         $this->Ocos_model->Cliente_id = $this->input->post('cliente_id');
         $this->Ocos_model->Tipo_servico = $this->input->post('tipo_servico');
-        $this->Ocos_model->Data_inicio = $this->convert_date($this->input->post('data_inicio'),"en");
         $this->Ocos_model->Tipo = ORCAMENTO;
-        $this->Ocos_model->Tempo = $this->input->post('tempo');
-        $this->Ocos_model->Status_id = NAO_DEFINIDO;
         $this->Ocos_model->Usuario_criador_id = $this->Account_model->session_is_valid()['id'];
+        if(!empty($this->input->post('g_os')))
+        {
+            $this->Ocos_model->Data_inicio = $this->convert_date($this->input->post('data_inicio'), "en");
+            $this->Ocos_model->Tempo = $this->input->post('tempo');
+            $this->Ocos_model->Status_id = $this->input->post('status_ocos');;
+            $this->Ocos_model->Usuario_responsavel_id = $this->input->post('usuario_responsavel');;
+        }
 
         //bloquear acesso direto ao metodo store
         if(!empty($this->input->post()))
@@ -160,28 +228,61 @@ class Ocos extends Geral
                 if($resultado == 1)
                 {
                     $ocos_id = $this->store_banco();
+                    //verificar antes se foi removido alguma linha na tela, pelo usuário.
+                    $linhas = $this->Linha_model->get_linha($ocos_id, TRUE);
                     for($i = 0; $i < $this->input->post('qtd_peça_adicionado'); $i ++)
                     {
                         if($this->input->post('peca_id_ocos_adicionado_hide_col1_lin'.$i) != null)
                         {
-                            $this->Linha_model->Ocos_id = $ocos_id;
+                            $this->Linha_model->Id = $this->input->post('linha_id_ocos'.$i);
                             $this->Linha_model->Peca_id = $this->input->post('peca_id_ocos_adicionado_hide_col1_lin' . $i);
                             $this->Linha_model->Quantidade = $this->input->post('qtd_id_ocos_adicionado_col2_lin' . $i);
                             $this->Linha_model->Preco_unitario = $this->input->post('preco_unitario_id_ocos_adicionado_col3_lin' . $i);
+                            $this->Linha_model->Ocos_id = $ocos_id;
+
+                            for($j = 0; $j < COUNT($linhas); $j ++)
+                            {
+                                if($linhas[$j]->Linha_id == $this->Linha_model->Id)
+                                    unset($linhas[$j]);
+                            }
+                            $linhas = array_values($linhas);//toda vez que remover uma posição do array, ressetar os indices do array para que sempre sejam sequenciais.
+
                             $this->Linha_model->set_linha();
                         }
                     }
+                    $servicos = $this->Servico_model->get_servico($ocos_id, TRUE);
+
                     for($i = 0; $i < $this->input->post('qtd_serviço_adicionado'); $i++)
                     {
                         if($this->input->post('descricao_servico_id_ocos_adicionado_col0_lin'.$i) != null)
                         {
-                            $this->Servico_model->Ocos_id = $ocos_id;
+                            $this->Servico_model->Id = $this->input->post('servico_id_ocos'.$i);
                             $this->Servico_model->Descricao = $this->input->post('descricao_servico_id_ocos_adicionado_col0_lin' . $i);
                             $this->Servico_model->Valor = $this->input->post('valor_servico_id_ocos_adicionado_col1_lin' . $i);
+                            $this->Servico_model->Ocos_id = $ocos_id;
+
+                            for($j = 0; $j < COUNT($servicos); $j ++)
+                            {
+                                if($servicos[$j]->Servico_id == $this->Servico_model->Id)
+                                    unset($servicos[$j]);
+                            }
+                            $servicos = array_values($servicos);
+
                             $this->Servico_model->set_servico();
                         }
                     }
+
+                    //apagar os que foram removidos pelo usuário na tela.
+                    for($i = 0; $i < COUNT($linhas); $i ++)
+                        $this->Linha_model->deletar($linhas[$i]->Linha_id);
+
+                    for($i = 0; $i < COUNT($servicos); $i ++)
+                        $this->Servico_model->deletar($servicos[$i]->Servico_id);
+
                     $resultado = "sucesso";
+                    //verificar se deve gerar a OS
+                    if(!empty($this->input->post('g_os')))
+                        $this->Ocos_model->gerar_os($ocos_id);
                 }
             }
             else
@@ -195,19 +296,15 @@ class Ocos extends Geral
             redirect('transacao/index');
     }
     /*!
-    *	RESPONSÁVEL POR RECEBER UM ID DA TRANSAÇÃO PARA "APAGAR".
+    *	RESPONSÁVEL POR RECEBER UM ID DE ORÇAMENTOS/OS PARA "APAGAR".
     *
-    *	$id -> Id da transação.
+    *	$id -> Id do orçamento/os.
     */
     public function deletar($id = FALSE)
     {
         if($this->Geral_model->get_permissao(DELETE, get_class($this)) == TRUE)
         {
-            $transacao = $this->Transacao_model->get_transacao($id, FALSE, FALSE, FALSE, FALSE);
-            $transacao_alterada = $this->Transacao_model->get_transacao($id, FALSE, FALSE, FALSE, FALSE);
-            $transacao_alterada->Preco_unitario = 0;
-            $this->Estoque_model->deletar($transacao, $transacao_alterada);
-            $this->Transacao_model->deletar($id);
+            $this->Ocos_model->deletar($id);
 
             $resultado = "sucesso";
             $arr = array('response' => $resultado);

@@ -50,7 +50,7 @@ class Categoria_model extends Geral_model
                 WHERE TRUE ".$Ativos."
                 ".str_replace("'", "", $this->db->escape($order))." ".$pagination."");
 
-            return json_decode(json_encode($query->result_array()),false);
+            return $query->result_object();
         }
 
         $query = $this->db->query("
@@ -58,7 +58,7 @@ class Categoria_model extends Geral_model
                 FROM Categoria 
             WHERE Id = ".$this->db->escape($id)." ".$Ativos."");
 
-        return json_decode(json_encode($query->row_array()),false);
+        return $query->row_object();
     }
     /*!
     *	RESPONSÁVEL POR "APAGAR" UMA CATEGORIA DO BANCO DE DADOS.

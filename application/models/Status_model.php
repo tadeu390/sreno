@@ -30,11 +30,13 @@ class Status_model extends Geral_model
         if($id === FALSE)
         {
             $query = $this->db->query("SELECT Id AS Status_id, Ativo, Nome AS Nome_status  
-              FROM Status WHERE Ativo = ".$this->db->escape_str($Ativos)." ");
-            return json_decode(json_encode($query->result_array()),false);
+              FROM Status 
+              WHERE TRUE ".$Ativos." ");
+            return $query->result_object();
         }
-        $query = $this->db->query("SELECT Id AS Status_id, Ativo, Nome AS Nome_status  
-            FROM Status WHERE TRUE AND Ativo = ".$this->db->escape_str($Ativos)." AND Id = ".$this->db->escape_str($id)."");
-        return json_decode(json_encode($query->row_array()),false);
+        $query = $this->db->query("SELECT Id AS Status_id, Ativo, Nome AS Nome_status 
+            FROM Status 
+            WHERE TRUE ".$Ativos." AND Id = ".$this->db->escape_str($id)."");
+        return $query->row_object();
     }
 }

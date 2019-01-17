@@ -28,7 +28,7 @@ class Cliente_model extends Geral_model
 					FROM Cliente 
 				WHERE Usuario_id = ".$this->db->escape($usuario_id)."");
 
-        return $query->row_array();
+        return $query->row_object();
     }
     /*!
     *	RESPONSÁVEL POR CADASTRAR UM CLIENTE.

@@ -23,14 +23,18 @@
         */
         public function get_tipo_usuario($id = FALSE, $ativo)
         {
+            $Ativos = "";
+            if($ativo == true)
+                $Ativos = " AND Ativo = 1 ";
+
             if($id === FALSE)
             {
                 $query = $this->db->query("
-                  SELECT * FROM Tipo_usuario WHERE Ativo = ".$this->db->escape($ativo)."");
-                return $query->result_array();
+                  SELECT * FROM Tipo_usuario WHERE TRUE  ".$Ativos." ");
+                return $query->result_object();
             }
             $query = $this->db->query("
-              SELECT * FROM Tipo_usuario WHERE Ativo = ".$this->db->escape($ativo)." AND Id = ".$this->db->escape($id)."");
-            return $query->row_array();
+              SELECT * FROM Tipo_usuario WHERE TRUE ".$Ativos." AND Id = ".$this->db->escape($id)."");
+            return $query->row_object();
         }
     }

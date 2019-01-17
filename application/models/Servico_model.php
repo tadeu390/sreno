@@ -34,15 +34,11 @@ class Servico_model extends Geral_model
         if($ativo == true)
             $Ativos = " AND Ativo = 1 ";
 
-        if($id === FALSE)
-        {
-            $query = $this->db->query("SELECT Id AS Anexo_id, Ativo, Legenda, Arquivo, Ocos_id     
-              FROM Servico WHERE Ativo = ".$this->db->escape_str($Ativos)." ");
-            return json_decode(json_encode($query->result_array()),false);
-        }
         $query = $this->db->query("SELECT Id AS Servico_id, Ativo, Valor, Descricao, Ocos_id  
-            FROM Anexo WHERE TRUE AND Ativo = ".$this->db->escape_str($Ativos)." AND Ocos_id = ".$this->db->escape_str($id)."");
-        return json_decode(json_encode($query->row_array()),false);
+            FROM Servico 
+            WHERE TRUE ".$this->db->escape_str($Ativos)." AND Ocos_id = ".$this->db->escape_str($id)."");
+
+        return $query->result_object();
     }
     /*!
     *	RESPONSÁVEL POR CADASTRAR/ATUALIZAR UM SERVIÇO.
@@ -56,5 +52,15 @@ class Servico_model extends Geral_model
             $this->db->where('Id', $this->Id);
             return $this->db->update('Servico', $this);
         }
+    }
+    /*!
+     *  RESPONSÁVEL POR "APAGAR" UM SERVIÇO DE UM DETERMINADO ORÇAMENTO/OS.
+     *
+     *  $id -> Id do serviço a ser "apagado".
+     */
+    public function deletar($id)
+    {
+        $query = $this->db->query("UPDATE Servico SET Ativo = 0  
+              WHERE Id = ".$this->db->escape($id)."");
     }
 }

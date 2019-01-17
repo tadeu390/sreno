@@ -1,9 +1,9 @@
 <?php $this->load->helper("permissao");?>
 <?php $this->load->helper("paginacao");?>
 <br /><br />
-<div class='row padding20 text-white'>
+<div class='row padding20 text-white relative' style="width: 95%; left: 3.5%">
 	<?php
-    	echo"<div class='col-lg-10 offset-lg-1 padding0'>";
+    	echo"<div class='col-lg-12 padding0'>";
 			echo"<nav aria-label='breadcrumb'>";
   				echo"<ol class='breadcrumb'>";
     				echo "<li class='breadcrumb-item active' aria-current='page'>Grupos</li>";
@@ -13,7 +13,7 @@
     ?>
 	<input type='hidden' id='controller' value='<?php echo $controller; ?>'/>
 	<?php
-		echo "<div class='col-lg-10 offset-lg-1 padding background_dark'>";
+		echo "<div class='col-lg-12 padding background_dark'>";
 			echo "<div class='table-responsive'>";
 				echo "<table class='table table-striped table-hover text-white'>";
 					echo "<thead>";

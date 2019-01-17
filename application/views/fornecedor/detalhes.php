@@ -7,9 +7,9 @@
  */
 ?>
 <br /><br />
-<div class='row padding20 text-white'>
+<div class='row padding20 text-white relative' style="width: 95%; left: 3.5%">
 	<?php
-    	echo"<div class='col-lg-10 offset-lg-1 padding0'>";
+    	echo"<div class='col-lg-12 padding0'>";
 			echo"<nav aria-label='breadcrumb'>";
   				echo"<ol class='breadcrumb'>";
     				echo"<li class='breadcrumb-item'><a href='".$url."fornecedor'>Fornecedores</a></li>";
@@ -19,7 +19,7 @@
 		echo "</div>";
     ?>
 	<?php
-		echo "<div class='col-lg-10 offset-lg-1 background_dark'>";
+		echo "<div class='col-lg-12 background_dark'>";
 			echo"<a href='javascript:window.history.go(-1)' class='link padding' title='Voltar'>";
 				echo"<span class='glyphicon glyphicon-arrow-left text-white' style='font-size: 25px;'></span>";
 			echo"</a>";

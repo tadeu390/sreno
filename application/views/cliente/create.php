@@ -5,7 +5,7 @@
 			echo"<nav aria-label='breadcrumb'>";
   				echo"<ol class='breadcrumb'>";
     				echo"<li class='breadcrumb-item'><a href='".$url."usuario'>Usuários</a></li>";
-    				echo "<li class='breadcrumb-item active' aria-current='page'>".((isset($obj['Id'])) ? 'Editar usuário' : 'Novo usuário')."</li>";
+    				echo "<li class='breadcrumb-item active' aria-current='page'>".((isset($obj->Id)) ? 'Editar usuário' : 'Novo usuário')."</li>";
     			echo "</ol>";
 			echo"</nav>";
 		echo "</div>";
@@ -19,20 +19,20 @@
 		<br /><br />
 		<?php $atr = array("id" => "form_cadastro_$controller", "name" => "form_cadastro"); 
 			echo form_open("$controller/store", $atr); 
-			echo "<input type='hidden' id='cliente_id' name='cliente_id' value='".$obj_cliente['Cliente_id']."'>";
+			echo "<input type='hidden' id='cliente_id' name='cliente_id' value='".(!empty($obj_cliente->Cliente_id) ? $obj_cliente->Cliente_id : '')."'>";
             echo "<input type='hidden' id='endereco_id' name='endereco_id' value='".(!empty($Endereco->Endereco_id) ? $Endereco->Endereco_id : "")."'>";
 		?>
 		<div class="row"><!--ABRE A ROW QUE FECHA O CREATE_EDIT DE USUARIO-->
 			<div class="col-lg-6">
                 <div class='form-group'>
                     <?php
-                    if(empty($obj['Id']))
+                    if(empty($obj->Id))
                         $method = "\"create\"";
                     else
                         $method = "\"edit\"";
 
-                    if(!empty($obj['Id']))
-                        $id = $obj['Id'];
+                    if(!empty($obj->Id))
+                        $id = $obj->Id;
                     else
                         $id = 0;
 
@@ -42,10 +42,10 @@
                     for($i = 0; $i < count($tipos_usuario); $i++)
                     {
                         $selected = "";
-                        if($tipos_usuario[$i]['Id'] == $type)
+                        if($tipos_usuario[$i]->Id == $type)
                             $selected = "selected";
 
-                        echo"<option class='background_dark' $selected value='". $tipos_usuario[$i]['Id'] ."'>".$tipos_usuario[$i]['Nome']."</option>";
+                        echo"<option class='background_dark' $selected value='". $tipos_usuario[$i]->Id ."'>".$tipos_usuario[$i]->Nome."</option>";
                     }
                     echo "</select>";
                     ?>
@@ -59,21 +59,21 @@
 		<div class="row">
             <div class="col-lg-4">
                 <div class="form-group relative">
-                    <input maxlength="100" id="cpf" name="cpf" value='<?php echo (!empty($obj_cliente['Cpf']) ? $obj_cliente['Cpf']:''); ?>' type="text" class="input-material">
+                    <input maxlength="100" id="cpf" name="cpf" value='<?php echo (!empty($obj_cliente->Cpf) ? $obj_cliente->Cpf:''); ?>' type="text" class="input-material">
                     <label for="cpf" class="label-material">CPF</label>
                     <div class='input-group mb-2 mb-sm-0 text-danger' id='error-cpf'></div>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="form-group relative">
-                    <input maxlength="100" id="celular" name="celular" value='<?php echo (!empty($obj_cliente['Celular']) ? $obj_cliente['Celular']:''); ?>' type="text" class="input-material">
+                    <input maxlength="100" id="celular" name="celular" value='<?php echo (!empty($obj_cliente->Celular) ? $obj_cliente->Celular:''); ?>' type="text" class="input-material">
                     <label for="celular" class="label-material">Celular</label>
                     <div class='input-group mb-2 mb-sm-0 text-danger' id='error-celular'></div>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="form-group relative">
-                    <input maxlength="100" id="telefone" name="telefone" value='<?php echo (!empty($obj_cliente['Telefone']) ? $obj_cliente['Telefone']:''); ?>' type="text" class="input-material">
+                    <input maxlength="100" id="telefone" name="telefone" value='<?php echo (!empty($obj_cliente->Telefone) ? $obj_cliente->Telefone:''); ?>' type="text" class="input-material">
                     <label for="telefone" class="label-material">Telefone</label>
                     <div class='input-group mb-2 mb-sm-0 text-danger' id='error-telefone'></div>
                 </div>
@@ -128,7 +128,7 @@
 					<div class='checkbox checbox-switch switch-success custom-controls-stacked'>
 						<?php
 							$checked = "checked";
-							if($obj['Ativo'] == 0 && !empty($obj['Id']))
+							if(!empty($obj->Ativo) && $obj->Ativo == 0 && !empty($obj->Id))
 								$checked = "";
 							
 							echo"<label for='conta_ativa' class=''>";
@@ -141,22 +141,22 @@
 			<div class="col-lg-8 ">
 				<div class='form-group'>
 					<?php
-						if($obj['Email_notifica_nova_conta'] == 0)
-						{
-							echo"<div class='checkbox checbox-switch switch-success custom-controls-stacked'>";
-								echo"<label for='email_notifica_nova_conta' class=''>";
-									echo "<input type='checkbox' id='email_notifica_nova_conta' name='email_notifica_nova_conta' value='1' /><span></span> Enviar e-mail de notificação";
-								echo"</label>";
-							echo "</div>";
-						}
+						if(isset($obj->Email_notifica_nova_conta) && $obj->Email_notifica_nova_conta == 1)
+                            echo "<span class='glyphicon glyphicon-ok-sign'></span> O E-mail de notificação já foi enviado para este usuário.";
 						else
-							echo "<span class='glyphicon glyphicon-ok-sign'></span> O E-mail de notificação já foi enviado para este usuário.";
+						{
+                            echo "<div class='checkbox checbox-switch switch-success custom-controls-stacked'>";
+                            echo "<label for='email_notifica_nova_conta' class=''>";
+                            echo "<input type='checkbox' id='email_notifica_nova_conta' name='email_notifica_nova_conta' value='1' /><span></span> Enviar e-mail de notificação";
+                            echo "</label>";
+                            echo "</div>";
+                        }
 					?>
 				</div>
 			</div>
 		</div>
 		<?php
-			if(empty($obj['Id']))
+			if(empty($obj->Id))
 				echo"<input type='submit' class='btn btn-danger btn-block' style='width: 200px;' value='Cadastrar'>";
 			else
 				echo"<input type='submit' class='btn btn-danger btn-block' style='width: 200px;' value='Atualizar'>";

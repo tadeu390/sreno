@@ -5,10 +5,6 @@
 	*/
 	class Usuario_model extends Geral_model 
 	{
-		public function __construct()
-		{
-			$this->load->database();
-		}
 		/*!
 		*	RESPONSÁVEL POR RETORNAR UMA LISTA DE USUÁRIOS OU UM USUÁRIO ESPECÍFICO.
 		*	
@@ -65,12 +61,14 @@
 				DATE_FORMAT(u.Data_registro, '%d/%m/%Y') as Data_registro, 
 				DATE_FORMAT(u.Data_nascimento, '%d/%m/%Y') as Data_nascimento, 
 				g.Nome AS Nome_grupo, u.Status, u.Codigo_ativacao,  
-				u.Grupo_id, u.Email_notifica_nova_conta, s.Valor, u.Tipo_usuario_id  
+				u.Grupo_id, u.Email_notifica_nova_conta, s.Valor, u.Tipo_usuario_id, t.Nome AS Nome_tipo   
 					FROM Usuario u 
+				INNER JOIN Tipo_usuario t ON u.Tipo_usuario_id = t.Id 
 				LEFT JOIN Senha s ON u.Id = s.Usuario_id 
-				LEFT JOIN Grupo g ON u.Grupo_id = g.Id
+				LEFT JOIN Grupo g ON u.Grupo_id = g.Id 
 				WHERE TRUE ".$Ativos." AND u.Id = ".$this->db->escape($Id)."");
-			return $query->row_array();
+
+				return $query->row_object();
 		}
 		/*!
 		*	RESPONSÁVEL POR MONTAR A STRING SQL DO FILTRO.
@@ -161,11 +159,14 @@
 				SELECT Email FROM Usuario 
 				WHERE Email = ".$this->db->escape($Email)."");
 			$query = $query->row_array();
-			
-			if(!empty($query) && $this->get_Usuario(FALSE ,$Id, FALSE)['Email'] != $query['Email'])
-				return "invalido";
-			
-			return "valido";
+
+            $registro_banco = $this->get_usuario(FALSE ,$Id, FALSE);
+
+            if(!empty($registro_banco->Nome_usuario) && $query['Email'] == $registro_banco->Nome_usuario)
+                return "valido";
+            else if(empty($query['Email']))
+                return "valido";
+            return "invalido";
 		}
 		/*!
 		*	RESPONSÁVEL POR RETORNAR OS USUÁRIOS DE UM DETERMINADO GRUPO.

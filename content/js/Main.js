@@ -546,7 +546,33 @@ var Main = {
 	},
     ocos_validar : function()
 	{
-		Main.create_edit();
+        Main.method_redirect = "orcamento";
+        if($("#nome").val() == "")
+            Main.show_error("nome","Insira o nome do produto.", "is-invalid");
+        else if($("#nome").val().length > 100)
+            Main.show_error("nome","Máximo de 100 caracteres.", "is-invalid");
+        else if($("#cliente_id").val() == "0")
+            Main.show_error("cliente_id","Selecione um cliente", "");
+        else if($("#tipo_servico").val() == "0")
+            Main.show_error("tipo_servico","Selecione um tipo de serviço.", "");
+        else if($("#form_cadastro_"+$("#controller").val()).find("input[name='g_os']:checked").length > 0 || $("#g_os").val() == 1)
+		{
+			Main.method_redirect = "os";
+            if($("#data_inicio").val() == "")
+                Main.show_error("data_inicio","Insira a data de início.", "is-invalid");
+            else if($("#tempo").val() == "")
+                Main.show_error("tempo","Informe quantos dias levará para realizar o serviço.", "is-invalid");
+            else if($("#tempo").val() <= 0)
+                Main.show_error("tempo","O tempo deve ser um número positivo inteiro e maior do que zero.", "is-invalid");
+            else if($("#usuario_responsavel").val() == "0")
+                Main.show_error("usuario_responsavel","Selecione o usuário responsável.", "");
+            else if($("#status_ocos").val() == "0")
+                Main.show_error("status_ocos","Selecione o status.", "");
+            else
+                Main.create_edit();
+		}
+		else
+			Main.create_edit();
 	},
     carrega_pecas : function(categoria_id)
 	{

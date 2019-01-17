@@ -1,4 +1,4 @@
-<input type='hidden' id='id' name='id' value='<?php if(!empty($obj['Id'])) echo $obj['Id']; ?>'/>
+<input type='hidden' id='id' name='id' value='<?php if(!empty($obj->Id)) echo $obj->Id; ?>'/>
 <input type='hidden' id='controller' value='<?php echo $controller; ?>'/>
     <div class="col-lg-6">
         <div class='form-group'>
@@ -9,7 +9,7 @@
             for($i = 0; $i < count($grupos_usuario); $i++)
             {
                 $selected = "";
-                if($grupos_usuario[$i]['Id'] == $obj['Grupo_id'])
+                if($grupos_usuario[$i]['Id'] == $obj->Grupo_id)
                     $selected = "selected";
 
                 echo"<option class='background_dark' $selected value='". $grupos_usuario[$i]['Id'] ."'>".$grupos_usuario[$i]['Nome_grupo']."</option>";
@@ -23,21 +23,21 @@
 <div class="row">
     <div class="col-lg-4">
         <div class="form-group relative">
-            <input maxlength="100" id="nome" name="nome" value='<?php echo (!empty($obj['Nome_usuario']) ? $obj['Nome_usuario']:''); ?>' type="text" class="input-material">
+            <input maxlength="100" id="nome" name="nome" value='<?php echo (!empty($obj->Nome_usuario) ? $obj->Nome_usuario:''); ?>' type="text" class="input-material">
             <label for="nome" class="label-material">Nome</label>
             <div class='input-group mb-2 mb-sm-0 text-danger' id='error-nome'></div>
         </div>
     </div>
 	<div class="col-lg-4">
 		<div class="form-group relative">
-			<input maxlength="100" id="email" spellcheck="false" name="email" value='<?php echo (!empty($obj['Email']) ? $obj['Email']:''); ?>' type="text" class="input-material">
+			<input maxlength="100" id="email" spellcheck="false" name="email" value='<?php echo (!empty($obj->Email) ? $obj->Email:''); ?>' type="text" class="input-material">
 			<label for="email" class="label-material">E-mail</label>
 			<div class='input-group mb-2 mb-sm-0 text-danger' id='error-email'></div>
 		</div>
 	</div>
 	<div class="col-lg-4">
 		<div class="form-group relative" id="data1">
-			<input id="data_nascimento" name="data_nascimento" value='<?php echo (!empty($obj['Data_nascimento']) ? $obj['Data_nascimento']:''); ?>' type="text" class="input-material">
+			<input id="data_nascimento" name="data_nascimento" value='<?php echo (!empty($obj->Data_nascimento) ? $obj->Data_nascimento:''); ?>' type="text" class="input-material">
 			<label for="data_nascimento" class="label-material">Data de nascimento</label>
 			<div class='input-group mb-2 mb-sm-0 text-danger' id='error-data_nascimento'></div>
 		</div>
@@ -48,8 +48,8 @@
 		<legend>&nbsp;Sexo</legend>
 				<div class='form-check form-check-inline checkbox checbox-switch switch-success custom-controls-stacked'>
 					<label for="masculino">
-						<input name='sexo' id='masculino' value='1' <?php if(!empty($obj['Sexo'])) 
-							if($obj['Sexo'] == 1)
+						<input name='sexo' id='masculino' value='1' <?php if(!empty($obj->Sexo))
+							if($obj->Sexo == 1)
 								echo "checked";
 						 ?> type='radio'/> <span></span>Masculino
 					</label>
@@ -58,8 +58,8 @@
 	
 				<div class='form-check form-check-inline checkbox checbox-switch switch-success custom-controls-stacked'>
 					<label for="feminino">
-						<input name='sexo' id='feminino' value='0' <?php if(!empty($obj['Sexo']) ||(isset($obj['Sexo']) && $obj['Sexo'] == 0)) 
-							if($obj['Sexo'] == 0)
+						<input name='sexo' id='feminino' value='0' <?php if(!empty($obj->Sexo) ||(isset($obj->Sexo) && $obj->Sexo == 0))
+							if($obj->Sexo == 0)
 								echo "checked";
 						 ?> type='radio'/> <span></span>Feminino
 					</label>
@@ -69,18 +69,18 @@
 </div>
 <div class="row">
 	<?php 
-		if(empty($obj['Id']))
+		if(empty($obj->Id))
 		{
 			echo "<div class='col-lg-4'>";
 				echo "<div class='form-group relative'>";
-					echo "<input id='senha' name='senha' value='".(!empty($obj['Senha']) ? $obj['Senha']:'')."' type='password' class='input-material'>";
+					echo "<input id='senha' name='senha' value='".(!empty($obj->Senha) ? $obj->Senha:'')."' type='password' class='input-material'>";
 					echo "<label for='senha' id='label_senha' class='label-material'>Senha</label>";
 					echo "<div class='input-group mb-2 mb-sm-0 text-danger' id='error-senha'></div>";
 				echo "</div>";
 			echo "</div>";
 			echo "<div class='col-lg-4'>";
 				echo"<div class='form-group relative'>";
-					echo"<input id='confirmar_senha' name='confirmar_senha' value='".(!empty($obj['Senha']) ? $obj['Senha']:'')."' type='password' class='input-material'>";
+					echo"<input id='confirmar_senha' name='confirmar_senha' value='".(!empty($obj->Senha) ? $obj->Senha:'')."' type='password' class='input-material'>";
 					echo"<label for='confirmar_senha' id='label_confirmar_senha' class='label-material'>Confirmar senha</label>";
 					echo"<div class='input-group mb-2 mb-sm-0 text-danger' id='error-confirmar_senha'></div>";
 				echo"</div>";
@@ -114,7 +114,7 @@
 	
 	<div class="col-lg-4">
 		<?php 
-			if(!empty($obj['Id']))
+			if(!empty($obj->Id))
 				echo "<br /><br />";
 		?>
 		<button type="button" class="btn btn-warning btn-block" onclick="Main.gerador_senha()">Gerar senha</button>

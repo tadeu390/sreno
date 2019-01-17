@@ -15,6 +15,17 @@ class Peca_model extends Geral_model
     public $Estocado_em;
     public $Categoria_id;
 
+    public $Categoria;
+
+    public function __construct()
+    {
+        $this->load->model('Categoria_model');
+        $this->Categoria = $this->Categoria_model;
+        $this->model = new stdClass();
+
+        $this->model->Categoria = new stdClass();
+    }
+
     /*!
     *	RESPONSÁVEL POR RETORNAR UMA LISTA DE PEÇAS OU UMA PEÇA ESPECÍFICA.
     *
@@ -56,7 +67,13 @@ class Peca_model extends Geral_model
             SELECT Id AS Peca_id, Nome AS Nome_peca, Ativo, DATE_FORMAT(Data_registro, '%d/%m/%Y') as Data_registro, Categoria_id, Estocado_em 
                 FROM Peca 
             WHERE Id = ".$this->db->escape($id)." ".$Ativos."");
-        return $query->row_object();
+
+        if(!empty($query->row_object()))
+        {
+            $this->model = $query->row_object();
+            $this->model->Categoria = $this->Categoria->get_categoria($this->model->Categoria_id, FALSE, FALSE, FALSE, FALSE);
+        }
+        return $this->model;
     }
     /*!
     *	RESPONSÁVEL POR "APAGAR" UMA PEÇA DO BANCO DE DADOS.
@@ -97,7 +114,7 @@ class Peca_model extends Geral_model
 
         $registro_banco = $this->get_peca($this->Id, FALSE, FALSE, FALSE, FALSE);
 
-        if(!empty($registro_banco) && $query['Nome'] == $registro_banco->Nome_peca)
+        if(!empty($registro_banco->Nome_peca) && $query['Nome'] == $registro_banco->Nome_peca)
             return "valido";
         else if(empty($query['Nome']))
             return "valido";
@@ -111,8 +128,9 @@ class Peca_model extends Geral_model
     public function get_peca_por_categoria($categoria_id)
     {
         $query = $this->db->query("
-                SELECT (SELECT count(*) FROM  Peca) AS Size, Id AS Peca_id, Nome AS Nome_peca, Ativo, Categoria_id, Estocado_em 
-                    FROM Peca 
+                SELECT (SELECT count(*) FROM  Peca) AS Size, p.Id AS Peca_id, p.Nome AS Nome_peca, p.Ativo, p.Categoria_id, p.Estocado_em 
+                    FROM Peca p 
+                    INNER JOIN Estoque e ON e.Peca_id = p.Id AND e.Saldo > 0 
                 WHERE Categoria_id = ".$this->db->escape_str($categoria_id)." AND Ativo = 1");
 
         return $query->result_object();

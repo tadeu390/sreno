@@ -64,7 +64,7 @@ class Transacao_model extends Geral_model
             ///POR ENQUANTO ISSO NÃO É INTERESSANTE, POIS DA PROBLEMA PRA ORDENAR, UTILIZAR ISSO APENAS EM LUGARES QUE NÃO VOLTAM LISTA PARA ORDENACAO
             $this->model = $query->result_object();
             for($i = 0; $i < COUNT($this->model); $i++)
-                $this->model[$i]->Peca = $this->Peca->get_peca($this->model[$i]->Peca_id, $this->model[$i]->Ativo, FALSE, FALSE, FALSE);
+                $this->model[$i]->Peca = $this->Peca->get_peca($this->model[$i]->Peca_id, FALSE, FALSE, FALSE, FALSE);
 
             return $this->model;
         }

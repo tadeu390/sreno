@@ -2,9 +2,9 @@
 <?php $this->load->helper("paginacao");?>
 <?php $this->load->helper("mstring");?>
 <br /><br />
-<div class='row padding20 text-white'>
+<div class='row padding20 text-white relative' style="width: 95%; left: 3.5%">
 	<?php
-    	echo"<div class='col-lg-10 offset-lg-1 padding0'>";
+    	echo"<div class='col-lg-12 padding0'>";
 			echo"<nav aria-label='breadcrumb'>";
   				echo"<ol class='breadcrumb'>";
     				echo "<li class='breadcrumb-item active' aria-current='page'>Usuários</li>";
@@ -12,7 +12,7 @@
 			echo"</nav>";
 		echo "</div>";
 		 
-		$atr = array("id" => "form_filtros", "name" => "form_filtros","class" => "col-lg-10 offset-lg-1 padding20 background_dark", "method" => "get"); 
+		$atr = array("id" => "form_filtros", "name" => "form_filtros","class" => "col-lg-12 padding20 background_dark", "method" => "get");
 		echo form_open("$controller/index/?".$paginacao['field']."/".(($paginacao['order'] == 'ASC') ? 'DESC' : 'ASC'), $atr);
 
 		$this->load->view("usuario/_filtro", $filtros);
@@ -21,7 +21,7 @@
     ?>
 	<input type='hidden' id='controller' value='<?php echo $controller; ?>'/>
 	<?php
-		echo "<div class='col-lg-10 offset-lg-1 padding background_dark' style='margin-top: 10px;'>";
+		echo "<div class='col-lg-12 padding background_dark' style='margin-top: 10px;'>";
 			echo "<div class='table-responsive'>";
 				echo "<table class='table table-striped table-hover text-white'>";
 					echo "<thead>";

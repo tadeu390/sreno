@@ -93,7 +93,7 @@
 			{
 				$this->data['title'] = 'Detalhes do usuário';
 				$this->data['obj'] = $this->Usuario_model->get_usuario(FALSE, $id, FALSE);
-				$this->data['obj']['Ultimo_acesso'] = $this->Logs_model->get_last_access_user($this->data['obj']['Id'])['Data_registro'];
+				$this->data['obj']->Ultimo_acesso = $this->Logs_model->get_last_access_user($this->data['obj']->Id)['Data_registro'];
 				$this->view("usuario/detalhes", $this->data);
 			}
 			else
@@ -112,7 +112,7 @@
 				$this->data['title'] = 'Permissões do usuário';
 				$this->data['usuario_id'] = $id;
 				$this->data['lista_usuario_acesso'] = $this->Acesso_model->get_acesso($id);
-				$this->data['usuario'] = $this->Usuario_model->get_usuario(FALSE, $id, FALSE)['Nome_usuario'];
+				$this->data['usuario'] = $this->Usuario_model->get_usuario(FALSE, $id, FALSE)->Nome_usuario;
 				$this->view("usuario/permissoes", $this->data);
 			}
 			else
@@ -191,7 +191,7 @@
 				$this->data['obj'] = $this->Usuario_model->get_usuario(FALSE, $id, FALSE);
 				
 				if($type == NULL)
-					$this->data['type'] = $this->data['obj']['Tipo_usuario_id'];
+					$this->data['type'] = $this->data['obj']->Tipo_usuario_id;
 				else
 					$this->data['type'] = $type;
 
@@ -247,7 +247,7 @@
 			$senha_email = "";
 			if($dataToSave['Id'] >= 1)//somente se estiver editando, esse trecho é necessário ser executado antes da próxima linha depois do if
 			{
-				if($dataToSave['Grupo_id'] != $Usuario['Grupo_id'])
+				if($dataToSave['Grupo_id'] != $Usuario->Grupo_id)
 					$this->permissoes_default($dataToSave['Id'], $dataToSave['Grupo_id']);
 			}
 			$Usuario_id = $this->Usuario_model->set_usuario($dataToSave);
