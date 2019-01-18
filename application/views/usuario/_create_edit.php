@@ -9,7 +9,7 @@
             for($i = 0; $i < count($grupos_usuario); $i++)
             {
                 $selected = "";
-                if($grupos_usuario[$i]['Id'] == $obj->Grupo_id)
+                if(isset($obj->Grupo_id) && $grupos_usuario[$i]['Id'] == $obj->Grupo_id)
                     $selected = "selected";
 
                 echo"<option class='background_dark' $selected value='". $grupos_usuario[$i]['Id'] ."'>".$grupos_usuario[$i]['Nome_grupo']."</option>";

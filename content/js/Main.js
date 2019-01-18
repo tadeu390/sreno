@@ -714,7 +714,6 @@ var Main = {
             else
                 Main.modal("aviso", "A peça selecionada ja se encontra na lista abaixo. Para editar remova-a e adicione-a novamente.");
         }
-
     },
 	valida_servico : function()
 	{
@@ -739,7 +738,7 @@ var Main = {
     {
         var servico = Array();
         servico.push($("#descricao_servico").val());
-        servico.push($("#valor_servico").val().replace(",","."));
+        servico.push($("#valor_servico").val());
 
         var servico_id = Array();
         servico_id.push("descricao_servico_id_ocos_adicionado");
@@ -833,6 +832,28 @@ var Main = {
 				return true;
 		}
 		return false;
+	},
+	atualiza_preco : function()
+	{
+        Main.modal("aguardar", "Aguarde... atualizando preço.");
+        $.ajax({
+            url: Url.base_url+$("#controller").val()+'/atualiza_preco/' + $("#id").val(),
+            dataType:'json',
+            cache: false,
+            type: 'POST',
+            success: function (data)
+            {
+                setTimeout(function(){
+                    $("#modal_aguardar").modal('hide');
+                },500);
+                location.reload();
+            }
+        }).fail(function(msg){
+            setTimeout(function(){
+                $("#modal_confirm").modal('hide');
+                Main.modal("aviso", "Houve um erro ao processar sua requisição. Verifique sua conexão com a internet.");
+            },500);
+        });
 	},
 	altera_tipo_cadastro_usuario : function(tipo,registro,method)
 	{

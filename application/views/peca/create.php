@@ -73,9 +73,9 @@
         <div class='form-group'>
             <div class='checkbox checbox-switch switch-success custom-controls-stacked'>
                 <?php
-                $checked = "";
-                if(isset($obj->Ativo) && $obj->Ativo == 1)
-                    $checked = "checked";
+                $checked = "checked";
+                if(isset($obj->Ativo) && $obj->Ativo == 0)
+                    $checked = "";
 
                 echo"<label for='ativo' class='text-white'>";
                 echo "<input type='checkbox' $checked id='ativo' name='ativo' value='1' /><span></span> Peça ativa";

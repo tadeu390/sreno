@@ -138,10 +138,28 @@ class Ocos extends Geral
             $this->data['obj_status'] = $this->Status_model->get_status(FALSE, FALSE);
             $this->data['obj_cliente'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, CLIENTE);
             $this->data['obj_categoria'] = $this->Categoria_model->get_categoria(FALSE, FALSE, FALSE, FALSE, FALSE);
+
+            $this->data['analisa_preco'] = $this->analisa_preco($this->data['obj']->Linhas);
+
             $this->view("ocos/create", $this->data);
         }
         else
             $this->view("templates/permissao", $this->data);
+    }
+    /*!
+     *  RESPONSÁVEL POR DETECTAR ALTERAÇÕES DE PREÇOS DE ESTOQUE NAS LINHAS DE UM ORÇAMENTO.
+     *
+     *  $linhas -> Linhas a serem analisadas
+     */
+    public function analisa_preco($Linhas)
+    {
+        for($i = 0; $i < COUNT($Linhas); $i++)
+        {
+            $Estoque = $this->Estoque_model->get_estoque($Linhas[$i]->Peca_id, FALSE, FALSE, FALSE, FALSE);
+            if($Linhas[$i]->Preco_unitario != $Estoque->Preco_medio_unitario)
+                return 1;
+        }
+        return 0;
     }
     /*!
     *	RESPONSÁVEL POR CARREGAR O FORMULÁRIO DE CADASTRO DE ORÇAMENTOS.
@@ -210,13 +228,10 @@ class Ocos extends Geral
         $this->Ocos_model->Tipo_servico = $this->input->post('tipo_servico');
         $this->Ocos_model->Tipo = ORCAMENTO;
         $this->Ocos_model->Usuario_criador_id = $this->Account_model->session_is_valid()['id'];
-        if(!empty($this->input->post('g_os')))
-        {
-            $this->Ocos_model->Data_inicio = $this->convert_date($this->input->post('data_inicio'), "en");
-            $this->Ocos_model->Tempo = $this->input->post('tempo');
-            $this->Ocos_model->Status_id = $this->input->post('status_ocos');;
-            $this->Ocos_model->Usuario_responsavel_id = $this->input->post('usuario_responsavel');;
-        }
+        $this->Ocos_model->Status_id = (!empty($this->input->post('status_ocos')) ? $this->input->post('status_ocos') : NAO_DEFINIDO);
+        $this->Ocos_model->Data_inicio = $this->convert_date($this->input->post('data_inicio'), "en");
+        $this->Ocos_model->Tempo = $this->input->post('tempo');
+        $this->Ocos_model->Usuario_responsavel_id = (($this->input->post('usuario_responsavel') == 0) ? null : $this->input->post('usuario_responsavel'));
 
         //bloquear acesso direto ao metodo store
         if(!empty($this->input->post()))
@@ -238,6 +253,8 @@ class Ocos extends Geral
                             $this->Linha_model->Peca_id = $this->input->post('peca_id_ocos_adicionado_hide_col1_lin' . $i);
                             $this->Linha_model->Quantidade = $this->input->post('qtd_id_ocos_adicionado_col2_lin' . $i);
                             $this->Linha_model->Preco_unitario = $this->input->post('preco_unitario_id_ocos_adicionado_col3_lin' . $i);
+                            $this->Linha_model->Preco_unitario = str_replace(',', '.',$this->Linha_model->Preco_unitario);
+
                             $this->Linha_model->Ocos_id = $ocos_id;
 
                             for($j = 0; $j < COUNT($linhas); $j ++)
@@ -259,6 +276,7 @@ class Ocos extends Geral
                             $this->Servico_model->Id = $this->input->post('servico_id_ocos'.$i);
                             $this->Servico_model->Descricao = $this->input->post('descricao_servico_id_ocos_adicionado_col0_lin' . $i);
                             $this->Servico_model->Valor = $this->input->post('valor_servico_id_ocos_adicionado_col1_lin' . $i);
+                            $this->Servico_model->Valor = str_replace(',', '.',$this->Servico_model->Valor);
                             $this->Servico_model->Ocos_id = $ocos_id;
 
                             for($j = 0; $j < COUNT($servicos); $j ++)
@@ -281,8 +299,12 @@ class Ocos extends Geral
 
                     $resultado = "sucesso";
                     //verificar se deve gerar a OS
-                    if(!empty($this->input->post('g_os')))
+                    if($this->input->post('g_os') == 0)
+                    {
+                        $Linhas = $this->Ocos_model->get_ocos($ocos_id, FALSE, FALSE, FALSE, FALSE, ORCAMENTO)->Linhas;
+                        $this->Linha_model->atualiza_preco_linha($Linhas);
                         $this->Ocos_model->gerar_os($ocos_id);
+                    }
                 }
             }
             else
@@ -356,6 +378,21 @@ class Ocos extends Geral
             $resultado = "A quantidade informada é superior a quantidade disponível em estoque. <br /> Quantidade disponível: ".$estoque->Saldo;
 
         $arr = array('response' => $resultado, 'preco_unitario' => $preco_unitario, 'total' => $total);
+        header('Content-Type: application/json');
+        echo json_encode($arr);
+    }
+    /*!
+     *   RESPONSÁVEL POR ATUALIZAR OS PREÇOS DAS LINHAS DE UM DETERMINADO ORÇAMENTO.
+     *
+     *  $id -> Id da um orçamento.
+    */
+    public function atualiza_preco($id)
+    {
+        $resultado = "sucesso";
+        $Linhas = $this->Ocos_model->get_ocos($id, FALSE, FALSE, FALSE, FALSE, ORCAMENTO)->Linhas;
+        $this->Linha_model->atualiza_preco_linha($Linhas);
+
+        $arr = array('response' => $resultado);
         header('Content-Type: application/json');
         echo json_encode($arr);
     }

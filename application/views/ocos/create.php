@@ -214,6 +214,15 @@
                 </div>
             </div>
         </fieldset>
+        <?php if(isset($analisa_preco) && $analisa_preco == 1) : ?>
+            <br />
+            <div  style="border: 1px solid white;" class="p-2 border_radius bg-warning text-center">
+                <input type='button' id="bt_atualiza_preco" class='btn btn-danger btn-block' value='Atualizar preços' style="display: inline; width: auto;">
+                <br />
+                <br />
+                <span class="text-danger">Foi detectado uma alteração no preço de estoque de algumas peças. Clique no botão para atualizar o preço das peças adicionadas.</span>
+            </div>
+        <?php endif; ?>
         <br />
         <fieldset>
             <legend>&nbsp;Peças adicionadas</legend>
@@ -332,12 +341,12 @@
         <div class='form-group'>
             <div class='checkbox checbox-switch switch-success custom-controls-stacked'>
                 <?php
-                $checked = "";
-                if(isset($obj->Ativo) && $obj->Ativo == 1)
-                    $checked = "checked";
+                $checked = "checked";
+                if(isset($obj->Ativo) && $obj->Ativo == 0)
+                    $checked = "";
 
                 echo"<label for='ativo' class='text-white'>";
-                echo "<input type='checkbox' $checked id='ativo' name='ativo' value='1' /><span></span> Orçamento ativo";
+                echo "<input type='checkbox' $checked id='ativo' name='ativo' value='1' /><span></span> ".($method == 'edit_os' ? 'Ordem de serviço ativa' : 'orçamento ativo');
                 echo"</label>";
                 ?>
             </div>
@@ -347,7 +356,7 @@
                 <div class='checkbox checbox-switch switch-success custom-controls-stacked'>
                     <?php
                     echo"<label for='g_os' class='text-white'>";
-                    echo "<input type='checkbox' id='g_os' name='g_os' value='1' /><span></span> Gerar ordem de serviço";
+                    echo "<input type='checkbox' id='g_os' name='g_os' value='0' /><span></span> Gerar ordem de serviço";
                     echo"</label>";
                     ?>
                 </div>

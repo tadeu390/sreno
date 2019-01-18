@@ -128,9 +128,8 @@
 					<div class='checkbox checbox-switch switch-success custom-controls-stacked'>
 						<?php
 							$checked = "checked";
-							if(!empty($obj->Ativo) && $obj->Ativo == 0 && !empty($obj->Id))
-								$checked = "";
-							
+							if(isset($obj->Ativo) && $obj->Ativo == 0)
+                                $checked = "";
 							echo"<label for='conta_ativa' class=''>";
 								echo "<input type='checkbox' $checked id='conta_ativa' name='conta_ativa' value='1' /><span></span> Conta ativa";
 							echo"</label>";

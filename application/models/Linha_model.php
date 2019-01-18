@@ -24,6 +24,7 @@ class Linha_model extends Geral_model
     {
         $this->Ativo = 1;
         $this->load->model('Peca_model');
+        $this->load->model('Estoque_model');
 
         $this->Peca = $this->Peca_model;
     }
@@ -71,5 +72,24 @@ class Linha_model extends Geral_model
     {
         $query = $this->db->query("UPDATE Linha SET Ativo = 0  
               WHERE Id = ".$this->db->escape($id)."");
+    }
+    /*!
+     *  RESPONSÁVEL POR ATUALIZAR NO BANCO DE DADOS OS PREÇOS DE CADA LINHA.
+     *
+     *  $Linhas -> Linhas(peças) de um orçamento.
+     */
+    public function atualiza_preco_linha($Linhas)
+    {
+        for($i = 0; $i < COUNT($Linhas); $i++)
+        {
+            $Estoque = $this->Estoque_model->get_estoque($Linhas[$i]->Peca_id, FALSE, FALSE, FALSE, FALSE);
+            $this->Linha_model->Id = $Linhas[$i]->Linha_id;
+            $this->Linha_model->Ativo = $Linhas[$i]->Ativo;
+            $this->Linha_model->Preco_unitario = $Estoque->Preco_medio_unitario;
+            $this->Linha_model->Quantidade = $Linhas[$i]->Quantidade;
+            $this->Linha_model->Ocos_id = $Linhas[$i]->Ocos_id;
+            $this->Linha_model->Peca_id = $Linhas[$i]->Peca_id;
+            $this->Linha_model->set_linha();
+        }
     }
 }

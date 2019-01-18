@@ -43,6 +43,9 @@ $(document).ready(
     });
 
     //LOGIN
+    $('#bt_atualiza_preco').click(function() {
+        Main.atualiza_preco();
+    });
     $('#status_ocos').blur(function() {
         if (this.value != '0') Main.show_error("status_ocos", '', '');
     });

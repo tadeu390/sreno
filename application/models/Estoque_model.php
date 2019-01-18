@@ -52,7 +52,7 @@ class Estoque_model extends Geral_model
                 WHERE TRUE ".$Ativos." 
                  ".$pagination.") AS x ".str_replace("'", "", $this->db->escape($order))."");
 
-            return json_decode(json_encode($query->result_array()),false);
+            return $query->result_object();
         }
 
         $query = $this->db->query("
@@ -60,7 +60,7 @@ class Estoque_model extends Geral_model
                 FROM Estoque 
             WHERE Peca_id = ".$this->db->escape($peca_id)." ".$Ativos."");
 
-        return json_decode(json_encode($query->row_array()),false);
+        return $query->row_object();
     }
     /*!
     *	RESPONSÁVEL POR CADASTRAR/ATUALIZAR UM ESTOQUE NO BANCO DE DADOS.
@@ -88,12 +88,12 @@ class Estoque_model extends Geral_model
                 $total = $valor_estoque + $valor_transacao;
 
                 $this->Preco_medio_unitario = $total / $this->Saldo;
-
+                $this->Preco_medio_unitario = number_format($this->Preco_medio_unitario ,2, '.', ' ');
                 $this->db->where('Peca_id', $this->Peca_id);
                 $this->db->update('Estoque', $this);
             }
         }
-        else
+        else//debitar do estoque (ainda nao testado)
         {
             $this->Preco_medio_unitario = $estoque->Preco_medio_unitario;
             $this->Saldo = $estoque->Saldo + $transacao->Quantidade;
@@ -121,6 +121,7 @@ class Estoque_model extends Geral_model
         $total = $valor_estoque + $valor_transacao;
         $this->Saldo = $estoque->Saldo;
         $this->Preco_medio_unitario = $total / $this->Saldo;
+        $this->Preco_medio_unitario = number_format($this->Preco_medio_unitario ,2, '.', ' ');
         $this->Peca_id = $transacao->Peca_id;
 
         $this->db->where('Peca_id', $this->Peca_id);
@@ -138,6 +139,7 @@ class Estoque_model extends Geral_model
         $this->Saldo = $estoque->Saldo + ($transacao_alterada->Quantidade - $transacao->Quantidade);
 
         $this->Preco_medio_unitario = $total / $this->Saldo;
+        $this->Preco_medio_unitario = number_format($this->Preco_medio_unitario ,2, '.', ' ');
         $this->Peca_id = $transacao->Peca_id;
 
         $this->db->where('Peca_id', $this->Peca_id);
@@ -161,6 +163,7 @@ class Estoque_model extends Geral_model
         $total = $valor_estoque + $valor_transacao;
         $this->Saldo = $estoque->Saldo - $transacao_alterada->Quantidade;
         $this->Preco_medio_unitario = $total / $this->Saldo;
+        $this->Preco_medio_unitario = number_format($this->Preco_medio_unitario ,2, '.', ' ');
         $this->Peca_id = $transacao->Peca_id;
 
         $this->db->where('Peca_id', $this->Peca_id);
