@@ -158,6 +158,16 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group relative">
+                    <label for="descricao_ocos" class="label-material">Descrição</label>
+                    <textarea id="descricao_ocos" name="descricao_ocos" style="height: 100px;" class="form-control bg-white"><?php echo (!empty($obj->Descricao) ? $obj->Descricao:''); ?></textarea>
+                    <div class='input-group mb-2 mb-sm-0 text-danger' id='error-descricao_ocos'></div>
+                </div>
+            </div>
+        </div>
+        <?php if($method != "edit_os") : ?>
         <fieldset>
             <legend>&nbsp;Peças</legend>
             <div class="row">
@@ -214,6 +224,7 @@
                 </div>
             </div>
         </fieldset>
+        <?php endif; ?>
         <?php if(isset($analisa_preco) && $analisa_preco == 1) : ?>
             <br />
             <div  style="border: 1px solid white;" class="p-2 border_radius bg-warning text-center">
@@ -230,7 +241,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-responsive">
-                        <table class="table table-hover background_white w-100" style="color: black;">
+                        <table class="table table-hover background_white w-100">
                             <thead>
                                 <tr>
                                     <td>Categoria</td>
@@ -265,7 +276,8 @@
                                                 echo "<input type='text' readonly='readonly' id='total_id_ocos_adicionado_col4_lin".$i."' name='total_id_ocos_adicionado_col4_lin".$i."' class='form-control background_white' value='".number_format($obj->Linhas[$i]->Preco_unitario * $obj->Linhas[$i]->Quantidade ,2, ',', ' ')."'>";
                                             echo"</td>";
                                             echo"<td style='vertical-align: middle;' class='text-center'>";
-                                                echo "<span class='glyphicon glyphicon-remove text-danger' style='cursor: pointer;' title='Remover peça' onclick='Main.remove_elemento(\"peça_id_ocos_adicionado_linha".$i."\")'></span>";
+                                                if($method == "edit")
+                                                    echo "<span class='glyphicon glyphicon-remove text-danger' style='cursor: pointer;' title='Remover peça' onclick='Main.remove_elemento(\"peça_id_ocos_adicionado_linha".$i."\")'></span>";
                                             echo"</td>";
                                         echo"</tr>";
                                         $total_pecas = $total_pecas + ($obj->Linhas[$i]->Preco_unitario * $obj->Linhas[$i]->Quantidade);
@@ -278,6 +290,7 @@
             </div>
         </fieldset>
         <br />
+        <?php if($method != "edit_os") : ?>
         <fieldset>
             <legend>&nbsp;Serviços</legend>
             <div class="row">
@@ -300,6 +313,7 @@
                 </div>
             </div>
         </fieldset>
+        <?php endif; ?>
         <br />
         <fieldset>
             <legend>&nbsp;Serviços adicionados</legend>
@@ -329,7 +343,8 @@
                                                 echo"<input type='text' readonly='readonly' id='valor_servico_id_ocos_adicionado_col1_lin".$i."' name='valor_servico_id_ocos_adicionado_col1_lin".$i."' class='form-control background_white' value='".number_format($obj->Servicos[$i]->Valor ,2, ',', ' ')."'>";
                                             echo"</td>";
                                             echo "<td style='vertical-align: middle;' class='text-center'>";
-                                                echo "<span class='glyphicon glyphicon-remove text-danger' style='cursor: pointer;' title='Remover serviço' onclick='Main.remove_elemento(\"serviço_id_ocos_adicionado_linha".$i."\")'></span>";
+                                                if($method == "edit")
+                                                    echo "<span class='glyphicon glyphicon-remove text-danger' style='cursor: pointer;' title='Remover serviço' onclick='Main.remove_elemento(\"serviço_id_ocos_adicionado_linha".$i."\")'></span>";
                                             echo "</td>";
                                         echo "</tr>";
                                         $total_servicos = $total_servicos + $obj->Servicos[$i]->Valor;
@@ -389,13 +404,13 @@
                 <div class='checkbox checbox-switch switch-success custom-controls-stacked'>
                     <?php
                     echo"<label for='g_os' class='text-white'>";
-                    echo "<input type='checkbox' id='g_os' name='g_os' value='0' /><span></span> Gerar ordem de serviço";
+                    echo "<input type='checkbox' id='g_os' name='g_os' value='1' /><span></span> Gerar ordem de serviço";
                     echo"</label>";
                     ?>
                 </div>
             </div>
         <?php else : ?>
-            <input type='hidden' value="1" id="g_os" name="g_os" />
+            <input type='hidden' value="1" id="os_gerada" name="os_gerada" />
         <?php endif; ?>
         <?php
         if(empty($obj->Ocos_id))

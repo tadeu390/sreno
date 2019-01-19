@@ -555,11 +555,13 @@ var Main = {
             Main.show_error("cliente_id","Selecione um cliente", "");
         else if($("#tipo_servico").val() == "0")
             Main.show_error("tipo_servico","Selecione um tipo de serviço.", "");
+        else if($("#descricao_ocos").val() == "")
+            Main.show_error("descricao_ocos","Insira a descrição.", "");
         else if(Main.valida_quantidade_peca() == false)
 			Main.modal("aviso", "É necessário informar pelo menos uma peça.");
         else if(Main.valida_quantidade_servico() == false)
             Main.modal("aviso", "É necessário informar pelo menos um serviço.");
-        else if($("#form_cadastro_"+$("#controller").val()).find("input[name='g_os']:checked").length > 0 || $("#g_os").val() == 1)
+        else if($("#form_cadastro_"+$("#controller").val()).find("input[name='g_os']:checked").length > 0 || $("#os_gerada").val() == 1)
 		{
 			Main.method_redirect = "os";
             if($("#data_inicio").val() == "")
@@ -796,7 +798,7 @@ var Main = {
     {
         var servico = Array();
         servico.push($("#descricao_servico").val());
-        servico.push($("#valor_servico").val());
+        servico.push(parseFloat($("#valor_servico").val().toString().replace(',','.')).toFixed(2).toString().replace('.', ','));
 
         var servico_id = Array();
         servico_id.push("descricao_servico_id_ocos_adicionado");

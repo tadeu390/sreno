@@ -98,6 +98,14 @@ class Ocos_model extends Geral_model
                 WHERE TRUE ".$Ativos." ".$t."
 			    ".str_replace("'", "", $this->db->escape($order))." ".$pagination."");
 
+            if(!empty($query->result_object()))
+            {
+                $this->model = $query->result_object();
+                for($i = 0; $i < COUNT($query->result_object()); $i++)
+                    $this->model[$i]->Status = $this->Status->get_status($this->model[$i]->Status_id, FALSE);
+                return $this->model;
+            }
+
             return $query->result_object();
         }
 
@@ -108,7 +116,7 @@ class Ocos_model extends Geral_model
                 DATE_FORMAT(DATE_ADD(Data_inicio, INTERVAL Tempo DAY), '%d/%m/%Y') AS Data_fim, Tipo,   
                 Status_id, Usuario_criador_id, Usuario_responsavel_id, Cliente_id, Observacao     
                 FROM Ocos 
-                WHERE TRUE ".$Ativos." AND Id = ".$this->db->escape($id)."");
+                WHERE TRUE ".$Ativos." ".$t." AND Id = ".$this->db->escape($id)."");
 
         if(!empty($query->row_object()))
         {
@@ -141,20 +149,11 @@ class Ocos_model extends Geral_model
         }
         else
         {
+
             $this->db->where('Id', $this->Id);
             $this->db->update('Ocos', $this);
             return $this->Id;
         }
-    }
-    /*!
-     *  RESPONSÁVEL POR ALTERAR O STATUS DE UM ORÇAMENTO NO BANCO DE DADOS PARA ORDEM DE SERVIÇO.
-     *
-     *  $id -> id do orçamento.
-     */
-    public function gerar_os($id)
-    {
-        $query = $this->db->query("UPDATE Ocos SET Tipo = 2 
-          WHERE Id = ".$this->db->escape($id)."");
     }
     /*!
      *  RESPONSÁVEL POR "APAGAR" ORÇAMENTO/OS

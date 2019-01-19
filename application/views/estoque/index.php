@@ -88,10 +88,10 @@
 								    echo $estoque[$i]->Saldo." ".$estoque[$i]->Estocado_em;
                                 echo"</td>";
                                 echo "<td>";
-                                    echo "R$ ".number_format(round($estoque[$i]->Preco_medio_unitario, 2),2, ',', ' ');
+                                    echo "R$ ".number_format(round($estoque[$i]->Preco_medio_unitario, 2),2, ',', '.');
                                 echo "</td>";
                                 echo "<td>";
-                                    echo "R$ ".number_format(round($estoque[$i]->Total_estoque, 2),2, ',', ' ');
+                                    echo "R$ ".number_format(round($estoque[$i]->Total_estoque, 2),2, ',', '.');
                                 echo "</td>";
 							echo "</tr>";
 						}

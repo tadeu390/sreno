@@ -73,31 +73,20 @@ class Estoque_model extends Geral_model
         $this->Peca_id = $transacao->Peca_id;
         $this->Saldo = $transacao->Quantidade;
 
-        if($transacao->Quantidade > 0)
-        {
-            $this->Preco_medio_unitario = $transacao->Preco_unitario;
+        $this->Preco_medio_unitario = $transacao->Preco_unitario;
 
-            if(empty($estoque))
-                $this->db->insert('Estoque', $this);
-            else
-            {
-                $this->Saldo = $estoque->Saldo + $transacao->Quantidade;
-                $this->Id = $estoque->Estoque_id;
-                $valor_estoque = $estoque->Saldo * $estoque->Preco_medio_unitario;
-                $valor_transacao = $transacao->Preco_unitario * $transacao->Quantidade;
-                $total = $valor_estoque + $valor_transacao;
-
-                $this->Preco_medio_unitario = $total / $this->Saldo;
-                $this->Preco_medio_unitario = number_format($this->Preco_medio_unitario ,2, '.', ' ');
-                $this->db->where('Peca_id', $this->Peca_id);
-                $this->db->update('Estoque', $this);
-            }
-        }
-        else//debitar do estoque (ainda nao testado)
+        if(empty($estoque))
+            $this->db->insert('Estoque', $this);
+        else
         {
-            $this->Preco_medio_unitario = $estoque->Preco_medio_unitario;
             $this->Saldo = $estoque->Saldo + $transacao->Quantidade;
+            $this->Id = $estoque->Estoque_id;
+            $valor_estoque = $estoque->Saldo * $estoque->Preco_medio_unitario;
+            $valor_transacao = $transacao->Preco_unitario * $transacao->Quantidade;
+            $total = $valor_estoque + $valor_transacao;
 
+            $this->Preco_medio_unitario = $total / $this->Saldo;
+            $this->Preco_medio_unitario = number_format($this->Preco_medio_unitario ,2, '.', ' ');
             $this->db->where('Peca_id', $this->Peca_id);
             $this->db->update('Estoque', $this);
         }
@@ -162,9 +151,46 @@ class Estoque_model extends Geral_model
 
         $total = $valor_estoque + $valor_transacao;
         $this->Saldo = $estoque->Saldo - $transacao_alterada->Quantidade;
-        $this->Preco_medio_unitario = $total / $this->Saldo;
+        $this->Preco_medio_unitario = 0;
+        if($total > 0)
+            $this->Preco_medio_unitario = $total / $this->Saldo;
+
         $this->Preco_medio_unitario = number_format($this->Preco_medio_unitario ,2, '.', ' ');
         $this->Peca_id = $transacao->Peca_id;
+
+        $this->db->where('Peca_id', $this->Peca_id);
+        $this->db->update('Estoque', $this);
+    }
+    /*!
+     *  RESPONSÁVEL POR FAZER A ANÁLISE DE DISPONIBILIDADE DE PEÇAS EM ESTOQUE ANTES DE GERAR UMA ORDEM DE SERVIÇO PARA CADA LINHA
+     *  SE UMA LINHA SEQUER ESTIVER COM QUANTIDADE INSUFICIENTE, NÃO SERÁ POSSÍVEL GERAR A ORDEM DE SERVIÇO ATÉ QUE O ESTOQUE DA PEÇA SEJA AUMENTADO.
+     *
+     *  $Linhas -> Lista de objetos que contém as informações de cada linha de uma OS.
+     *  @return -> Retorna true para análise ok e false para análise com identificação de indisponibilidade de estoque.
+     */
+    public function analise_pre_debito($Linhas)
+    {
+        for($i = 0; $i < COUNT($Linhas); $i++)
+        {
+            $estoque = $this->get_estoque($Linhas[$i]->Peca_id, FALSE, FALSE, FALSE, FALSE);
+            if($estoque->Saldo < $Linhas[$i]->Quantidade)
+                return false;
+        }
+        return true;
+    }
+    /*!
+     *  RESPONSÁVEL POR DEBITAR DO ESTOQUE UMA QUANTIDADE POR PEÇA TODA VEZ QUE UMA OS É GERADA NO SISTEMA.
+     *
+     *  $Linha -> Objeto que contém as informações de uma linha de uma OS.
+     */
+    public function debita_quantidade($Linha)
+    {
+        $estoque = $this->get_estoque($Linha->Peca_id, FALSE, FALSE, FALSE, FALSE);
+        $this->Peca_id = $Linha->Peca_id;
+
+        $this->Id = $estoque->Estoque_id;
+        $this->Preco_medio_unitario = $estoque->Preco_medio_unitario;
+        $this->Saldo = $estoque->Saldo - $Linha->Quantidade;
 
         $this->db->where('Peca_id', $this->Peca_id);
         $this->db->update('Estoque', $this);

@@ -35,15 +35,15 @@
 				echo "<table class='table table-striped table-hover text-white'>";
 					echo "<thead>";
 						echo"<tr>";
-							echo"<td colspan='4' style='font-size: 12px;'>";
-							if(!empty($ocos[0]->Size))
+							echo"<td colspan='5' style='font-size: 12px;'>";
+							if(isset($ocos[0]->Size))
 								echo "A busca retornou ".$ocos[0]->Size." registro(s)";
 							else
 								echo "A busca não obteve resultados.";
 							echo"</td>";
 						echo"</tr>";
 						echo"<tr>";
-							echo"<td class='text-right' colspan='4'>";
+							echo"<td class='text-right' colspan='5'>";
 							if(permissao::get_permissao(CREATE, $controller) && $method == 'orcamento')
 								echo"<a class='btn btn-danger' href='".$url."$controller/create/0/'><span class='glyphicon glyphicon-plus'></span> Novo orçamento </a>";
 							echo"</td>";
@@ -64,6 +64,13 @@
 								else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Tipo_servico')
 									echo "&nbsp;<div class='fa fa-chevron-up'></div>";
 							echo "</td>";
+                            echo "<td>";
+                            echo "<a id='col-list' href='".$url."$controller/".$method."/".$paginacao['pg_atual']."/Status_id/".$paginacao['order']."'>Status</a>";
+                            if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Status_id')
+                                echo "&nbsp;<div class='fa fa-chevron-down'></div>";
+                            else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Status_id')
+                                echo "&nbsp;<div class='fa fa-chevron-up'></div>";
+                            echo "</td>";
 							//echo "<td>E-mail</td>";
 							//echo "<td>Grupo</td>";
 							echo "<td class='text-right'>Ações</td>";
@@ -81,6 +88,7 @@
 								mstring::corta_string($ocos[$i]->Nome_produto, 25)
 								."</span></td>";
 								echo "<td $cor>".(($ocos[$i]->Tipo_servico == 1) ? "Fabricação" : "Reparo" )."</td>";
+								echo "<td $cor>".$ocos[$i]->Status->Nome_status."</td>";
 								echo "<td class='text-right'>";
 									if(permissao::get_permissao(UPDATE, $controller))
 										echo "<a href='".$url.$controller."/".(($method == 'orcamento') ? "edit" : "edit_os")."/".$ocos[$i]->Ocos_id."' title='Editar' style='cursor: pointer;' class='glyphicon glyphicon-edit text-danger'></a> | ";

@@ -30,6 +30,7 @@ class Ocos extends Geral
         $this->load->model('Servico_model');
         $this->load->model('Linha_model');
         $this->load->model('Estoque_model');
+        $this->load->model('Transacao_model');
 
         $this->set_menu();
         $this->data['controller'] = strtolower(get_class($this));
@@ -92,6 +93,7 @@ class Ocos extends Geral
             $this->data['paginacao']['method'] = "orcamento";
 
             $this->data['ocos'] = $this->Ocos_model->get_ocos(FALSE, TRUE, $page, FALSE, $ordenacao, OS);
+
             $this->data['paginacao']['size'] = (!empty($this->data['ocos']) ? $this->data['ocos'][0]->Size : 0);
             $this->data['paginacao']['pg_atual'] = $page;
             $this->view("ocos/orcamento", $this->data);
@@ -112,6 +114,10 @@ class Ocos extends Geral
         if($this->Geral_model->get_permissao(UPDATE, get_class($this)) == TRUE)
         {
             $this->data['obj'] = $this->Ocos_model->get_ocos($id, FALSE, FALSE, FALSE, FALSE, FALSE);
+
+            if($this->data['obj']->Tipo != OS)
+                redirect("ocos/edit/".$this->data['obj']->Ocos_id);
+
             $this->data['obj_responsavel'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, ADMIN);
             $this->data['obj_status'] = $this->Status_model->get_status(FALSE, FALSE);
             $this->data['obj_cliente'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, CLIENTE);
@@ -134,6 +140,10 @@ class Ocos extends Geral
         if($this->Geral_model->get_permissao(UPDATE, get_class($this)) == TRUE)
         {
             $this->data['obj'] = $this->Ocos_model->get_ocos($id, FALSE, FALSE, FALSE, FALSE, FALSE);
+
+            if($this->data['obj']->Tipo != ORCAMENTO)
+                redirect("ocos/edit_os/".$this->data['obj']->Ocos_id);
+
             $this->data['obj_responsavel'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, ADMIN);
             $this->data['obj_status'] = $this->Status_model->get_status(FALSE, FALSE);
             $this->data['obj_cliente'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, CLIENTE);
@@ -193,7 +203,9 @@ class Ocos extends Geral
             return "Selecione um cliente.";
         else if($this->Ocos_model->Tipo_servico == 0)
             return "Selecione um tipo de serviço.";
-        if(!empty($this->input->post('g_os')))
+        else if($this->Ocos_model->Descricao == "")
+            return "Insira a descrição.";
+        else if($this->Ocos_model->Tipo == OS)
         {
             if ($this->Ocos_model->Data_inicio == "")
                 return "Insira a data de início.";
@@ -212,6 +224,7 @@ class Ocos extends Geral
     public function store_banco()
     {
         return $this->Ocos_model->set_ocos();
+
     }
     /*!
     *	RESPONSÁVEL POR CAPTAR OS DADOS DO FORMULÁRIO SUBMETIDO.
@@ -226,8 +239,12 @@ class Ocos extends Geral
         $this->Ocos_model->Cliente_id = $this->input->post('cliente_id');
         $this->Ocos_model->Cliente_id = $this->input->post('cliente_id');
         $this->Ocos_model->Tipo_servico = $this->input->post('tipo_servico');
-        $this->Ocos_model->Tipo = ORCAMENTO;
-        $this->Ocos_model->Observacao = $this->input->post('observacao');;
+        $this->Ocos_model->Descricao = $this->input->post('descricao_ocos');
+        $this->Ocos_model->Tipo = (empty($this->input->post('g_os')) ? ORCAMENTO : OS);
+        $ocos = $this->Ocos_model->get_ocos($this->Ocos_model->Id, FALSE, FALSE, FALSE, FALSE, FALSE);
+        if(isset($ocos->Ocos_id) && $ocos->Tipo == OS)
+            $this->Ocos_model->Tipo = $ocos->Tipo;
+        $this->Ocos_model->Observacao = $this->input->post('observacao');
         $this->Ocos_model->Usuario_criador_id = $this->Account_model->session_is_valid()['id'];
         $this->Ocos_model->Status_id = (!empty($this->input->post('status_ocos')) ? $this->input->post('status_ocos') : NAO_DEFINIDO);
         $this->Ocos_model->Data_inicio = $this->convert_date($this->input->post('data_inicio'), "en");
@@ -297,14 +314,26 @@ class Ocos extends Geral
 
                     for($i = 0; $i < COUNT($servicos); $i ++)
                         $this->Servico_model->deletar($servicos[$i]->Servico_id);
-
                     $resultado = "sucesso";
-                    //verificar se deve gerar a OS
-                    if($this->input->post('g_os') == '0')
+
+                    $ocos = $this->Ocos_model->get_ocos($this->Ocos_model->Id, FALSE, FALSE, FALSE, FALSE, FALSE);
+                    //atualiza o preço da linha toda vez que gerar a OS
+                    if(!empty($this->input->post('g_os')))
                     {
-                        $Linhas = $this->Ocos_model->get_ocos($ocos_id, FALSE, FALSE, FALSE, FALSE, ORCAMENTO)->Linhas;
-                        $this->Linha_model->atualiza_preco_linha($Linhas);
-                        $this->Ocos_model->gerar_os($ocos_id);
+                        $this->Linha_model->atualiza_preco_linha($ocos->Linhas);
+                        //quando a os é gerada, então debitar a quantidade do estoque para que fique reservado as peças de cada os
+                        if($this->Estoque_model->analise_pre_debito($ocos->Linhas) == true)
+                        {
+                            for ($j = 0; $j < COUNT($ocos->Linhas); $j++)
+                                $this->Estoque_model->debita_quantidade($ocos->Linhas[$j]);
+                        }
+                        else
+                        {
+                            $resultado = "Impossível gerar a ordem de serviço, pois algumas peças encontram-se com quantidades insuficientes em estoque.";
+                            //acima, a chamada de store_banco() marcou o orçamento como ordem de serviço. caso caia nesse else, então deve-se voltar o status para orçamento.
+                            $this->Ocos_model->Tipo = ORCAMENTO;
+                            $this->store_banco();
+                        }
                     }
                 }
             }
