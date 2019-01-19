@@ -243,6 +243,7 @@
                             </thead>
                             <tbody id="table_peça_adicionado" style="color: black;">
                                 <?php
+                                    $total_pecas = 0;
                                     for($i = 0; $i < COUNT($obj->Linhas); $i++)
                                     {
                                         echo"<tr id='peça_id_ocos_adicionado_linha".$i."'>";
@@ -267,6 +268,7 @@
                                                 echo "<span class='glyphicon glyphicon-remove text-danger' style='cursor: pointer;' title='Remover peça' onclick='Main.remove_elemento(\"peça_id_ocos_adicionado_linha".$i."\")'></span>";
                                             echo"</td>";
                                         echo"</tr>";
+                                        $total_pecas = $total_pecas + ($obj->Linhas[$i]->Preco_unitario * $obj->Linhas[$i]->Quantidade);
                                     }
                                 ?>
                             </tbody>
@@ -315,6 +317,7 @@
                             </thead>
                             <tbody id="table_serviço_adicionado" style="color: black;">
                                 <?php
+                                    $total_servicos = 0;
                                     for($i = 0; $i < COUNT($obj->Servicos); $i++)
                                     {
                                         echo "<tr id='serviço_id_ocos_adicionado_linha".$i."'>";
@@ -329,6 +332,7 @@
                                                 echo "<span class='glyphicon glyphicon-remove text-danger' style='cursor: pointer;' title='Remover serviço' onclick='Main.remove_elemento(\"serviço_id_ocos_adicionado_linha".$i."\")'></span>";
                                             echo "</td>";
                                         echo "</tr>";
+                                        $total_servicos = $total_servicos + $obj->Servicos[$i]->Valor;
                                     }
                                 ?>
                             </tbody>
@@ -337,6 +341,35 @@
                 </div>
             </div>
         </fieldset>
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group relative">
+                    <label for="total_peca" class="label-material">Observações</label>
+                    <textarea id="observacao" name="observacao" style="height: 100px;" class="form-control bg-white"><?php echo (!empty($obj->Observacao) ? $obj->Observacao:''); ?></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="p-2 border_radius row">
+            <div class="col-lg-4">
+                <div class="form-group relative">
+                    <input readonly="readonly" id="total_peca" value="<?php echo str_replace( '.', ',', number_format($total_pecas ,2, ',', ' ')); ?>" type="text" class="input-material">
+                    <label for="total_peca" class="label-material active">Total em peças (RS)</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group relative">
+                    <input readonly="readonly" id="total_servico" value="<?php echo str_replace( '.', ',', number_format($total_servicos ,2, ',', ' ')); ?>"  type="text" class="input-material">
+                    <label for="total_servico" class="label-material active">Total em serviços (R$)</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group relative">
+                    <input readonly="readonly"  id="total_geral" value="<?php echo str_replace( '.', ',', number_format(($total_pecas + $total_servicos) ,2, ',', ' ')); ?>" type="text" class="input-material">
+                    <label for="total_geral" class="label-material active">Total geral (R$)</label>
+                </div>
+            </div>
+        </div>
         <br />
         <div class='form-group'>
             <div class='checkbox checbox-switch switch-success custom-controls-stacked'>

@@ -52,6 +52,10 @@ class Migration_addTableOcos extends CI_Migration
                 'type' => 'INT',
                 'null' => FALSE
             ),
+            'Observacao' => array(
+                'type' => 'TEXT',
+                'null' => TRUE
+            ),
             'Status_id' => array(
                 'type' => 'INT',
                 'null' => FALSE

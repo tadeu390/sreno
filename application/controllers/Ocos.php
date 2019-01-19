@@ -227,6 +227,7 @@ class Ocos extends Geral
         $this->Ocos_model->Cliente_id = $this->input->post('cliente_id');
         $this->Ocos_model->Tipo_servico = $this->input->post('tipo_servico');
         $this->Ocos_model->Tipo = ORCAMENTO;
+        $this->Ocos_model->Observacao = $this->input->post('observacao');;
         $this->Ocos_model->Usuario_criador_id = $this->Account_model->session_is_valid()['id'];
         $this->Ocos_model->Status_id = (!empty($this->input->post('status_ocos')) ? $this->input->post('status_ocos') : NAO_DEFINIDO);
         $this->Ocos_model->Data_inicio = $this->convert_date($this->input->post('data_inicio'), "en");
@@ -299,7 +300,7 @@ class Ocos extends Geral
 
                     $resultado = "sucesso";
                     //verificar se deve gerar a OS
-                    if($this->input->post('g_os') == 0)
+                    if($this->input->post('g_os') == '0')
                     {
                         $Linhas = $this->Ocos_model->get_ocos($ocos_id, FALSE, FALSE, FALSE, FALSE, ORCAMENTO)->Linhas;
                         $this->Linha_model->atualiza_preco_linha($Linhas);

@@ -555,6 +555,10 @@ var Main = {
             Main.show_error("cliente_id","Selecione um cliente", "");
         else if($("#tipo_servico").val() == "0")
             Main.show_error("tipo_servico","Selecione um tipo de serviço.", "");
+        else if(Main.valida_quantidade_peca() == false)
+			Main.modal("aviso", "É necessário informar pelo menos uma peça.");
+        else if(Main.valida_quantidade_servico() == false)
+            Main.modal("aviso", "É necessário informar pelo menos um serviço.");
         else if($("#form_cadastro_"+$("#controller").val()).find("input[name='g_os']:checked").length > 0 || $("#g_os").val() == 1)
 		{
 			Main.method_redirect = "os";
@@ -574,6 +578,22 @@ var Main = {
 		else
 			Main.create_edit();
 	},
+	valida_quantidade_peca : function()
+	{
+        var line_number_id = $("#qtd_peça_adicionado").val();
+        for(var i = 0; i < line_number_id; i++)
+            if($("#total_id_ocos_adicionado_col4_lin"+i).val() != null)
+            	return true;
+        return false;
+	},
+    valida_quantidade_servico : function()
+    {
+        var line_number_id = $("#qtd_serviço_adicionado").val();
+        for(var i = 0; i < line_number_id; i++)
+            if($("#valor_servico_id_ocos_adicionado_col1_lin"+i).val() != null)
+                return true;
+        return false;
+    },
     carrega_pecas : function(categoria_id)
 	{
         if($(categoria_id).val() != 0)
@@ -683,6 +703,23 @@ var Main = {
             Main.show_error("total","O valor total é obrigatório.", "");
         return true;
     },
+	soma_pecas : function()
+	{
+        var line_number_id = $("#qtd_peça_adicionado").val();
+        var total = 0;
+        for(var i = 0; i < line_number_id; i++)
+		{
+			if($("#total_id_ocos_adicionado_col4_lin"+i).val() != null)
+			{
+                var valor = $("#total_id_ocos_adicionado_col4_lin" + i).val().replace(',', '.').toString();
+                total = total + parseFloat(valor);
+            }
+		}
+		$("#total_peca").val(total.toFixed(2).toString().replace('.',','));
+		var total_servico = parseFloat($("#total_servico").val().replace(',','.').toString());
+		var total_geral = total + total_servico;
+		$("#total_geral").val(total_geral.toString().replace('.',','));
+	},
     add_peca : function()
     {
         var peca = Array();
@@ -709,8 +746,11 @@ var Main = {
         if(Main.valida_peca() == true)
         {
             var coluna_peca = 1;
-            if (!Main.valida_elemento($("#peca_id_ocos").val(), "peca_id_ocos_adicionado", coluna_peca, "peça"))
+            if (!Main.valida_elemento($("#peca_id_ocos :selected").text(), "peca_id_ocos_adicionado", coluna_peca, "peça"))
+			{
                 Main.add_elemento(peca_id, peca, peca_hide, "peça");
+                Main.soma_pecas();
+			}
             else
                 Main.modal("aviso", "A peça selecionada ja se encontra na lista abaixo. Para editar remova-a e adicione-a novamente.");
         }
@@ -734,6 +774,24 @@ var Main = {
 		}
 		return true;
 	},
+    soma_servico : function()
+    {
+        var line_number_id = $("#qtd_serviço_adicionado").val();
+        var total = 0;
+        for(var i = 0; i < line_number_id; i++)
+        {
+        	if($("#valor_servico_id_ocos_adicionado_col1_lin"+i).val() != null)
+        	{
+                var valor = $("#valor_servico_id_ocos_adicionado_col1_lin" + i).val().replace(',', '.').toString();
+                total = total + parseFloat(valor);
+            }
+        }
+        $("#total_servico").val(total.toFixed(2).toString().replace('.',','));
+        var total_peca = parseFloat($("#total_peca").val().replace(',','.').toString());
+        var total_geral = total + total_peca;
+        total_geral = total_geral.toFixed(2);
+        $("#total_geral").val(total_geral.toString().replace('.',',').toString());
+    },
     add_servico : function()
     {
         var servico = Array();
@@ -752,7 +810,11 @@ var Main = {
         if(Main.valida_servico() == true)
         {
             if (!Main.valida_elemento($("#descricao_servico").val(), "descricao_servico_id_ocos_adicionado", coluna_servico, "serviço"))
+			{
                 Main.add_elemento(servico_id, servico, servico_hide, "serviço");
+                Main.soma_servico();
+			}
+
             else
                 Main.modal("aviso", "Este serviço já se encontra na lista abaixo. Para editar remova-o e adicione-o novamente.");
         }
@@ -797,7 +859,7 @@ var Main = {
             node_tr.appendChild(node_td);
         }
 
-        var node_td = document.createElement("TD");
+        node_td = document.createElement("TD");
         var node_span = document.createElement("SPAN");
         node_td.setAttribute("style","vertical-align: middle;");
         node_td.setAttribute("class","text-center");
@@ -816,6 +878,10 @@ var Main = {
         var linha = document.getElementById(id);
         if(linha != undefined)
             linha.parentNode.removeChild(linha);
+		setTimeout(function () {
+            Main.soma_pecas();
+            Main.soma_servico();
+        },500);
     },
 	/*
 	* 	@valor -> Conteúdo que se deseja buscar.
@@ -828,6 +894,7 @@ var Main = {
         var line_number_id = $("#qtd_" + context + "_adicionado").val();
         for(var i = 0; i < line_number_id; i++)
 		{
+			console.log("#" + id + "_col" + col + "_lin" + i);
 			if($("#" + id + "_col" + col + "_lin" + i).val() == valor)
 				return true;
 		}

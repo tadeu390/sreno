@@ -93,7 +93,7 @@ class Ocos_model extends Geral_model
                 Ativo, DATE_FORMAT(Data_registro, '%d/%m/%Y') as Data_registro,
                 Nome_produto, Descricao, Tipo_servico, Tempo, DATE_FORMAT(Data_inicio, '%d/%m/%Y') AS Data_inicio, 
                 DATE_FORMAT(DATE_ADD(Data_inicio, INTERVAL Tempo DAY), '%d/%m/%Y') AS Data_fim, Tipo, 
-                Status_id, Usuario_criador_id, Usuario_responsavel_id, Cliente_id 
+                Status_id, Usuario_criador_id, Usuario_responsavel_id, Cliente_id, Observacao 
                 FROM Ocos 
                 WHERE TRUE ".$Ativos." ".$t."
 			    ".str_replace("'", "", $this->db->escape($order))." ".$pagination."");
@@ -106,7 +106,7 @@ class Ocos_model extends Geral_model
                 Ativo, DATE_FORMAT(Data_registro, '%d/%m/%Y') as Data_registro, 
                 Nome_produto, Descricao, Tipo_servico, Tempo, DATE_FORMAT(Data_inicio, '%d/%m/%Y') AS Data_inicio, 
                 DATE_FORMAT(DATE_ADD(Data_inicio, INTERVAL Tempo DAY), '%d/%m/%Y') AS Data_fim, Tipo,   
-                Status_id, Usuario_criador_id, Usuario_responsavel_id, Cliente_id    
+                Status_id, Usuario_criador_id, Usuario_responsavel_id, Cliente_id, Observacao     
                 FROM Ocos 
                 WHERE TRUE ".$Ativos." AND Id = ".$this->db->escape($id)."");
 
