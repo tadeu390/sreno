@@ -56,7 +56,7 @@ class Transacao_model extends Geral_model
                   SELECT * FROM (
                     SELECT (SELECT count(*) FROM  Transacao t WHERE  TRUE ".$Ativos.") AS Size, t.Id AS Transacao_id, 
                     t.Preco_unitario, t.Fornecedor_id, t.Peca_id, t.Quantidade, 
-                    DATE_FORMAT(t.Data_registro, '%d/%m/%Y') as Data_registro, t.Ativo  
+                    DATE_FORMAT(t.Data_registro, '%d/%m/%Y') as Data_registro, t.Ativo, (t.Preco_unitario * t.Quantidade) AS Total_transacao   
                     FROM Transacao t 
                     WHERE TRUE ".$Ativos."
                  ".$pagination.") AS x ".str_replace("'", "", $this->db->escape($order))."");

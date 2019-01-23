@@ -54,7 +54,7 @@ class Ocos extends Geral
         $this->set_page_cookie($page);
 
         $this->data['title'] = 'Orçamentos';
-        if($this->Geral_model->get_permissao(READ, get_class($this)) == TRUE)
+        if($this->Geral_model->get_permissao(READ, get_class($this)."/orcamento") == TRUE)
         {
             $this->data['paginacao']['order'] =$this->inverte_ordem($ordenacao['order']);
             $this->data['paginacao']['field'] = $ordenacao['field'];
@@ -86,7 +86,7 @@ class Ocos extends Geral
         $this->set_page_cookie($page);
 
         $this->data['title'] = 'Ordem de serviço';
-        if($this->Geral_model->get_permissao(READ, get_class($this)) == TRUE)
+        if($this->Geral_model->get_permissao(READ, get_class($this)."/os") == TRUE)
         {
             $this->data['paginacao']['order'] =$this->inverte_ordem($ordenacao['order']);
             $this->data['paginacao']['field'] = $ordenacao['field'];
@@ -111,7 +111,7 @@ class Ocos extends Geral
     {
         $this->data['method'] = __FUNCTION__;
         $this->data['title'] = 'Editar OS';
-        if($this->Geral_model->get_permissao(UPDATE, get_class($this)) == TRUE)
+        if($this->Geral_model->get_permissao(UPDATE, get_class($this)."/os") == TRUE)
         {
             $this->data['obj'] = $this->Ocos_model->get_ocos($id, FALSE, FALSE, FALSE, FALSE, FALSE);
 
@@ -137,7 +137,7 @@ class Ocos extends Geral
     {
         $this->data['method'] = __FUNCTION__;
         $this->data['title'] = 'Editar orçamento';
-        if($this->Geral_model->get_permissao(UPDATE, get_class($this)) == TRUE)
+        if($this->Geral_model->get_permissao(UPDATE, get_class($this)."/orcamento") == TRUE)
         {
             $this->data['obj'] = $this->Ocos_model->get_ocos($id, FALSE, FALSE, FALSE, FALSE, FALSE);
 
@@ -161,7 +161,7 @@ class Ocos extends Geral
      *
      *  $linhas -> Linhas a serem analisadas
      */
-    public function analisa_preco($Linhas)
+    private function analisa_preco($Linhas)
     {
         for($i = 0; $i < COUNT($Linhas); $i++)
         {
@@ -178,7 +178,7 @@ class Ocos extends Geral
     {
         $this->data['method'] = __FUNCTION__;
         $this->data['title'] = 'Novo orçamento';
-        if($this->Geral_model->get_permissao(CREATE, get_class($this)) == TRUE)
+        if($this->Geral_model->get_permissao(CREATE, get_class($this)."/orcamento") == TRUE)
         {
             $this->data['obj'] = $this->Ocos_model->get_ocos(0, FALSE, FALSE, FALSE, FALSE, FALSE);
             $this->data['obj_responsavel'] = $this->Usuario_model->get_usuario(TRUE, FALSE, FALSE, FALSE, FALSE, ADMIN);

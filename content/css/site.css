@@ -396,3 +396,8 @@ input[type="text"]:disabled {
 {
 	font-size: 30px;
 }
+
+span
+{
+	font-size: 1em !important;
+}

@@ -69,7 +69,7 @@
 		{
 			$config_email = $this->Configuracoes_email_model->get_configuracoes_email();
 			$config['protocol'] = $config_email['Protocolo'];
-			$config['smtp_crypto'] = 'ssl';
+			//$config['smtp_crypto'] = 'ssl';
 			$config['smtp_host'] = $config_email['Host'];
 			$config['smtp_port'] = $config_email['Porta'];
 			$config['mailtype'] = 'html';

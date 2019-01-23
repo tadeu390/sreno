@@ -283,7 +283,7 @@
 				$dataToSave['Nome_usuario'] = $dataToSave['Nome'];
 				$this->envia_email_nova_conta($dataToSave, $senha_email);
 			}
-			else if($dataToSave['Email_notifica_nova_conta'] == 1 && $Usuario['Email_notifica_nova_conta'] == 0)
+			else if($dataToSave['Email_notifica_nova_conta'] == 1 && $Usuario->Email_notifica_nova_conta == 0)
 				$this->envia_email_nova_conta($Usuario, $senha_email);
 			return $Usuario_id;
 		}
@@ -345,10 +345,10 @@
 		public function envia_email_nova_conta($Usuario, $senha_email)
 		{
 			$this->email->from($this->Configuracoes_email_model->get_configuracoes_email()['Email'], 'CEP - Centro de Educação Profissional "Tancredo Neves"');
-			$this->email->to($Usuario['Email']);
-			$Usuario['url'] = base_url();
-			$Usuario['Senha'] = $senha_email;
-			$mensagem = $this->load->view("templates/email_nova_conta", $Usuario, TRUE);
+			$this->email->to($Usuario->Email);
+			$Usuario->url = base_url();
+			$Usuario->Senha = $senha_email;
+			$mensagem = "teste";//$this->load->view("templates/email_nova_conta", $Usuario, TRUE);
 			$this->email->subject('Bem vindo ao CEP');
 			$this->email->message($mensagem);
 			$this->email->send();

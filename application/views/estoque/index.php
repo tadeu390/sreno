@@ -34,15 +34,18 @@
 				echo "<table class='table table-striped table-hover text-white'>";
 					echo "<thead>";
 						echo"<tr>";
-							echo"<td colspan='6' style='font-size: 12px;'>";
+							echo"<td colspan='2' style='font-size: 12px;'>";
 							if(!empty($estoque[0]->Size))
 								echo "A busca retornou ".$estoque[0]->Size." registro(s)";
 							else
 								echo "A busca não obteve resultados.";
 							echo"</td>";
+							echo "<td colspan='3' class='text-right'>";
+							    echo "Total geral do estoque: R$ " . $estoque[0]->Total_estoque_geral;
+							echo "</td>";
 						echo"</tr>";
 						echo "<tr>";
-							echo "<td>#</td>";
+							echo "<td style='width: 10%;'>#</td>";
                             echo "<td>";
                                 echo "<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/Nome_peca/".$paginacao['order']."'>Peça</a>";
                                 if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Nome_peca')

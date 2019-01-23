@@ -90,9 +90,9 @@
 								echo "<td $cor>".(($ocos[$i]->Tipo_servico == 1) ? "Fabricação" : "Reparo" )."</td>";
 								echo "<td $cor>".$ocos[$i]->Status->Nome_status."</td>";
 								echo "<td class='text-right'>";
-									if(permissao::get_permissao(UPDATE, $controller))
+									if(permissao::get_permissao(UPDATE, $controller."/".$method))
 										echo "<a href='".$url.$controller."/".(($method == 'orcamento') ? "edit" : "edit_os")."/".$ocos[$i]->Ocos_id."' title='Editar' style='cursor: pointer;' class='glyphicon glyphicon-edit text-danger'></a> | ";
-									if(permissao::get_permissao(DELETE, $controller))
+									if(permissao::get_permissao(DELETE, $controller."/".$method))
 										echo " <span onclick='Main.confirm_delete(". $ocos[$i]->Ocos_id .");' id='sp_lead_trash' name='sp_lead_trash' title='Apagar' style='cursor: pointer;' class='glyphicon glyphicon-trash text-danger'></span>";
 								echo "</td>";
 							echo "</tr>";

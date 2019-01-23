@@ -143,14 +143,14 @@ class Fornecedor extends Geral
            return "Insira o nome fantasia";
        else if(empty($this->Fornecedor_model->Cnpj))
             return "Insira o CNPJ";
-       else if(empty($this->Fornecedor_model->Email))
-           return "Insira o e-mail";
+       /*else if(empty($this->Fornecedor_model->Email))
+           return "Insira o e-mail";*/
        else if(empty($this->Fornecedor_model->Razao_social))
            return "Insira a razão social";
-       else if(empty($this->Fornecedor_model->Celular))
+       /*else if(empty($this->Fornecedor_model->Celular))
            return "Insira o celular";
        else if(empty($this->Fornecedor_model->Telefone))
-           return "Insira o telefone";
+           return "Insira o telefone";*/
        else if($this->Fornecedor_model->valida_fornecedor($this->Fornecedor_model->Nome_fantasia, $this->Fornecedor_model->Id) != 'valido')
            return "O nome fantasia informado já se encontra cadastrado no sistema.";
        else

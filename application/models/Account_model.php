@@ -25,9 +25,9 @@
 				WHERE Email = ".$this->db->escape($email)."  
 					AND s.Ativo = 1 AND (u.Contador_tentativa < ".LIMITE_TENTATIVA." OR (NOW() - Data_ultima_tentativa) >= ".TEMPO_ESPERA.")");
 			 
-			 $data = $query->row_array();
-			 $data['rows'] =  $query->num_rows();
-			 return $data;
+			 $this->model = $query->row_object();
+			 $this->model->rows =  $query->num_rows();
+			 return $this->model;
 		}
 		/*!
 		*	RESPONSÁVEL POR VERIFICAR SE EXISTE COOKIE OU SESSÃO, VALIDAR ESSES DADOS NO BANCO E RETORNAR OS DADOS DA SESSÃO OU DO COOKIE SE 

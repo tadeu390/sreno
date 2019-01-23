@@ -34,7 +34,7 @@ class Migration_addTableFornecedor extends  CI_Migration
             'Email' => array(
               'type' => 'VARCHAR',
               'constraint' => '100',
-              'null' => FALSE
+              'null' => TRUE
             ),
             'Cnpj' => array(
                 'type' => 'VARCHAR',
@@ -44,12 +44,12 @@ class Migration_addTableFornecedor extends  CI_Migration
             'Celular' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '20',
-                'null' => FALSE
+                'null' => TRUE
             ),
             'Telefone' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '20',
-                'null' => FALSE
+                'null' => TRUE
             ),
             'Razao_social' => array(
                 'type' => 'VARCHAR',

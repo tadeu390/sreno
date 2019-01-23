@@ -162,7 +162,7 @@
 
             $registro_banco = $this->get_usuario(FALSE ,$Id, FALSE);
 
-            if(!empty($registro_banco->Nome_usuario) && $query['Email'] == $registro_banco->Nome_usuario)
+            if(!empty($registro_banco->Nome_usuario) && $query['Email'] == $registro_banco->Email)
                 return "valido";
             else if(empty($query['Email']))
                 return "valido";

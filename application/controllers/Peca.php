@@ -119,8 +119,8 @@ class Peca extends Geral
     {
         if(empty($this->Peca_model->Nome))
             return "Informe o nome da peça";
-        else if(mb_strlen($this->Peca_model->Nome) > 20)
-            return "Máximo 20 caracteres";
+        else if(mb_strlen($this->Peca_model->Nome) > 100)
+            return "Máximo 100 caracteres";
         else if(empty($this->Peca_model->Estocado_em))
             return "Como será estocado?";
         else if(mb_strlen($this->Peca_model->Estocado_em) > 20)

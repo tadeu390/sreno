@@ -502,14 +502,14 @@ var Main = {
             Main.show_error("nome","Insira o nome fantasia", "is-invalid");
         else if($("#cnpj").val() == "")
             Main.show_error("cnpj","Insira o CNPJ", "is-invalid");
-        else if($("#email").val() == "")
-            Main.show_error("email","Insira o email", "is-invalid");
+        /*else if($("#email").val() == "")
+            Main.show_error("email","Insira o email", "is-invalid");*/
         else if($("#razao_social").val() == "")
             Main.show_error("razao_social","Insira a razão social", "is-invalid");
-        else if($("#celular").val() == "")
+        /*else if($("#celular").val() == "")
             Main.show_error("celular","Insira o celular", "is-invalid");
         else if($("#telefone").val() == "")
-            Main.show_error("telefone","Insira o telefone", "is-invalid");
+            Main.show_error("telefone","Insira o telefone", "is-invalid");*/
         else if(Main.endereco_validar())
             Main.create_edit();
 	},

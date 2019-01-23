@@ -15,6 +15,7 @@ class Estoque_model extends Geral_model
     public $Saldo;
     public $Preco_medio_unitario;
     public $Peca_id;
+
     /*!
     *	RESPONSÁVEL POR RETORNAR UMA LISTA DE ESTOQUE OU UM ESTOQUE ESPECÍFIC.
     *
@@ -52,7 +53,13 @@ class Estoque_model extends Geral_model
                 WHERE TRUE ".$Ativos." 
                  ".$pagination.") AS x ".str_replace("'", "", $this->db->escape($order))."");
 
-            return $query->result_object();
+            $this->model = $query->result_object();
+
+            //consulta total estoque
+            $query = $this->db->query("SELECT SUM(Saldo * Preco_medio_unitario) AS Total FROM Estoque ");
+            $this->model[0]->Total_estoque_geral = $query->row_object()->Total;
+
+            return $this->model;
         }
 
         $query = $this->db->query("

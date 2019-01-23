@@ -34,7 +34,7 @@
 				echo "<table class='table table-striped table-hover text-white'>";
 					echo "<thead>";
 						echo"<tr>";
-							echo"<td colspan='6' style='font-size: 12px;'>";
+							echo"<td colspan='7' style='font-size: 12px;'>";
 							if(!empty($transacoes[0]->Size))
 								echo "A busca retornou ".$transacoes[0]->Size." registro(s)";
 							else
@@ -42,7 +42,7 @@
 							echo"</td>";
 						echo"</tr>";
 						echo"<tr>";
-							echo"<td class='text-right' colspan='6'>";
+							echo"<td class='text-right' colspan='7'>";
 							if(permissao::get_permissao(CREATE, $controller))
 								echo"<a class='btn btn-danger' href='".$url."$controller/create/0/'><span class='glyphicon glyphicon-plus'></span> Nova transação</a>";
 							echo"</td>";
@@ -77,6 +77,13 @@
 								else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Preco_unitario')
 									echo "&nbsp;<div class='fa fa-chevron-up'></div>";
 							echo "</td>";
+                            echo "<td>";
+                                echo "<a id='col-list' href='".$url."$controller/index/".$paginacao['pg_atual']."/Total_transacao/".$paginacao['order']."'>Total</a>";
+                                if($paginacao['order'] == 'DESC' && $paginacao['field'] == 'Total_transacao')
+                                    echo "&nbsp;<div class='fa fa-chevron-down'></div>";
+                                else if($paginacao['order'] == 'ASC' && $paginacao['field'] == 'Total_transacao')
+                                    echo "&nbsp;<div class='fa fa-chevron-up'></div>";
+                            echo "</td>";
 							//echo "<td>E-mail</td>";
 							//echo "<td>Grupo</td>";
 							echo "<td class='text-right'>Ações</td>";
@@ -104,12 +111,13 @@
                                         echo " <span class='fa fa-arrow-up text-warning'></span>";
                                     else
                                         echo" <span class='fa fa-arrow-down text-danger'></span>";
-                                echo"</td>";
-                                echo "<td>
-                                    <span title='".$transacoes[$i]->Preco_unitario."'> R$ ";
-                                        echo number_format(round($transacoes[$i]->Preco_unitario, 2),2, ',', ' ');
-                                    echo "</span>
-                                </td>";
+                                echo "</td>";
+                                echo "<td>";
+                                    echo "R$ ". number_format(round($transacoes[$i]->Preco_unitario, 2),2, ',', ' ');
+                                echo "</td>";
+                                echo "<td>";
+                                    echo "R$ ". number_format(round($transacoes[$i]->Total_transacao, 2),2, ',', ' ');
+                                echo "</td>";
 								echo "<td class='text-right'>";
 									if(permissao::get_permissao(UPDATE, $controller))
 										echo "<a href='".$url.$controller."/edit/".$transacoes[$i]->Transacao_id."' title='Editar' style='cursor: pointer;' class='glyphicon glyphicon-edit text-danger'></a> | ";
