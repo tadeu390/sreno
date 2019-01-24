@@ -1,7 +1,7 @@
 <br /><br />
-<div class='row padding20 text-white'>
+<div class='row padding20 text-white relative' style="width: 95%; left: 3.5%">
 	<?php
-    	echo"<div class='col-lg-8 offset-lg-2 padding0'>";
+    	echo"<div class='col-lg-12 padding0'>";
 			echo"<nav aria-label='breadcrumb'>";
   				echo"<ol class='breadcrumb'>";
     				echo "<li class='breadcrumb-item active' aria-current='page'>Configurações</li>";
@@ -9,7 +9,7 @@
 			echo"</nav>";
 		echo "</div>";
     ?>
-	<div class='col-lg-8 offset-lg-2 padding background_dark '>
+	<div class='col-lg-12 padding background_dark '>
 		<div>
 			<a href='javascript:window.history.go(-1)' title='Voltar'>
 				<span class='glyphicon glyphicon-arrow-left text-white' style='font-size: 25px;'></span>

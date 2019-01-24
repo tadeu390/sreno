@@ -15,6 +15,15 @@
 			$this->load->model('Logs_model');
 			$this->data['controller'] = strtolower(get_class($this));
 		}
+        public function teste_template_r()
+        {
+            $this->data['codigo'] = 133412;
+            $this->data['Nome'] = 'Tadeu';
+            $this->data['url'] = base_url();
+            $this->data['Id'] = 1;
+
+            $this->load->view('templates/email_redefinir_senha', $this->data);
+        }
 		/*!
 		*	RESPONSÁVEL POR RECEBER OS DADOS DE USUARIO DA MODEL E OS ENVIA-LO A VIEW
 		*   (SOMENTE PARA USUÁRIOS QUE NÃO SÃO ADMINISTRADORES E SECRETARIA).
@@ -48,10 +57,13 @@
 
 			$this->limpa_sessao_troca_senha();
 
-			if($this->Account_model->session_is_valid()['tipo_usuario_id'] == ADMIN)
-				redirect('admin/index');
-            else if($this->Account_model->session_is_valid()['tipo_usuario_id'] == CLIENTE)
-                redirect('cliente/index');
+			//if($this->Account_model->session_is_valid()['tipo_usuario_id'] == ADMIN)
+            //redirect('admin/index');
+            //else if($this->Account_model->session_is_valid()['tipo_usuario_id'] == CLIENTE)
+           //     redirect('cliente/index');
+
+            if($this->Account_model->session_is_valid()['status'] == "ok")
+                redirect('admin/index');
 
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('account/login', $this->data);
@@ -126,7 +138,7 @@
 			else
 			{
 				$login = "E-mail e/ou senha inválidos.";
-				$id = $this->Usuario_model->get_usuario_por_email($email)['Id'];
+				$id = $this->Usuario_model->get_usuario_por_email($email)->Id;
 				if($this->Account_model->tentativas_erro($id) >= LIMITE_TENTATIVA)
 					$login = "Conta temporariamente bloqueada, pois você antingiu o limite de tentativas. Tente novamente daqui alguns minutos.";
 			}
@@ -205,13 +217,13 @@
 		*/
 		public function envia_email_primeiro_acesso($Usuario, $codigo)
 		{
-			$this->email->from($this->Configuracoes_email_model->get_configuracoes_email()['Email'], 'CEP - Centro de Educação Profissional "Tancredo Neves"');
-			$this->email->to($Usuario['Email']);
+			$this->email->from($this->Configuracoes_email_model->get_configuracoes_email()['Email'], 'Serralheria Renó');
+			$this->email->to($Usuario->Email);
 			//$this->email->cc('another@another-example.com');
 			//$this->email->bcc('them@their-example.com');
 			//$mensagem = "Este é o seu primeiro acesso a sua conta. Segue abaixo o seu código de ativação. <br /><br /> Código: <b>".$codigo."</b>";
-			$Usuario['codigo'] = $codigo;
-			$Usuario['url'] =  base_url();
+			$Usuario->codigo = $codigo;
+			$Usuario->url =  base_url();
 
 			$mensagem = $this->load->view("templates/email_primeiro_acesso", $Usuario, TRUE);
 			$this->email->subject('Ativação da sua conta');
@@ -248,7 +260,7 @@
 
 			$Usuario = $this->Usuario_model->get_usuario(FALSE, $sessao_troca_senha['id_troca_senha'], FALSE);
 			$this->data['sessao_primeiro_acesso'] = $sessao_troca_senha;
-			$this->data['title'] = 'CEP - Primeiro acesso';
+			$this->data['title'] = 'Serralheria Renó - Primeiro acesso';
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('account/primeiro_acesso', $this->data);
 			$this->load->view('templates/footer', $this->data);
@@ -283,7 +295,7 @@
 					$login = $this->Account_model->valida_login($sessao_troca_senha['email_troca_senha'], $nova_senha);
 
 					//cria a sessao
-					if($login['rows'] > 0)
+					if($login->rows > 0)
 						$this->set_sessao($login, 0);
 
 					$this->Account_model->reset_auxiliar_login($sessao_troca_senha['id_troca_senha']);
@@ -313,7 +325,7 @@
 		{
 			if($this->Account_model->session_is_valid()['status'] == "ok")//se alguém já estiver logado, cancela esta operação
 				redirect('account/login');
-			$this->data['title'] = 'CEP - Alterar senha';
+			$this->data['title'] = 'Serralheria Renó - Alterar senha';
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('account/redefinir_senha', $this->data);
 			$this->load->view('templates/footer', $this->data);
@@ -349,7 +361,7 @@
 		*/
 		public function envia_email_redefinir_senha($Usuario, $codigo)
 		{
-			$this->email->from($this->Configuracoes_email_model->get_configuracoes_email()['Email'], 'CEP - Centro de Educação Profissional "Tancredo Neves"');
+			$this->email->from($this->Configuracoes_email_model->get_configuracoes_email()['Email'], 'Serralheria Renó');
 			$this->email->to($Usuario->Email);
 			//$mensagem = "Você solicitou a alteração da sua senha. Segue abaixo o link para que possa efetuar a ação";
 
@@ -357,8 +369,8 @@
 			//".$this->data['url']."account/alterando_senha/".$Usuario['Id']."/".$codigo."</a>";
 			$this->email->subject('Alteração de senha');
 
-			$Usuario['url'] =  base_url();
-			$Usuario['codigo'] =  $codigo;
+			$Usuario->url = base_url();
+			$Usuario->codigo = $codigo;
 
 			$mensagem = $this->load->view("templates/email_redefinir_senha", $Usuario, TRUE);
 
@@ -384,7 +396,7 @@
 			$sessao_troca_senha = $this->Account_model->session_is_valid_troca_senha();
 			$this->data['sessao_primeiro_acesso'] = $sessao_troca_senha;
 
-			$this->data['title'] = 'CEP - Altere sua senha';
+			$this->data['title'] = 'Serralheria Renó - Altere sua senha';
 
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('account/alterando_senha', $this->data);
@@ -405,7 +417,7 @@
 				{
 					$Usuario = $this->Usuario_model->get_usuario(FALSE, $sessao_troca_senha['id_troca_senha'], FALSE);
 					$senha = array(
-						'Usuario_id' => $Usuario['Id'],
+						'Usuario_id' => $Usuario->Id,
 						'Valor' => $this->hashing($nova_senha)
 					);
 					$this->Senha_model->set_senha($senha);
@@ -413,7 +425,7 @@
 					$login = $this->Account_model->valida_login($sessao_troca_senha['email_troca_senha'], $nova_senha);
 
 					//cria a sessao
-					if($login['rows'] > 0)
+					if($login->rows > 0)
 						$this->set_sessao($login, 0);
 
 					$this->Account_model->reset_auxiliar_login($sessao_troca_senha['id_troca_senha']);

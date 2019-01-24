@@ -9,9 +9,10 @@
 			}
 			.fundo_content
 			{
-				background-image: url("<?php echo $url; ?>content/imagens/study.jpg");
+				background-image: url("<?php echo $url; ?>content/imagens/logo.png");
 				background-repeat: no-repeat;
 				background-position: center;
+                background-size: 400px;
 			}
 			*{
 				font-family: Gill Sans MT;
@@ -26,80 +27,58 @@
 				<table style="width: 100%;">
 					<tr>
 						<td style="text-align: center;">
-							<img src="<?php echo $url; ?>content/imagens/logo.png" style="width: 80px;">	
-						</td>
-						<td>
-							<div style="font-size: 20px; display: flex; align-items: center; height: 100%;">
-								<h3 style="color: black;">Centro de Educação Profissional "Tancredo Neves"</h3>
-							</div>	
-						</td>
-					</tr>
-					<tr>
-						<td style="text-align: center; color: #336CD2; font-size: 25px;" colspan="2">
-							<img style="width: 30px;" src="<?php echo $url; ?>content/imagens/graduate-cap.png">
-							Acadêmico
+                            <br />
+                            <h1 style="color: black;">Serralheria Renó</h1>
 						</td>
 					</tr>
 				</table>
+                <br />
+                <br />
 			</div>
 			<div style="height: 400px; position: relative;" class="fundo_content">
 
 			</div>
-
-			<div >
+			<div>
 				<div style="background-color: white; width: 90%; margin-left: 5%;">
-					<div style="display: -webkit-box; display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; margin-right: -15px; margin-left: -15px;">
-						<div style="width: 60%">
-							<div style="padding: 20px;line-height: 20px; font-size: 20px; color: black;">	<br />
-								<table>
-									<tr>
-										<td style="vertical-align: top;">
-											<img style="width: 30px;" src="<?php echo $url;?>content/imagens/info.png">
-										</td>
-										<td style="padding-left: 10px; color: black;">
-											<?php echo $Nome; ?>, você solicitou por meio do portal do CEP a alteração da sua senha.
-											<br /><br /><br />
-											Segue o link abaixo para prosseguir com a alteração da sua senha.<br/><br />
-											<?php echo"<a href='".$url."account/alterando_senha/".$Id."/".$codigo."'>".$url."account/alterando_senha/".$Id."/".$codigo."</a>"; ?>
-										</td>
-									</tr>
-								</table>
-							</div>
+					<div>
+						<div style="width: 100%; text-align: center; padding: 20px;line-height: 20px; font-size: 20px; color: black;"">
+                        <?php echo $Nome; ?>, você solicitou por meio do portal da <b>Serralheria Renó</b> a alteração da sua senha.
+						<br /><br /><br />
+                        Segue o link abaixo para prosseguir com a alteração da sua senha.<br/><br />
+                        <?php echo"<a href='".$url."account/alterando_senha/".$Id."/".$codigo."'>".$url."account/alterando_senha/".$Id."/".$codigo."</a>"; ?>
 						</div>
-						<div style="width: 35%; text-align: center;">
-							<div style="height: 100%; width: 100%">
-								<br />
-								<table style="width: 100%">
-									<tr>
-										<td>
-											<div style="width: 100%">
-											<img style="width: 30px;" src="<?php echo $url;?>content/imagens/exclamation-sign.png">
-												<span style="font-size: 25px; color: #336CD2;">Atenção</span>
-												<br />
-												<br />
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<h4 style="line-height: 30px; color: #DD3068; text-align: left;">
-												Não compartilhe o conteúdo deste e-mail com ninguém, pois
-												este pode fazer com que usuários não autorizados tenham acesso
-												as suas informações.</h4>
-											<br /><br />
-										</td>
-									</tr>
-								</table>
-							</div>
+                        <br />
+						<div style="width: 100%; text-align: center;">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td>
+                                        <div style="width: 100%">
+                                        <img style="width: 30px;" src="<?php echo $url;?>content/imagens/exclamation-sign.png">
+                                            <span style="font-size: 25px; color: #336CD2;">Atenção</span>
+                                            <br />
+                                            <br />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h4 style="line-height: 30px; color: #DD3068;">
+                                            Não compartilhe o conteúdo deste e-mail com ninguém, pois
+                                            este pode fazer com que usuários não autorizados tenham acesso
+                                            as suas informações.</h4>
+                                        <br /><br />
+                                    </td>
+                                </tr>
+                            </table>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div style="line-height: 25px; text-align: center; border: 3px solid black;" class="fundo">
-				<br />CEP - Centro de Educação Profissional "Tancredo Neves" <br />
-				Pç N. Sra. Aparecida, 70 - Bairro N. Sra. Aparecida <br />
-				37530-000 - Brazópolis/MG - Tel: (35) 3641-1073 <br />
-				<a href="http://www.cepbrazopolis.com.br">www.cepbrazopolis.com.br</a><br /><br />
+				<br />Serralheria Renó <br />
+				Sítio Monjolinho - Bairro Estação Dias - Placa KM6<br />
+				37530-000 - Brazópolis/MG - Cel: (35) 999435624 - Cel: (35) 3617 - 5001 <br />
+				<a href="http://www.serralheriareno.com.br">www.serralheriareno.com.br</a><br /><br />
 			</div>
 		</div>
 		<div style="line-height: 25px; text-align: center; padding: 10px; color: gray; border: 3px solid black; border-top: none;">

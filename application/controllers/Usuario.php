@@ -314,16 +314,23 @@
 				$dataToSave['Ativo'] = 0;
 			
 			//BLOQUEIA ACESSO DIRETO AO MÉTODO
-			 if(!empty($this->input->post()))
-			 {
+			if(!empty($this->input->post()))
+			{
 			 	if($this->Geral_model->get_permissao(CREATE, "Usuario") == TRUE || $this->Geral_model->get_permissao(UPDATE, "Usuario") == TRUE)
 				{
 				 	$resultado = $this->valida_usuario($dataToSave);
 
 				 	if($resultado == 1)
-				 	{ 
-				 		$this->store_banco($dataToSave);
-				 		$resultado = "sucesso";
+				 	{
+                        $resultado = "sucesso";
+				 	    try {
+                            $this->store_banco($dataToSave);
+                        }catch (Exception $e)
+                        {
+                            $dataToSave['Email_notifica_nova_conta'] = 0;
+                            $this->store_banco($dataToSave);
+                            $resultado = $e->getMessage();
+                        }
 				 	}
 				}
 				else
@@ -344,14 +351,15 @@
 		*/
 		public function envia_email_nova_conta($Usuario, $senha_email)
 		{
-			$this->email->from($this->Configuracoes_email_model->get_configuracoes_email()['Email'], 'CEP - Centro de Educação Profissional "Tancredo Neves"');
+			$this->email->from($this->Configuracoes_email_model->get_configuracoes_email()['Usuario'], 'Serralheria Renó');
 			$this->email->to($Usuario->Email);
 			$Usuario->url = base_url();
 			$Usuario->Senha = $senha_email;
-			$mensagem = "teste";//$this->load->view("templates/email_nova_conta", $Usuario, TRUE);
-			$this->email->subject('Bem vindo ao CEP');
+			$mensagem = $this->load->view("templates/email_nova_conta", $Usuario, TRUE);
+			$this->email->subject('Bem vindo a Serralheria Renó');
 			$this->email->message($mensagem);
-			$this->email->send();
+            if(!$this->email->send())
+                throw new Exception( "Não foi possível enviar o e-mail de notificação. Por favor, verifique suas configurações de e-mail.");
 		}
 		/*!
 		*	RESPONSÁVEL POR IDENTIFICAR AS PERMISSÕES DEFAULT DO USUÁRIO DE ACORDO COM O GRUPO QUE LHE É SELECIONADO E ENVIAR PARA A MODEL 

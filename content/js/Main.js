@@ -270,7 +270,7 @@ var Main = {
 			Main.show_error("senha", 'Informe a senha de usuário', 'is-invalid');
 		else if(document.getElementById("senha") != undefined && $("#senha").val().length < 8)
 			Main.show_error("senha", 'A senha deve conter no mínimo 8 caracteres.', 'is-invalid');
-		else if($("id").val() != "" && document.getElementById("email_notifica_nova_conta").checked == true && $("#nova_senha").val() == "")
+		else if($("id").val() != "" && document.getElementById("email_notifica_nova_conta") != undefined && document.getElementById("email_notifica_nova_conta").checked == true && $("#nova_senha").val() == "")
 			Main.modal("aviso","Para enviar e-mail de notificação é necessário que você altere a senha.");
 		else
 		{

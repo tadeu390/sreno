@@ -69,7 +69,8 @@
 			{
 				$this->data['obj'] = $this->Usuario_model->get_usuario(FALSE, $id, FALSE);
 				$this->data['obj_cliente'] = $this->Cliente_model->get_cliente($this->data['obj']->Id);
-				$this->data['Endereco'] = $this->Endereco_model->get_endereco(TRUE, $this->data['obj_cliente']->Endereco_id);
+				if(!empty($this->data['obj_cliente']->Endereco_id))
+				    $this->data['Endereco'] = $this->Endereco_model->get_endereco(TRUE, $this->data['obj_cliente']->Endereco_id);
 				if(empty($this->data['Endereco']))
 				{
                     $this->data['Endereco'] = array(

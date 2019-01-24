@@ -58,8 +58,6 @@
 				$this->data['usuario_logado'] = $u->Nome_usuario;
 
 			$this->config_email_server();
-
-
 		}
 		/*!
 		*	RESPONSÁVEL POR CONFIGURAR A CLASSE DE E-MAIL PARA QUE O SISTEMA POSSA REALIZAR 
@@ -67,18 +65,21 @@
 		*/
 		public function config_email_server()
 		{
-			$config_email = $this->Configuracoes_email_model->get_configuracoes_email();
-			$config['protocol'] = $config_email['Protocolo'];
-			//$config['smtp_crypto'] = 'ssl';
-			$config['smtp_host'] = $config_email['Host'];
-			$config['smtp_port'] = $config_email['Porta'];
-			$config['mailtype'] = 'html';
-			$config['smtp_user'] = $config_email['Usuario'];
-			$config['smtp_pass'] = $config_email['Senha'];
-			$config['charset'] = 'utf-8';
-			$config['wordwrap'] = TRUE;
-			$this->email->initialize($config);
-		}
+            $config_email = $this->Configuracoes_email_model->get_configuracoes_email();
+            $mail_config['smtp_host'] = $config_email['Host'];
+            $mail_config['smtp_port'] = $config_email['Porta'];
+            $mail_config['smtp_user'] = $config_email['Usuario'];
+            $mail_config['_smtp_auth'] = TRUE;
+            $mail_config['smtp_pass'] = $config_email['Senha'];
+            $mail_config['smtp_crypto'] = 'tls';//minísculo assim como as demais configurações, qunado arrumar a configuracao de e-mail colocar um lowercase no banco
+            $mail_config['protocol'] = $config_email['Protocolo'];
+            $mail_config['mailtype'] = 'html';
+            $mail_config['send_multipart'] = FALSE;
+            $mail_config['charset'] = 'utf-8';
+            $mail_config['wordwrap'] = TRUE;
+            $this->email->initialize($mail_config);
+            $this->email->set_newline("\r\n");
+        }
 		/*!
 		*	RESPONSÁVEL POR CARREGAR OS MENUS E OS MÓDULOS DO SISTEMA PARA QUE POSSA 
 		*	MONTAR O MENU NA TELA.

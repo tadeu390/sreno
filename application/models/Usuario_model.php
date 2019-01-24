@@ -134,7 +134,7 @@
 				$this->db->where('Id', $data['Id']);
 				$this->db->update('Usuario', $data);
 			}
-			return $this->get_usuario_por_email($data['Email'])['Id'];
+			return $this->get_usuario_por_email($data['Email'])->Id;
 		}
 		/*!
 		*	RESPONSÁVEL POR RETORAR UM USUÁRIO DE ACORDO COM UM E-MAIL.
@@ -145,7 +145,7 @@
 		{
 			$query = $this->db->query("
 				SELECT * FROM Usuario WHERE Email = ".$this->db->escape($Email)."");
-			return $query->row_array();
+			return $query->row_object();
 		}
 		/*!
 		*	RESPONSÁVEL POR VERIFICAR SE UM DETERMIANDO E-MAIL JÁ EXISTE NO BANCO DE DADOS.
@@ -181,4 +181,3 @@
 			return $query->result_array();
 		}
 	}
-?>
